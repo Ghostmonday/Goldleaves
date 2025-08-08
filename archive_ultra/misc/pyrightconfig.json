@@ -1,0 +1,23 @@
+{
+  "include": ["."],
+  "exclude": [
+    "**/alembic/**",
+    "**/__pycache__/**",
+    "**/.venv/**",
+    "**/tests/fixtures/**",
+    "**/legacy/**"
+  ],
+  "typeCheckingMode": "basic",
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+  "reportUnknownMemberType": false,
+  "reportUnknownArgumentType": false,
+  "reportUnknownVariableType": false,
+  "reportUnknownParameterType": false,
+  "reportMissingParameterType": false,
+  "reportMissingTypeArgument": false,
+  "reportUnusedImport": true,
+  "reportUnusedVariable": true,
+  "reportDuplicateImport": true,
+  "reportDeprecated": true
+}

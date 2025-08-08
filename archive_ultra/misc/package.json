@@ -1,0 +1,68 @@
+{
+  "name": "claude-opus-code-audit",
+  "version": "1.0.0",
+  "description": "Project-wide code audit framework for Claude Opus AI assistant",
+  "main": "tools/code_audit_automation.py",
+  "scripts": {
+    "audit": "python tools/code_audit_automation.py",
+    "audit-python": "python tools/code_audit_automation.py --language python",
+    "audit-js": "python tools/code_audit_automation.py --language javascript",
+    "audit-report": "python tools/code_audit_automation.py --output audit_report.md"
+  },
+  "keywords": [
+    "code-audit",
+    "claude-opus",
+    "static-analysis",
+    "code-quality",
+    "project-analysis",
+    "ai-assistant",
+    "automated-review"
+  ],
+  "author": "Ghostmonday",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "audit_framework": {
+    "supported_languages": [
+      "python",
+      "javascript", 
+      "typescript",
+      "java",
+      "csharp",
+      "go",
+      "rust",
+      "cpp"
+    ],
+    "audit_phases": [
+      "project_discovery",
+      "import_analysis", 
+      "error_detection",
+      "architecture_assessment"
+    ],
+    "severity_levels": [
+      "critical",
+      "medium", 
+      "low",
+      "clean"
+    ],
+    "tools_required": [
+      "file_search",
+      "grep_search", 
+      "get_errors",
+      "semantic_search",
+      "list_dir"
+    ]
+  },
+  "claude_opus_integration": {
+    "quick_start_commands": [
+      "file_search: **/*.py",
+      "list_dir: /", 
+      "get_errors: [key files]",
+      "grep_search: ImportError|ModuleNotFoundError",
+      "semantic_search: broken implementation"
+    ],
+    "report_template": "docs/claude_opus_audit_guide.md",
+    "automation_script": "tools/code_audit_automation.py",
+    "documentation": "docs/code_audit_framework.md"
+  }
+}

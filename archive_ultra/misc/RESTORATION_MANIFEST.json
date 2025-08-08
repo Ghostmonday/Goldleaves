@@ -1,0 +1,1988 @@
+[
+  {
+    "path": ".env",
+    "size": 379,
+    "modified": "2025-08-08T10:52:46.855176",
+    "sha256": "c3c7f042ff9a7dd09bb8726478f66ad7513eab4c832f05c61013e7f2fab3e302"
+  },
+  {
+    "path": ".env.example",
+    "size": 438,
+    "modified": "2025-08-08T10:52:46.855645",
+    "sha256": "f80fb746df6bee728a768f3ddfe01a1c36a3723d3cb1a4aacc9235956fcc92d0"
+  },
+  {
+    "path": ".gitignore",
+    "size": 998,
+    "modified": "2025-08-08T10:52:46.855954",
+    "sha256": "1296928b7e0218abdf01029793a1683fa01a35327587575941bdad8165ff7419"
+  },
+  {
+    "path": ".vscode/settings.json",
+    "size": 425,
+    "modified": "2025-08-08T10:52:46.856397",
+    "sha256": "bac8ba5047101bc49b570f685d72888236e25e4a39d4dda2ed0577adfe11fb10"
+  },
+  {
+    "path": "__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:47.083429",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "__pycache__/emergency_pylance_fix.cpython-311.pyc",
+    "size": 13812,
+    "modified": "2025-08-08T10:52:47.152661",
+    "sha256": "631f295f7be8a18bd36a35015e2ddaf25dac6c16a14538aae815d34b5d180dda"
+  },
+  {
+    "path": "alembic.ini",
+    "size": 2800,
+    "modified": "2025-08-08T10:52:46.858486",
+    "sha256": "b6e5efe20361a139b799e1078fa13c1c01bbeabfe9e8cd7d423535fb9e463fac"
+  },
+  {
+    "path": "alembic/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.858330",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "alembic/env.py",
+    "size": 1924,
+    "modified": "2025-08-08T10:52:46.857033",
+    "sha256": "14142a03b3c4f12ad57b2eefaf8f7148bcf6007383c4e68f4ae162a2acb0687f"
+  },
+  {
+    "path": "alembic/script.py.mako",
+    "size": 534,
+    "modified": "2025-08-08T10:52:46.857246",
+    "sha256": "2ca4e8780429bf9d3f0542948b6f811aec5943523f685c7f3f079e148487ac9b"
+  },
+  {
+    "path": "alembic/versions/776065168218_add_refresh_tokens_table.py",
+    "size": 1762,
+    "modified": "2025-08-08T10:52:46.857633",
+    "sha256": "ebc54799ad2d69df93e67a543ee9e9ed5c061341fce209b25e591c9c8b1fc6da"
+  },
+  {
+    "path": "alembic/versions/78ab00c2991d_initial_migration_add_users_table.py",
+    "size": 1968,
+    "modified": "2025-08-08T10:52:46.858086",
+    "sha256": "7a62d7593d46f9919f2ab2fa743430c38a9eca2bffe6409fb32f8854cf04c595"
+  },
+  {
+    "path": "alembic/versions/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.858212",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "api/__init__.py",
+    "size": 45,
+    "modified": "2025-08-08T10:52:46.860061",
+    "sha256": "1163f22e97300facf6bcd6491ee472c7b3a1d12a26b0650de756dd1384e52aa3"
+  },
+  {
+    "path": "api/v1/__init__.py",
+    "size": 495,
+    "modified": "2025-08-08T10:52:46.859895",
+    "sha256": "a6784c0c5166b8a8c2e1c2133c96a5029387c605a87595790df7905f02f28acb"
+  },
+  {
+    "path": "api/v1/auth.py",
+    "size": 4132,
+    "modified": "2025-08-08T10:52:46.858811",
+    "sha256": "3aa1a4f542a1ef3f300301577c44364687f8631b6b73608f96c5d58494a86d2b"
+  },
+  {
+    "path": "api/v1/documents.py",
+    "size": 562,
+    "modified": "2025-08-08T10:52:46.858948",
+    "sha256": "5bcf8dc905a6628f4b96332fb83c3b0ed9bcdef3956faed805f822e61915b862"
+  },
+  {
+    "path": "api/v1/organizations.py",
+    "size": 594,
+    "modified": "2025-08-08T10:52:46.859091",
+    "sha256": "f9dc616ad04fdd1805fa24c92a92b286b136cc1de14a4009c2be661c216ea4bc"
+  },
+  {
+    "path": "api/v1/users.py",
+    "size": 2843,
+    "modified": "2025-08-08T10:52:46.859444",
+    "sha256": "b06ac409adcbc147e351ade0a563e4275904debd62870afe843e07c6416b50d2"
+  },
+  {
+    "path": "app/__init__.py",
+    "size": 144,
+    "modified": "2025-08-08T10:52:46.863880",
+    "sha256": "05484f4cede90b2fab2d786f17879120f87d48c0ef14e2a0c0c390ade8441d94"
+  },
+  {
+    "path": "app/config.py",
+    "size": 4995,
+    "modified": "2025-08-08T10:52:46.860308",
+    "sha256": "fbca86242ad59e5d6396fbfc65db7e0374f58ed5930e0fc14c3f2bf11e991774"
+  },
+  {
+    "path": "app/dependencies.py",
+    "size": 1010,
+    "modified": "2025-08-08T10:52:46.860506",
+    "sha256": "b5fd508665583a0d71953897388af4c0a94a1c6934d8af0449736e15eee8d530"
+  },
+  {
+    "path": "app/guardrails/classifiers.py",
+    "size": 1151,
+    "modified": "2025-08-08T10:52:46.860785",
+    "sha256": "4150a35ed3f02464e1502ea4138e73b9baa227d397e8fd79817b3f07dbc1c62c"
+  },
+  {
+    "path": "app/guardrails/filters.py",
+    "size": 837,
+    "modified": "2025-08-08T10:52:46.861005",
+    "sha256": "2c502aa948c051b04edcbcfb57e8d0845a6b78cdc16c800902fb6a810b0e27f6"
+  },
+  {
+    "path": "app/guardrails/guardrail_service.py",
+    "size": 6348,
+    "modified": "2025-08-08T10:52:46.861266",
+    "sha256": "ca3eb390df1c3c6941271857cdc15f7edc54898b74c5ea42abe70691b689c6a8"
+  },
+  {
+    "path": "app/guardrails/telemetry.py",
+    "size": 412,
+    "modified": "2025-08-08T10:52:46.862241",
+    "sha256": "2ca9c48c18527f85a736fe54091f98b7732778ec0d3be018f6614def49e69341"
+  },
+  {
+    "path": "app/main.py",
+    "size": 6970,
+    "modified": "2025-08-08T10:52:46.863372",
+    "sha256": "0029a5d22a50b59ff5869f21fc11e7ed5107e9b2cbd4d9a9ec8c8ddf3fe6794c"
+  },
+  {
+    "path": "app/routers/legal_chat.py",
+    "size": 1507,
+    "modified": "2025-08-08T10:52:46.863739",
+    "sha256": "ffe5ca2a67b4b8fc68a90020853f3d4ea8b2477dc723c9a2f19e84ae3543741e"
+  },
+  {
+    "path": "apps/backend/__init__.py",
+    "size": 60,
+    "modified": "2025-08-08T10:52:46.870739",
+    "sha256": "489a5c46dba145c8b10eab8a9a0fcf1d4afc35c8baecc0313aa315c35d99f470"
+  },
+  {
+    "path": "apps/backend/api/__init__.py",
+    "size": 31,
+    "modified": "2025-08-08T10:52:46.867572",
+    "sha256": "b2289c85cf73993a69027575f4ad15715e8d2622a288a186b7b6a9963a345661"
+  },
+  {
+    "path": "apps/backend/api/routers/__init__.py",
+    "size": 24,
+    "modified": "2025-08-08T10:52:46.867189",
+    "sha256": "7b09103c1a9e524fad3abdb4e69afb1ebddc15143f3adef0cccb0039d72d8261"
+  },
+  {
+    "path": "apps/backend/api/routers/auth.py",
+    "size": 10202,
+    "modified": "2025-08-08T10:52:46.864654",
+    "sha256": "82b90bfd99c85691da1d610ac55f2e2aedae502e8989c1a25793bc98de5661cc"
+  },
+  {
+    "path": "apps/backend/api/routers/ping.py",
+    "size": 224,
+    "modified": "2025-08-08T10:52:46.865038",
+    "sha256": "81f6f8bca4a00495caf86a72cd5c3ae76e8c54bb05808794da045efe073ce265"
+  },
+  {
+    "path": "apps/backend/api/routers/token_refresh.py",
+    "size": 5634,
+    "modified": "2025-08-08T10:52:46.865455",
+    "sha256": "1eedf1bd359a49d7e3bd3e2c5cce9cdf47f262fddf0b36421924eb2fe2ea40a5"
+  },
+  {
+    "path": "apps/backend/api/routers/verification/__init__.py",
+    "size": 673,
+    "modified": "2025-08-08T10:52:46.866921",
+    "sha256": "7621d0ec95373e6d91d398f1f1b7d8ee3aaccd68624bc336cc3033fd9e746d10"
+  },
+  {
+    "path": "apps/backend/api/routers/verification/token_confirm.py",
+    "size": 3378,
+    "modified": "2025-08-08T10:52:46.865856",
+    "sha256": "f793a6c65a5cfa982bfa06a4e561f6126492de603251a7157a4f081b40652d8d"
+  },
+  {
+    "path": "apps/backend/api/routers/verification/token_resend.py",
+    "size": 2871,
+    "modified": "2025-08-08T10:52:46.866219",
+    "sha256": "57c2337de16120cb66308d157f24cea10ce73bffd808cd4fe2f7fa86dba7fb5d"
+  },
+  {
+    "path": "apps/backend/api/routers/verification/token_send.py",
+    "size": 2818,
+    "modified": "2025-08-08T10:52:46.866581",
+    "sha256": "72b00df016a65509167694385293d83b92223512483b0d0738555781632a349d"
+  },
+  {
+    "path": "apps/backend/database/__init__.py",
+    "size": 227,
+    "modified": "2025-08-08T10:52:46.868166",
+    "sha256": "7f642d2aa48ebc2da964341e8f83d0bd54c5dd4f3086b40060ee4bfcacb7f7ab"
+  },
+  {
+    "path": "apps/backend/database/session.py",
+    "size": 218,
+    "modified": "2025-08-08T10:52:46.867931",
+    "sha256": "01e97ac11545bb88933eb6340ed919147b16f9bac19edf6e7b31d79ca5c56650"
+  },
+  {
+    "path": "apps/backend/main.py",
+    "size": 2579,
+    "modified": "2025-08-08T10:52:46.868470",
+    "sha256": "02799f06af4e5f62d4e1af5e53fadb191d446adc17c3cfe10ede0b7a64d00254"
+  },
+  {
+    "path": "apps/backend/models/__init__.py",
+    "size": 247,
+    "modified": "2025-08-08T10:52:46.869639",
+    "sha256": "10c1a0e5ed007e08bb4cdb1278957a9cd52d7817ce7539276eba3aff45169e0c"
+  },
+  {
+    "path": "apps/backend/models/base.py",
+    "size": 390,
+    "modified": "2025-08-08T10:52:46.869017",
+    "sha256": "c11f03255bf14da5c60929139d1b127c5cbc3c42c13dd62520ea78ba57dcf377"
+  },
+  {
+    "path": "apps/backend/models/refresh_token.py",
+    "size": 698,
+    "modified": "2025-08-08T10:52:46.869263",
+    "sha256": "a327ae2986ff2fde42babc69620bb0bdcd9a1c23abc392170f8d2220d86363e0"
+  },
+  {
+    "path": "apps/backend/models/user.py",
+    "size": 872,
+    "modified": "2025-08-08T10:52:46.869445",
+    "sha256": "7cf71fdcf32b51efec75949e3120ad6afa2ff812e2a87ac1951e535fe23e8ce3"
+  },
+  {
+    "path": "apps/backend/schemas/__init__.py",
+    "size": 322,
+    "modified": "2025-08-08T10:52:46.870112",
+    "sha256": "e7f1b80f9133c3c5f8488beb089128f90276070ae141c18877c684f17b3e0bce"
+  },
+  {
+    "path": "apps/backend/schemas/verification.py",
+    "size": 1817,
+    "modified": "2025-08-08T10:52:46.869957",
+    "sha256": "8511c78fe52a3974a8c7467a83f45bcd68c832fd544f6f91b6f604c28777584f"
+  },
+  {
+    "path": "apps/backend/services/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.870590",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "apps/backend/services/auth_service.py",
+    "size": 3676,
+    "modified": "2025-08-08T10:52:46.870327",
+    "sha256": "a08a03e9a6252f62238c895cf940b75bbed16dd87fc9d91abc9e548c0c3ad8fb"
+  },
+  {
+    "path": "apps/backend/services/email_verification_service.py",
+    "size": 8787,
+    "modified": "2025-08-08T10:52:46.870522",
+    "sha256": "a366b6a219a634ef3292962c548f249e4d2f717721f965f4116e16305284e2cb"
+  },
+  {
+    "path": "AUTH_DOCUMENTATION.md",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.870792",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "CLEANUP_SUMMARY.md",
+    "size": 5461,
+    "modified": "2025-08-08T10:52:46.871006",
+    "sha256": "aa0ad68c512579720f53977916f9eeac47154529c3c5cef7f518f1a65093378c"
+  },
+  {
+    "path": "CLIENT_CASE_DOCUMENTATION.md",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.871068",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "collect_priority_files.ps1",
+    "size": 2229,
+    "modified": "2025-08-08T10:52:46.871403",
+    "sha256": "950b0f8f431831706208a14e0af132e5a94da068d7061c300ca807c08f4c1e43"
+  },
+  {
+    "path": "collected_files/main.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.871180",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "compliance/advice_boundaries.md",
+    "size": 1716,
+    "modified": "2025-08-08T10:52:46.871573",
+    "sha256": "e2c7f47ea66889c0fa54c241b5cba3ccd283075d8fb318549ae9c47018dd6e56"
+  },
+  {
+    "path": "compliance/jurisdictions/CA.yaml",
+    "size": 1335,
+    "modified": "2025-08-08T10:52:46.871806",
+    "sha256": "fd3e7ada399449a66cecc16bc9eb79344853fb13603d5bea33374f89d071c490"
+  },
+  {
+    "path": "compliance/jurisdictions/TX.yaml",
+    "size": 1044,
+    "modified": "2025-08-08T10:52:46.872034",
+    "sha256": "b4279d34d2a2d568ba8a8c7356be393a2801ab85ee7641fd5e34f90569e22873"
+  },
+  {
+    "path": "compliance/upl_contract.yml",
+    "size": 4305,
+    "modified": "2025-08-08T10:52:46.872706",
+    "sha256": "d038ad76235a2a2e69cac6dc91e3a05b4b756409a7012bd86a3cebc139756afe"
+  },
+  {
+    "path": "CONFIG_STATUS.md",
+    "size": 2278,
+    "modified": "2025-08-08T10:52:46.873562",
+    "sha256": "00e8cff0f8be308143fda0825d46e6b5cd82637531d43c906ed7128cd48ae55a"
+  },
+  {
+    "path": "CONTRIBUTING.md",
+    "size": 7184,
+    "modified": "2025-08-08T10:52:46.874268",
+    "sha256": "be6e91c949e9321cfb56bbf5ab807ae823becee193315c6bf4c8b51dbe36d4bc"
+  },
+  {
+    "path": "copy_files.ps1",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.874436",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "copy_files_batch2.ps1",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.874923",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "copy_phase11.ps1",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.875300",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "core/__init__.py",
+    "size": 38,
+    "modified": "2025-08-08T10:52:46.879884",
+    "sha256": "7842a7798dd41ac10f3f3e4d562549ba38f7e8adcbdacd3ae9a7f710b3f0b3ac"
+  },
+  {
+    "path": "core/__pycache__/security.cpython-311.pyc",
+    "size": 8174,
+    "modified": "2025-08-08T10:52:46.880137",
+    "sha256": "a36371fb4dbc9504cbc2fd66d0600531a4fbc09ccd5867f12a7578715239c65f"
+  },
+  {
+    "path": "core/audit_middleware.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.875702",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "core/builtins_fix.py",
+    "size": 1106,
+    "modified": "2025-08-08T10:52:46.876197",
+    "sha256": "46d3c31f8bc9864e11fcf8cbbba6048ae0a21fa6d50da790b8defb3c3a696bdb"
+  },
+  {
+    "path": "core/config.py",
+    "size": 949,
+    "modified": "2025-08-08T10:52:46.876451",
+    "sha256": "b3dc550b94e6ee5c137bf6d4d3564d54fb89787c85b8cc548f075db70322ad26"
+  },
+  {
+    "path": "core/database.py",
+    "size": 375,
+    "modified": "2025-08-08T10:52:46.876611",
+    "sha256": "9ad4ea74e0bcd6a808524d10bf4e8b092eb861c297e3a827e22f8acf6d5029dc"
+  },
+  {
+    "path": "core/db/__init__.py",
+    "size": 144,
+    "modified": "2025-08-08T10:52:46.876883",
+    "sha256": "cc8b3250f4596cd6572bbfc0825116ce9c64a22025f0035c1870f65d00d3abcc"
+  },
+  {
+    "path": "core/db/session.py",
+    "size": 536,
+    "modified": "2025-08-08T10:52:46.876783",
+    "sha256": "21a75c7271f387a750c290fb13deb857d6059ea49acdfc43edc8a644bc5fd3fc"
+  },
+  {
+    "path": "core/dependencies.py",
+    "size": 2593,
+    "modified": "2025-08-08T10:52:46.877049",
+    "sha256": "5e3892bdb33ca7cb51ba681915eebf03bc012d42508923955f63b7a1f1b61a99"
+  },
+  {
+    "path": "core/email_utils.py",
+    "size": 408,
+    "modified": "2025-08-08T10:52:46.877256",
+    "sha256": "1c0f7ad08446449200a8d8e2fb11c8ecddf6e023243e87631e4c10d5797877c8"
+  },
+  {
+    "path": "core/events.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.877402",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "core/exceptions.py",
+    "size": 2110,
+    "modified": "2025-08-08T10:52:46.877604",
+    "sha256": "1158a769944ff2ff99e0d89f465b0d71fcda1be68d1a0613be2bc599f73199b8"
+  },
+  {
+    "path": "core/logging.py",
+    "size": 5507,
+    "modified": "2025-08-08T10:52:46.877780",
+    "sha256": "4a87e4dd03f27212101bc454690699ece941f8168b6f89304bc77853e3811bfa"
+  },
+  {
+    "path": "core/security.py",
+    "size": 890,
+    "modified": "2025-08-08T10:52:46.878046",
+    "sha256": "b278ae2d90d7759f56232b1361231c60aae05d8a2d0a1dfd261b8526c73e38d0"
+  },
+  {
+    "path": "core/security_backup.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.878149",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "core/security_fixed.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.878268",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "core/security_new.py",
+    "size": 6701,
+    "modified": "2025-08-08T10:52:46.878520",
+    "sha256": "5b8aa0c9fcb3554f616c0686e3d7bf71be8241c7add8bc0d7efd409a36360ae2"
+  },
+  {
+    "path": "core/storage_config.py",
+    "size": 7330,
+    "modified": "2025-08-08T10:52:46.878874",
+    "sha256": "82add8f579364f916a426b02f6f5551954fe3be5b4a5d282b1e607e1d41085ee"
+  },
+  {
+    "path": "core/utils.py",
+    "size": 656,
+    "modified": "2025-08-08T10:52:46.879532",
+    "sha256": "5ed289d7191739b673961b65127a13bc78c5301af6346908ff2bcdbb5687b17d"
+  },
+  {
+    "path": "current_error_report.json",
+    "size": 1211532,
+    "modified": "2025-08-08T10:52:46.898289",
+    "sha256": "b885d26bf5c97e8331671a8284703fbae2b05bfff86ea4eb281a2fa48cc0502c"
+  },
+  {
+    "path": "debug_security.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.898698",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "docker-compose.yml",
+    "size": 376,
+    "modified": "2025-08-08T10:52:46.898932",
+    "sha256": "c0696b535c094ea017b63703213903ea7357b0517677a854be69ed26bd93dad7"
+  },
+  {
+    "path": "docs/claude_opus_audit_guide.md",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.899051",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "docs/claude_opus_pylance_fix_prompt.md",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.899130",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "docs/code_audit_framework.md",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.899206",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "docs/PHASE_10_AUDIT_INTEGRATION.md",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.899374",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "docs/pylance_error_fix_strategy.md",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.899983",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "emergency_pylance_fix.py",
+    "size": 14130,
+    "modified": "2025-08-08T10:52:46.900787",
+    "sha256": "35d45d9456018d4e7ba6b49247dbc0a23f19d1a564655c9011d325a1d07dcb9b"
+  },
+  {
+    "path": "ENVIRONMENT_CLEANUP_SUMMARY.md",
+    "size": 5675,
+    "modified": "2025-08-08T10:52:46.901590",
+    "sha256": "c05651ad1b25e7a2f415d466c36e91ff977f00898433f282138739cf74196f4c"
+  },
+  {
+    "path": "ERROR_GROUND_TRUTH.md",
+    "size": 6053,
+    "modified": "2025-08-08T10:52:46.902455",
+    "sha256": "66f3abb7d71066986dad02bcbc0f71bf523e591efb3baeb3098a0c2a57c06ec4"
+  },
+  {
+    "path": "examples/document_prediction_demo.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.902626",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "examples/realtime_integration_example.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.902744",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "fix_pydantic_fields.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.902995",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "fix_typing_issues.py",
+    "size": 5030,
+    "modified": "2025-08-08T10:52:46.903216",
+    "sha256": "9032845f157d4146bed46f647aa101ae79dbba6dc514716458266c2c4a1e04bd"
+  },
+  {
+    "path": "fixed_env.py",
+    "size": 1734,
+    "modified": "2025-08-08T10:52:46.902930",
+    "sha256": "b1c2c89695ec523f1347d969ed42c9164784871f979bbf38ff8cd3fc6b02aa64"
+  },
+  {
+    "path": "flatten_phase10.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.903866",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "folder_error_count.py",
+    "size": 593,
+    "modified": "2025-08-08T10:52:46.904417",
+    "sha256": "9e65ae34a793a76817a9baf2224e0df2f97d14dc8b772baba2bd782d3070466b"
+  },
+  {
+    "path": "gold-leaves_tree.txt",
+    "size": 1846,
+    "modified": "2025-08-08T10:52:46.904636",
+    "sha256": "884cee6ad21284290d938e4a3501731b226b8fde084f2edf16e30d78336609bb"
+  },
+  {
+    "path": "gpt_prompt_template.md",
+    "size": 1974,
+    "modified": "2025-08-08T10:52:46.904773",
+    "sha256": "8eaaeda9aead0a3ed2973538c407c6c15fe015003d4ff8d547b5a3568b907f61"
+  },
+  {
+    "path": "LICENSE",
+    "size": 1096,
+    "modified": "2025-08-08T10:52:46.904907",
+    "sha256": "c1d4892cbadace85a22f12afab12f497e1631fcf7cc4e75a4abc12b27fdfb786"
+  },
+  {
+    "path": "logs/app.log",
+    "size": 664,
+    "modified": "2025-08-08T10:52:46.905092",
+    "sha256": "9247249813566ef5b749b13fa7af8d343b7196e7270802666884bd9097bd4075"
+  },
+  {
+    "path": "logs/error.log",
+    "size": 518,
+    "modified": "2025-08-08T10:52:46.905197",
+    "sha256": "0fde6136bb8995e5cca432e85e307cdcffcb0f055b1c703e24256c2c11562803"
+  },
+  {
+    "path": "main.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.905271",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "main_auth_example.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.905356",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "middleware/__init__.py",
+    "size": 278,
+    "modified": "2025-08-08T10:52:46.906111",
+    "sha256": "98a42127dc826a65b150d7b93afe1405440c0bbf129199cb93eb7ed6a4fa0904"
+  },
+  {
+    "path": "middleware/rate_limit.py",
+    "size": 7522,
+    "modified": "2025-08-08T10:52:46.905597",
+    "sha256": "aba18db4aff4d925b6ebc9178dcd573d33e068ec787b79146d2f72909856e270"
+  },
+  {
+    "path": "middleware/request_id.py",
+    "size": 1636,
+    "modified": "2025-08-08T10:52:46.905801",
+    "sha256": "b3e01c53d2d12012c611c7e99ff34738e1981f493cde1df724dd10717aeb0e38"
+  },
+  {
+    "path": "middleware/security.py",
+    "size": 4985,
+    "modified": "2025-08-08T10:52:46.905959",
+    "sha256": "a57aa4cd1a34187ca98ab981367057dabe9f92a021273c773eb91c5c5780524a"
+  },
+  {
+    "path": "migrations/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.906351",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "migrations/audit_migration.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.906247",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "models/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.921094",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "models/agent.py",
+    "size": 5506,
+    "modified": "2025-08-08T10:52:46.906552",
+    "sha256": "a95f56f8bee836dd2e296282ec200daa6544fa828022b80c6d7d0f72fbdf2470"
+  },
+  {
+    "path": "models/ai/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.916017",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "models/ai/dependencies.py",
+    "size": 490,
+    "modified": "2025-08-08T10:52:46.906706",
+    "sha256": "1d7c47c891d37f4b4135d96f27cf4f2c53c49682a5da5007da0c9dd1f96508da"
+  },
+  {
+    "path": "models/ai/feedback.py",
+    "size": 13180,
+    "modified": "2025-08-08T10:52:46.906883",
+    "sha256": "94e6f93f70894a123cfbe3205356dd2a94fdc2649d7cb0fdb59522002c7d4a6a"
+  },
+  {
+    "path": "models/ai/predicted_field.py",
+    "size": 8241,
+    "modified": "2025-08-08T10:52:46.907063",
+    "sha256": "4f4d191f7e5dd0ea11b80c18ed34e43e6d155bdcf8457d3cdc0e45fd4a4d5817"
+  },
+  {
+    "path": "models/ai/prediction_request.py",
+    "size": 10859,
+    "modified": "2025-08-08T10:52:46.907530",
+    "sha256": "7b7f4afc48d5aa4115725f6d80d8e893647bbd96c9d3c7dd756852c8d2419221"
+  },
+  {
+    "path": "models/ai/prediction_response.py",
+    "size": 11491,
+    "modified": "2025-08-08T10:52:46.915461",
+    "sha256": "8f71e864dba508b4cb23e372253613935b25303b2bfad020756df1368827d70d"
+  },
+  {
+    "path": "models/audit.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.916336",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "models/auth_router.py",
+    "size": 16051,
+    "modified": "2025-08-08T10:52:46.916661",
+    "sha256": "5a6bfcaf2f94df184cf714df86f43773ca860e4edd4e67d6284e6815c8319a49"
+  },
+  {
+    "path": "models/base.py",
+    "size": 7386,
+    "modified": "2025-08-08T10:52:46.917008",
+    "sha256": "9477d18a6323c25be67b79483dceb2b95c3a3a38fd51de0eb7f6511c93192b32"
+  },
+  {
+    "path": "models/case.py",
+    "size": 17749,
+    "modified": "2025-08-08T10:52:46.917401",
+    "sha256": "ae2301cd52458b048c109b3968df82b18b10a9f9add978f503b9f426aa2656fa"
+  },
+  {
+    "path": "models/client.py",
+    "size": 8615,
+    "modified": "2025-08-08T10:52:46.917883",
+    "sha256": "a3be4314de7ae9b961630f9b4815f6a3a69b865c6cb42e3a270489eda5f87e54"
+  },
+  {
+    "path": "models/config.py",
+    "size": 1031,
+    "modified": "2025-08-08T10:52:46.918123",
+    "sha256": "944f1ccdc73186ea958341304ae6548298604c4567d52006ea7887c59727b233"
+  },
+  {
+    "path": "models/contract.py",
+    "size": 4667,
+    "modified": "2025-08-08T10:52:46.918534",
+    "sha256": "f09ff8874a0f815446486dc0bbe04b6066aa3427e3a0394ba485939a4b90c27c"
+  },
+  {
+    "path": "models/core_db.py",
+    "size": 627,
+    "modified": "2025-08-08T10:52:46.918725",
+    "sha256": "37c1a842f695609f6ef8035c7ca2aad93518d05afbc30d0cb1643b3598a790ce"
+  },
+  {
+    "path": "models/dependencies.py",
+    "size": 2025,
+    "modified": "2025-08-08T10:52:46.918886",
+    "sha256": "313906149f1b1a50c6d9e2bcc9838be81880626e181d9f2a7bb5ec1b481cab86"
+  },
+  {
+    "path": "models/document.py",
+    "size": 21201,
+    "modified": "2025-08-08T10:52:46.919124",
+    "sha256": "fba7725fc3b8bef4bb227c769af9d9b419afb58b594adf2315f2718978b472a7"
+  },
+  {
+    "path": "models/email_utils.py",
+    "size": 6583,
+    "modified": "2025-08-08T10:52:46.919386",
+    "sha256": "4fb8d2ac2ebbbe3dc6c7a79d4378d4d2d046c49f00f05db8294f55dad9d913d7"
+  },
+  {
+    "path": "models/forms.py",
+    "size": 21436,
+    "modified": "2025-08-08T10:52:46.919740",
+    "sha256": "2fcacb691f2a4b65e71fceec89bab6b0ff6b3506ca331f19e50461e4dce4a67e"
+  },
+  {
+    "path": "models/main.py",
+    "size": 1604,
+    "modified": "2025-08-08T10:52:46.919886",
+    "sha256": "2bccc629da468c7226ce776cb39334961fe493a6298cbccab03ef6917c0dccbb"
+  },
+  {
+    "path": "models/test_auth.py",
+    "size": 22804,
+    "modified": "2025-08-08T10:52:46.920158",
+    "sha256": "4008e71087ee6ea6c6c1dc782e5ca7be60947f394690d170d1f5e1ff9e172eb8"
+  },
+  {
+    "path": "models/test_models.py",
+    "size": 11970,
+    "modified": "2025-08-08T10:52:46.920481",
+    "sha256": "277e6d8cce040900ca52c0abf8211c525e7a1da4dcd25dbca554ea078e963735"
+  },
+  {
+    "path": "models/token_service.py",
+    "size": 3730,
+    "modified": "2025-08-08T10:52:46.920732",
+    "sha256": "f1fcb920ddc050146077aef7a67e6c4f049e5eb49db746dbd19e63585189c199"
+  },
+  {
+    "path": "models/user.py",
+    "size": 12247,
+    "modified": "2025-08-08T10:52:46.920915",
+    "sha256": "a7e8522e6ad1cb2175841cea3ebb087d5787bd72b442c3926a8ce5c806eaddfc"
+  },
+  {
+    "path": "models/user_schemas.py",
+    "size": 3841,
+    "modified": "2025-08-08T10:52:46.921041",
+    "sha256": "0dcf9be8b3047e739800b021ccf2973e8adf9ec158763fd77364cadc4a5a1623"
+  },
+  {
+    "path": "monitoring/__init__.py",
+    "size": 614,
+    "modified": "2025-08-08T10:52:46.952018",
+    "sha256": "f70681812ecaccad9b64b691c038f774debebc914f66d35913c99e5ccacddfeb"
+  },
+  {
+    "path": "monitoring/metrics.py",
+    "size": 7879,
+    "modified": "2025-08-08T10:52:46.951329",
+    "sha256": "462b00a6197eb5bd372b1811e740f1cd7cf1a4f41ea78ceb53d7dbd5f325bc29"
+  },
+  {
+    "path": "notifications/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.970920",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "notifications/email_service.py",
+    "size": 14830,
+    "modified": "2025-08-08T10:52:46.969169",
+    "sha256": "8934fc3f733e3845165c518406be1d48108c7f6fcb098a159d8c20a7e625f271"
+  },
+  {
+    "path": "notifications/notification_service.py",
+    "size": 16073,
+    "modified": "2025-08-08T10:52:46.970382",
+    "sha256": "2e44c64370dd826106115d2ce2e9793b168431f7f3257865f74349b916f14708"
+  },
+  {
+    "path": "notifications/webhook_service.py",
+    "size": 17844,
+    "modified": "2025-08-08T10:52:46.970801",
+    "sha256": "afa07626ce67073f3b3bdef15fbd3afc607deb2afe94cf19f917f7c9c4e8dd69"
+  },
+  {
+    "path": "observability/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.971335",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "observability/metrics.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.971100",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "observability/service.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.971179",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "open_phase10_files.ps1",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.971729",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "package.json",
+    "size": 1820,
+    "modified": "2025-08-08T10:52:46.972016",
+    "sha256": "4cb606306e83dc466f4662e97d65ca025f443eb7612383c07b4e1787032e8f78"
+  },
+  {
+    "path": "phase 10 code.md",
+    "size": 89180,
+    "modified": "2025-08-08T10:52:46.972617",
+    "sha256": "6ae2b09a309904a45c0e7bde3d9771224babb02e63b8d5bac107ecf2ee9d05a4"
+  },
+  {
+    "path": "phase10_dragdrop.bat",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.972777",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "phase10_files.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.972884",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "phase11_dependencies_copy.ps1",
+    "size": 8077,
+    "modified": "2025-08-08T10:52:46.974039",
+    "sha256": "c0a32d280c7a3ab5d8d14feaaf5e3264e61df6c3f35b759344e52ab82c1d564f"
+  },
+  {
+    "path": "phase11_dependencies_copy_fixed.ps1",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.974101",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "PHASE11_IMPLEMENTATION_SUMMARY.md",
+    "size": 7572,
+    "modified": "2025-08-08T10:52:46.974306",
+    "sha256": "1de779e72e8046a8ab0a7ff4845cd0bcf63d46f9c53fb7505a2cd7b2dc3a432c"
+  },
+  {
+    "path": "phase11_simple.ps1",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.974374",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "phase11code.md",
+    "size": 133967,
+    "modified": "2025-08-08T10:52:46.973767",
+    "sha256": "e948ef153248e88a437c3ebb4fed0551a1439b330417ef134c2f7aec5bfede7b"
+  },
+  {
+    "path": "phase12code.md",
+    "size": 148506,
+    "modified": "2025-08-08T10:52:46.975286",
+    "sha256": "b9cab5647393abd453417720863c3a08e2eca74c8b84650b10552c4dfefbc3ec"
+  },
+  {
+    "path": "PHASE6_IMPLEMENTATION_SUMMARY.md",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.975394",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "PHASE_10_INTEGRATION_GUIDE.md",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.975480",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "PHASE_7_IMPLEMENTATION_COMPLETE.md",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.975547",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "PROBLEM_ANALYSIS.md",
+    "size": 2583,
+    "modified": "2025-08-08T10:52:46.975738",
+    "sha256": "2601b211c38b6f420849cba7e4dcedcc48dd21e414e72641e2f4f2f61b2a34a7"
+  },
+  {
+    "path": "project-structure.txt",
+    "size": 5292,
+    "modified": "2025-08-08T10:52:46.975965",
+    "sha256": "99cb021d69dc928dd655d679dde044e76cfe54a39cffc7301b3e15dcebb278c6"
+  },
+  {
+    "path": "PYLANCE_TRIAGE.md",
+    "size": 6905,
+    "modified": "2025-08-08T10:52:46.976183",
+    "sha256": "8b6246b96084c1bc06ee44c2b5ce92aa1467292777f06149daed64daedfaf0db"
+  },
+  {
+    "path": "pyproject.toml",
+    "size": 1641,
+    "modified": "2025-08-08T10:52:46.976329",
+    "sha256": "fc6b940117a46576308fbbeda8efed19f56684eaf9985995eb6ba17bb0117199"
+  },
+  {
+    "path": "pyrightconfig.json",
+    "size": 627,
+    "modified": "2025-08-08T10:52:46.976537",
+    "sha256": "ac1b1b365bf4014a2df296c457a1070e7789daf5474c7f180351fcb151618aec"
+  },
+  {
+    "path": "README.md",
+    "size": 6889,
+    "modified": "2025-08-08T10:52:46.976720",
+    "sha256": "2329a42c8d1daf8f3709a726765aa374b7d780bd4b3a06507c655432337bac3a"
+  },
+  {
+    "path": "README_Phase5.md",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.976905",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "refactor_issues.csv",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.977008",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "REFACTOR_PLAN.md",
+    "size": 1920,
+    "modified": "2025-08-08T10:52:46.977175",
+    "sha256": "949a1f758ad9e5bfcb6d4eeedfca6f1f4ace6d641ef6024e29404c73cb81f1da"
+  },
+  {
+    "path": "requirements.txt",
+    "size": 317,
+    "modified": "2025-08-08T10:52:46.977295",
+    "sha256": "3a5501902fa60a61c475c9ee8e216b60daffac98b8ef2038d1e852334ab80701"
+  },
+  {
+    "path": "resolved_issues.md",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.977348",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "routers/__init__.py",
+    "size": 735,
+    "modified": "2025-08-08T10:52:46.984690",
+    "sha256": "e7010e44946b89b4426b38390feea324bb06b55477a5c701db9f4a7c884c0e4b"
+  },
+  {
+    "path": "routers/__pycache__/main.cpython-311.pyc",
+    "size": 8076,
+    "modified": "2025-08-08T10:52:46.985013",
+    "sha256": "5c60518f139a6e9491e2bea557b575034353227108f5c388b01ff9a8a1bcae28"
+  },
+  {
+    "path": "routers/agent.py",
+    "size": 7835,
+    "modified": "2025-08-08T10:52:46.977626",
+    "sha256": "38e0f415ef99ba25c34ef09bf23c0a7521857daddf1bd692fef04e45731d1398"
+  },
+  {
+    "path": "routers/api/v2/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.978423",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "routers/api/v2/frontend_sync.py",
+    "size": 11605,
+    "modified": "2025-08-08T10:52:46.978141",
+    "sha256": "a9c0b2163ca0bc2305eeba5555c21c728b6468278831d7ef4df8afe0e8d5c025"
+  },
+  {
+    "path": "routers/audit.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.978608",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "routers/auth.py",
+    "size": 18999,
+    "modified": "2025-08-08T10:52:46.978901",
+    "sha256": "57e8fca0b41aaf6b258a0e13e5b4d5e5552adeada5d153d6291051bd95a20f5e"
+  },
+  {
+    "path": "routers/auth_simple.py",
+    "size": 5990,
+    "modified": "2025-08-08T10:52:46.979089",
+    "sha256": "7c92adf598c9f306c9d2b7dca9c4abe3cd3227bd4f787262340c62fab28ff517"
+  },
+  {
+    "path": "routers/case.py",
+    "size": 11442,
+    "modified": "2025-08-08T10:52:46.979342",
+    "sha256": "cf3718a9b69335eb5758c6b4a4daa7198434c2e597d6f1b4bd91a1a095a5f4b1"
+  },
+  {
+    "path": "routers/client.py",
+    "size": 9174,
+    "modified": "2025-08-08T10:52:46.979643",
+    "sha256": "eebe0766e595820270a96dbe6196125581e7db6c6e748ad9719de9a6dd249eae"
+  },
+  {
+    "path": "routers/constants.py",
+    "size": 1682,
+    "modified": "2025-08-08T10:52:46.979916",
+    "sha256": "5c33437b948cf78c338f2a207035973a56a8b1090fb44470292d6e570d94b798"
+  },
+  {
+    "path": "routers/contract.py",
+    "size": 8245,
+    "modified": "2025-08-08T10:52:46.980124",
+    "sha256": "adf6621a913b5eff373f88de7565bbf79934ee75eb650aee868fe46144004ea2"
+  },
+  {
+    "path": "routers/dependencies.py",
+    "size": 6161,
+    "modified": "2025-08-08T10:52:46.980277",
+    "sha256": "c09abf846e304a9591015ecf96db337a2c3e8e7aae82cc0fba7dcd8fee44dd3b"
+  },
+  {
+    "path": "routers/document.py",
+    "size": 27178,
+    "modified": "2025-08-08T10:52:46.980534",
+    "sha256": "05f5b6b4fdc72c2ce043389c64f0d9e9fb66fd81d961293c73d7fb06a967ba38"
+  },
+  {
+    "path": "routers/document_collaboration.py",
+    "size": 22075,
+    "modified": "2025-08-08T10:52:46.980886",
+    "sha256": "1bd0157b906eb1df3be97e14627f17f1e784f299c1821c26ab075cd56910da02"
+  },
+  {
+    "path": "routers/document_collaboration_contract.py",
+    "size": 1318,
+    "modified": "2025-08-08T10:52:46.981069",
+    "sha256": "2cf443e09951a73ecd42c3374b957dec4bc06d521be9dfd64bea65c965e201b5"
+  },
+  {
+    "path": "routers/document_storage.py",
+    "size": 28640,
+    "modified": "2025-08-08T10:52:46.981319",
+    "sha256": "c5a8f18064d4113643fb02aadf8b9863befef093865dad505d6a15034e8e1803"
+  },
+  {
+    "path": "routers/events.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.981393",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "routers/forms.py",
+    "size": 26201,
+    "modified": "2025-08-08T10:52:46.981664",
+    "sha256": "6329500a524444167d1187e13d571f5a867ad64fc5cb05a0eb992148413aa042"
+  },
+  {
+    "path": "routers/main.py",
+    "size": 7830,
+    "modified": "2025-08-08T10:52:46.981829",
+    "sha256": "a98d7de668265603887a9d6e14bf5ab63e66d8ebe8e1cbf662cab3e2f05d8629"
+  },
+  {
+    "path": "routers/middleware.py",
+    "size": 15587,
+    "modified": "2025-08-08T10:52:46.982021",
+    "sha256": "e520ce185d1cf89ee2c3dc252c87467432b4b9c7f075e3c717c850eccaf5d01b"
+  },
+  {
+    "path": "routers/notifications/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.982286",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "routers/rate_limit_config.py",
+    "size": 8933,
+    "modified": "2025-08-08T10:52:46.982914",
+    "sha256": "6ead51ce5192f6ea7727715a4737702ac826eac7a9f980afdc63825732279057"
+  },
+  {
+    "path": "routers/rate_limiter.py",
+    "size": 24457,
+    "modified": "2025-08-08T10:52:46.982592",
+    "sha256": "48f04d716d1e493bbbf2417763ef4a02e6fa9b7540e7bc9a7f2d7eb454fcd5eb"
+  },
+  {
+    "path": "routers/schemas.py",
+    "size": 13714,
+    "modified": "2025-08-08T10:52:46.983227",
+    "sha256": "61018664b57f97361b6aa5029dcd4684ac7ed51335157e505ea92a1c831bb537"
+  },
+  {
+    "path": "routers/security.py",
+    "size": 3058,
+    "modified": "2025-08-08T10:52:46.983523",
+    "sha256": "7797eb4eb7ad9da26c93b3d6d8716c751c552b7e581d932339f0f5204b6b2396"
+  },
+  {
+    "path": "routers/services.py",
+    "size": 19813,
+    "modified": "2025-08-08T10:52:46.983776",
+    "sha256": "e9aa2decca0e5116fb0fb82940d7fcd1ecc2ee87c128a2344176c942a2592e13"
+  },
+  {
+    "path": "routers/test_rate_limiter.py",
+    "size": 16888,
+    "modified": "2025-08-08T10:52:46.984114",
+    "sha256": "bdb1110d3ba847bbb7b751a9fc4dc113078ed8973c49ab715d751677243db949"
+  },
+  {
+    "path": "routers/websocket.py",
+    "size": 12466,
+    "modified": "2025-08-08T10:52:46.984463",
+    "sha256": "6ddd2c4beb169e0cf6a100db1a3e4e51f21fd45b11fc4aac92f9e2b0546e8ca1"
+  },
+  {
+    "path": "schemas/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:47.000431",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "schemas/admin/__init__.py",
+    "size": 623,
+    "modified": "2025-08-08T10:52:46.985759",
+    "sha256": "173f90619535a7d9deac23ff35e99d0cd14c26b4b39b1c0616ed20376470e1a1"
+  },
+  {
+    "path": "schemas/admin/settings.py",
+    "size": 623,
+    "modified": "2025-08-08T10:52:46.985399",
+    "sha256": "7c6081335e1a771531d7e82a24b19d30218f74eb0d281f9ffd0aa5cd45cba378"
+  },
+  {
+    "path": "schemas/admin/users.py",
+    "size": 6134,
+    "modified": "2025-08-08T10:52:46.985597",
+    "sha256": "0d622cf2faf58daf6294aff890562c677c1f3793cd5da3749a2268fcd29b9937"
+  },
+  {
+    "path": "schemas/agent.py",
+    "size": 2938,
+    "modified": "2025-08-08T10:52:46.985886",
+    "sha256": "397356949c60738ba5a24c5a76e437ec924ed7e53f35019edf9a11a20625b940"
+  },
+  {
+    "path": "schemas/audit/__init__.py",
+    "size": 1112,
+    "modified": "2025-08-08T10:52:46.986505",
+    "sha256": "717269cb963844db30b38bae45413ac0480d6616d3027ae383113504976e0c38"
+  },
+  {
+    "path": "schemas/audit/events.py",
+    "size": 6657,
+    "modified": "2025-08-08T10:52:46.986092",
+    "sha256": "f66751e78c7d77d04f71846d7783b105ea6778485d8d74a5cfb09f6f70c12f59"
+  },
+  {
+    "path": "schemas/audit/logs.py",
+    "size": 6260,
+    "modified": "2025-08-08T10:52:46.986260",
+    "sha256": "b082b1b332d10407a0abd83740754f03e3fbc5421749e38ec2a66304bd86c439"
+  },
+  {
+    "path": "schemas/auth.py",
+    "size": 2970,
+    "modified": "2025-08-08T10:52:46.986846",
+    "sha256": "93a1a104e15a38707d1d7fc6a29cc7cd006ea5e14e6ccaa56f1544fef40b9b8d"
+  },
+  {
+    "path": "schemas/auth/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.986700",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "schemas/auth/permissions.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.986610",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "schemas/base.py",
+    "size": 2335,
+    "modified": "2025-08-08T10:52:46.988063",
+    "sha256": "20eae74693e98f6ce98c42169ec60d166fddc3993e05743dccaf2b83374b36c0"
+  },
+  {
+    "path": "schemas/base/__init__.py",
+    "size": 2830,
+    "modified": "2025-08-08T10:52:46.987898",
+    "sha256": "dd4c0fc675efd6af52784fc1ee25dc26b278f6151d21c34fb0679fcde6f5ff34"
+  },
+  {
+    "path": "schemas/base/errors.py",
+    "size": 9891,
+    "modified": "2025-08-08T10:52:46.987110",
+    "sha256": "59f7728d355d828a1a96fcb745ea9fd5bf011f9bd668a8624f291644b113edc2"
+  },
+  {
+    "path": "schemas/base/pagination.py",
+    "size": 8178,
+    "modified": "2025-08-08T10:52:46.987524",
+    "sha256": "7a3a4dba63b1c676c97ede50ba7da75b19cfc9294646d22503ff2c8c215e01c9"
+  },
+  {
+    "path": "schemas/base/responses.py",
+    "size": 7182,
+    "modified": "2025-08-08T10:52:46.987761",
+    "sha256": "e13eb895098cac3a5b3347aea9780dadda0cb0b783a780a74891c62fc3e2bdd1"
+  },
+  {
+    "path": "schemas/case/__init__.py",
+    "size": 51,
+    "modified": "2025-08-08T10:52:46.988434",
+    "sha256": "bce5922b27dbad3599dcc02fdf3c5c806d9c3387ac6cf26fb43ad5804731e0d0"
+  },
+  {
+    "path": "schemas/case/core.py",
+    "size": 17661,
+    "modified": "2025-08-08T10:52:46.988325",
+    "sha256": "552f91c0d513570e656c02489181741456a8ecd5e97351134a4e9f24fbe2d721"
+  },
+  {
+    "path": "schemas/client/__init__.py",
+    "size": 79,
+    "modified": "2025-08-08T10:52:46.988871",
+    "sha256": "8a6fbedc7548985cc8a7464d1ce5283d0d665e023a74486b4650efb3aade5424"
+  },
+  {
+    "path": "schemas/client/core.py",
+    "size": 12048,
+    "modified": "2025-08-08T10:52:46.988642",
+    "sha256": "7a31af49ec1e518d31e57eae073e3ddc1db2d9c96b9f8f8af1b883e2f0a298a1"
+  },
+  {
+    "path": "schemas/client/documents.py",
+    "size": 3601,
+    "modified": "2025-08-08T10:52:46.988778",
+    "sha256": "95d201f66aaed7b8e4fe061e2b35c0a3c07bffef24f2d93cb578123c412dc64c"
+  },
+  {
+    "path": "schemas/common.py",
+    "size": 2368,
+    "modified": "2025-08-08T10:52:46.988990",
+    "sha256": "158f2ebb23227ea333053b5a891e8291d9b67bc05ad3e9c18f05844fd7659bce"
+  },
+  {
+    "path": "schemas/core_contracts.py",
+    "size": 10830,
+    "modified": "2025-08-08T10:52:46.989171",
+    "sha256": "ca33defd30b039b573d4dc6fcc9fe386390b8cdede6a05dd5c70e87fbfc667b4"
+  },
+  {
+    "path": "schemas/dependencies.py",
+    "size": 1444,
+    "modified": "2025-08-08T10:52:46.989288",
+    "sha256": "05b8d04d12e227a4d2e8a78ca94d856ad9ab791faf95da8440006942b6224bbe"
+  },
+  {
+    "path": "schemas/document/__init__.py",
+    "size": 5074,
+    "modified": "2025-08-08T10:52:46.993134",
+    "sha256": "ff288045f1bb2bd7e31c3a299646f18bb6bf3da6a39a27481c0685c6143f3f6e"
+  },
+  {
+    "path": "schemas/document/audit.py",
+    "size": 11492,
+    "modified": "2025-08-08T10:52:46.989505",
+    "sha256": "5b8b14c32fffef366bc82730424e3b3ce44d49f0743b300bc0679fe0d767fd36"
+  },
+  {
+    "path": "schemas/document/bulk.py",
+    "size": 11257,
+    "modified": "2025-08-08T10:52:46.989870",
+    "sha256": "15b6063ee9ef435ea436bddda4ae32d9d5788108a9d554dd2365115a6da84896"
+  },
+  {
+    "path": "schemas/document/collaboration.py",
+    "size": 17275,
+    "modified": "2025-08-08T10:52:46.990145",
+    "sha256": "6c4d1be142edcc8c9a885064caaa6207a5fa6e652df9f0fb8823d6d4890e8a86"
+  },
+  {
+    "path": "schemas/document/comments.py",
+    "size": 12694,
+    "modified": "2025-08-08T10:52:46.990350",
+    "sha256": "a64aa9c35c51f476a2153e041e8712c723d0f3d69e98ccb9d01ea904124e2054"
+  },
+  {
+    "path": "schemas/document/core.py",
+    "size": 15592,
+    "modified": "2025-08-08T10:52:46.990583",
+    "sha256": "adec473ef7ec58e05a2d345e1dabfdc4cfa222aedf595f54b9574b01252d8107"
+  },
+  {
+    "path": "schemas/document/correction.py",
+    "size": 10032,
+    "modified": "2025-08-08T10:52:46.990876",
+    "sha256": "7a558ebf695a37ffd5ff52ea8cc71619a79c8e8cfaa335e4c50f602cf37db234"
+  },
+  {
+    "path": "schemas/document/prediction.py",
+    "size": 10420,
+    "modified": "2025-08-08T10:52:46.991063",
+    "sha256": "2fe6e628b156ec2fce2819587b7a5ef3a25601e4c76b4ccbf5637d4fad951565"
+  },
+  {
+    "path": "schemas/document/sharing.py",
+    "size": 14219,
+    "modified": "2025-08-08T10:52:46.991365",
+    "sha256": "b7ebbff556a7c9045f7a4384e43068a703b15f457e6ea8c657afb38e00fd097f"
+  },
+  {
+    "path": "schemas/document/versioning.py",
+    "size": 15182,
+    "modified": "2025-08-08T10:52:46.992590",
+    "sha256": "2b7f5fd437f86d6b19b04ec4c63ca3fa8268bf97a6d2e7cda7790bc68be685a8"
+  },
+  {
+    "path": "schemas/forms.py",
+    "size": 22110,
+    "modified": "2025-08-08T10:52:46.993500",
+    "sha256": "d924d974b2ab1181e85d7d0c3c76617a4264e0506c679ddc39b8dd2bdc7582f9"
+  },
+  {
+    "path": "schemas/frontend/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.994150",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "schemas/frontend/dashboard.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.993663",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "schemas/frontend/documents.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.993789",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "schemas/frontend/forms.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.993879",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "schemas/frontend/notifications.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.993982",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "schemas/frontend/user_profile.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.994070",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "schemas/main.py",
+    "size": 8012,
+    "modified": "2025-08-08T10:52:46.994320",
+    "sha256": "e1f8e6c6ef04d1ec3c117a85d4cc98dfd9e572f87eba1899ba25a344890f2016"
+  },
+  {
+    "path": "schemas/organization/__init__.py",
+    "size": 3083,
+    "modified": "2025-08-08T10:52:46.995688",
+    "sha256": "df1d3e810ed00c71460716a214610a625fe53e05672cacc51d18ebc4ac735cd2"
+  },
+  {
+    "path": "schemas/organization/core.py",
+    "size": 10727,
+    "modified": "2025-08-08T10:52:46.994549",
+    "sha256": "026019bbc24eb1c06148b80db81bc1deba124814da83f496bf227688bb728acd"
+  },
+  {
+    "path": "schemas/organization/invites.py",
+    "size": 11522,
+    "modified": "2025-08-08T10:52:46.994729",
+    "sha256": "b63a84a5f4b81707286dd768d92f04a4d54cf24129d89a8a85550c729931703a"
+  },
+  {
+    "path": "schemas/organization/members.py",
+    "size": 10204,
+    "modified": "2025-08-08T10:52:46.994905",
+    "sha256": "694507f0cae43e74712e665306bb350d39b156b4a37ac3946112c81648debdfe"
+  },
+  {
+    "path": "schemas/organization/teams.py",
+    "size": 11002,
+    "modified": "2025-08-08T10:52:46.995332",
+    "sha256": "6221ec58e24d4a047768ee937f40ed33e7fbd4db0f342216d5319737949088c0"
+  },
+  {
+    "path": "schemas/security/__init__.py",
+    "size": 2534,
+    "modified": "2025-08-08T10:52:46.997110",
+    "sha256": "7dad644f796bab1074164dd82946938aa8d904e99d3745bcd4c4adcb28d2d5d4"
+  },
+  {
+    "path": "schemas/security/api_keys.py",
+    "size": 9651,
+    "modified": "2025-08-08T10:52:46.996010",
+    "sha256": "b2ec871332335deee87c12895f6f9c89816f2a242692df92bf327d47a37fb46c"
+  },
+  {
+    "path": "schemas/security/permissions.py",
+    "size": 10573,
+    "modified": "2025-08-08T10:52:46.996505",
+    "sha256": "e582ba9874c191ac406c922066d18f6fead47555815e23edf9d7ca7ad0e6efce"
+  },
+  {
+    "path": "schemas/security/two_factor.py",
+    "size": 10631,
+    "modified": "2025-08-08T10:52:46.996791",
+    "sha256": "7c2f382d713fabbff49a422fd5207970cdb8fc159ba3c8bcfec0971926a0b108"
+  },
+  {
+    "path": "schemas/storage/__init__.py",
+    "size": 1051,
+    "modified": "2025-08-08T10:52:46.997872",
+    "sha256": "d7d7ecdca7e8d1d19fbce4dc861efd5bf13ddaa0b0fc4c328b5b0109d8f68b77"
+  },
+  {
+    "path": "schemas/storage/court_packaging.py",
+    "size": 16473,
+    "modified": "2025-08-08T10:52:46.997425",
+    "sha256": "ffd832e8204f89c67d7074268e988efb6922a6b71b8343d8806ac2e06b813e4e"
+  },
+  {
+    "path": "schemas/storage/storage.py",
+    "size": 17189,
+    "modified": "2025-08-08T10:52:46.997664",
+    "sha256": "6cb61e4c65e7dc0760139b9660f2d23357a6b960012712ef988d60616e542c7b"
+  },
+  {
+    "path": "schemas/user.py",
+    "size": 3908,
+    "modified": "2025-08-08T10:52:46.999488",
+    "sha256": "71c64c0e3705b297caeb6d89d0b749788f7719b0b8de0aa77dd1d22111637ce2"
+  },
+  {
+    "path": "schemas/user/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:46.999169",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "schemas/user/access.py",
+    "size": 6413,
+    "modified": "2025-08-08T10:52:46.998094",
+    "sha256": "c7b751ece7ef89572c645b0ce2f84e2c471789526db865631033ab6c457a42d6"
+  },
+  {
+    "path": "schemas/user/profile.py",
+    "size": 903,
+    "modified": "2025-08-08T10:52:46.998501",
+    "sha256": "56edbb08582c83d754809bad4253de29ca749f6d580ceca4b396e9a64ef76640"
+  },
+  {
+    "path": "schemas/user/verification.py",
+    "size": 27395,
+    "modified": "2025-08-08T10:52:46.998968",
+    "sha256": "d005fd47f72b34e1f3f50e33b5198a2aef1401bf931df18ecd9dd25ee2b07986"
+  },
+  {
+    "path": "schemas/webhooks/__init__.py",
+    "size": 1256,
+    "modified": "2025-08-08T10:52:47.000298",
+    "sha256": "1a4d92fa0639f80c1e286daff454085ea2fbdcf011efa72b342d17627253eadc"
+  },
+  {
+    "path": "schemas/webhooks/config.py",
+    "size": 5725,
+    "modified": "2025-08-08T10:52:46.999864",
+    "sha256": "4ff0808d323cf1713e7f13f88af1a8f333e2e7d8a08005747c51c8919b219410"
+  },
+  {
+    "path": "schemas/webhooks/payloads.py",
+    "size": 2300,
+    "modified": "2025-08-08T10:52:47.000093",
+    "sha256": "52981fa3e68dea47c60577914d6aa487dca8a9a038578927e65f862349a024a3"
+  },
+  {
+    "path": "scripts/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:47.000942",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "scripts/setup_database.py",
+    "size": 3449,
+    "modified": "2025-08-08T10:52:47.000769",
+    "sha256": "08cb790552e177fba5883129ad7c9e36c8caec56e47dbcf9b7f7f48194a189c5"
+  },
+  {
+    "path": "services/__init__.py",
+    "size": 95,
+    "modified": "2025-08-08T10:52:47.070900",
+    "sha256": "d73190a292b94167ba493b6f215d594a3870de20856c3d0bc063943ea95e6ab9"
+  },
+  {
+    "path": "services/agent.py",
+    "size": 42341,
+    "modified": "2025-08-08T10:52:47.001404",
+    "sha256": "f3363066f22079411a9fb989829dff61689d7d576375283fc4cd169c1c44fa61"
+  },
+  {
+    "path": "services/ai_completion/__init__.py",
+    "size": 433,
+    "modified": "2025-08-08T10:52:47.053207",
+    "sha256": "19c6d8f65ed4e7ff2fae5dde109837bf98a3f059f34cfedc1a4f0b8444ba0956"
+  },
+  {
+    "path": "services/ai_completion/ai_completion_service.py",
+    "size": 20130,
+    "modified": "2025-08-08T10:52:47.001925",
+    "sha256": "6d41fe065222671c1346329455380194e97cfdb524fb386141e62a05d7068829"
+  },
+  {
+    "path": "services/ai_completion/confidence_router.py",
+    "size": 2642,
+    "modified": "2025-08-08T10:52:47.002845",
+    "sha256": "4a4426d406522caac47eefbd7bd8e923b4656d0dc02091ac2c203a19c86d9574"
+  },
+  {
+    "path": "services/ai_completion/feedback_collector.py",
+    "size": 10007,
+    "modified": "2025-08-08T10:52:47.003709",
+    "sha256": "b0243ec4eec597de8d465925e87fa877a568a36649aa5839578f00a77858c1ca"
+  },
+  {
+    "path": "services/ai_completion/prediction_logger.py",
+    "size": 2986,
+    "modified": "2025-08-08T10:52:47.052674",
+    "sha256": "ad2edd4bbaf307f2066af4f87a3a20ec32bbc150d583f26d5946d157851bb1c3"
+  },
+  {
+    "path": "services/audit_service.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:47.053477",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "services/auth_service.py",
+    "size": 10471,
+    "modified": "2025-08-08T10:52:47.054239",
+    "sha256": "a2bfcb176f65845143d89f288d11435bf78e794b1bfab96dcc321c17507adafa"
+  },
+  {
+    "path": "services/case.py",
+    "size": 23859,
+    "modified": "2025-08-08T10:52:47.054912",
+    "sha256": "e64e1a565a549970d689c7ed5c62f0e9ab08a81edcac0a95b80616defae275f3"
+  },
+  {
+    "path": "services/client.py",
+    "size": 18200,
+    "modified": "2025-08-08T10:52:47.055524",
+    "sha256": "5a03948634700813e774212424fda574a4ffac23bde6845bac97d1b861a74563"
+  },
+  {
+    "path": "services/config.py",
+    "size": 11038,
+    "modified": "2025-08-08T10:52:47.055976",
+    "sha256": "c36d99fba6d7673abe4fb37e3fc1fb3bc37055c93f2e4765c907e7f61e27757e"
+  },
+  {
+    "path": "services/core/__init__.py",
+    "size": 19,
+    "modified": "2025-08-08T10:52:47.057450",
+    "sha256": "78acd6ef1c607782ab73702551a87668b70c85969b22374d35e914a29caf0603"
+  },
+  {
+    "path": "services/core/email_utils.py",
+    "size": 13634,
+    "modified": "2025-08-08T10:52:47.057004",
+    "sha256": "a03499125ece708d00da6f08a877f73c349b47a20e66a0d73fd50eb4ae52cf20"
+  },
+  {
+    "path": "services/dependencies.py",
+    "size": 22523,
+    "modified": "2025-08-08T10:52:47.058206",
+    "sha256": "2ac654614c070986e5a1b054834d4d8e5472cbbdb4b0c37be0363d5566c7b295"
+  },
+  {
+    "path": "services/document.py",
+    "size": 27171,
+    "modified": "2025-08-08T10:52:47.058946",
+    "sha256": "78f419d60be28f872b30f824a34cc24438f133d9d6d06022acde4819e51853a4"
+  },
+  {
+    "path": "services/document_collaboration.py",
+    "size": 34777,
+    "modified": "2025-08-08T10:52:47.059616",
+    "sha256": "efb79f33dc7fbe9486f4d9f7a624eb88e13023476a3def451353376551e7cd60"
+  },
+  {
+    "path": "services/document_storage.py",
+    "size": 48981,
+    "modified": "2025-08-08T10:52:47.060293",
+    "sha256": "48a407133175df13395b155285e3a969feb6d941d16b25c1f736c491927032fc"
+  },
+  {
+    "path": "services/forms.py",
+    "size": 28588,
+    "modified": "2025-08-08T10:52:47.061025",
+    "sha256": "9aa440b73b2470ae69e9b0ae377b9196b817c37b5aa53f0c169a18c64dff4cd5"
+  },
+  {
+    "path": "services/frontend_sync.py",
+    "size": 11574,
+    "modified": "2025-08-08T10:52:47.061669",
+    "sha256": "a757830709fca34c09a08e891d85d1c41800dce59cc79b45caf2025dc414af81"
+  },
+  {
+    "path": "services/models/__init__.py",
+    "size": 21,
+    "modified": "2025-08-08T10:52:47.063103",
+    "sha256": "08f349f5571b3017832c43b1f06647ea0c3c8f7c3f29605bcc88522b837a9a02"
+  },
+  {
+    "path": "services/models/user.py",
+    "size": 11934,
+    "modified": "2025-08-08T10:52:47.062532",
+    "sha256": "1b3bad573c28047c0fa1c4faf5ef86ae27fc2b4943d813f83414500c4a70a74b"
+  },
+  {
+    "path": "services/realtime/__init__.py",
+    "size": 675,
+    "modified": "2025-08-08T10:52:47.066333",
+    "sha256": "0c41d93e9cadb60a8275dfe5e41cd4d8b024ed7c7147e03e6a82ce325cdedb09"
+  },
+  {
+    "path": "services/realtime/activity_tracker.py",
+    "size": 17237,
+    "modified": "2025-08-08T10:52:47.063935",
+    "sha256": "c73b9fb97bc68ecdc1f429126095c022ba7a81ba42eb22125752498723ad9cde"
+  },
+  {
+    "path": "services/realtime/broadcaster.py",
+    "size": 10525,
+    "modified": "2025-08-08T10:52:47.064296",
+    "sha256": "90b6640b6234b32145da61b67c6727f3f929ececbc42cf7b34d2d3708ce121e1"
+  },
+  {
+    "path": "services/realtime/connection_manager.py",
+    "size": 17795,
+    "modified": "2025-08-08T10:52:47.064860",
+    "sha256": "6da79413cb7a674437bed46a4d77dd07e71d35f88dc41ce98eca8a4d3ab4f1e3"
+  },
+  {
+    "path": "services/realtime/presence_tracker.py",
+    "size": 13948,
+    "modified": "2025-08-08T10:52:47.065365",
+    "sha256": "28cd82dc648bac3c76adc163ff6912aac9402c3ef74e1a957bbfe3bfdbcf6347"
+  },
+  {
+    "path": "services/realtime/session_store.py",
+    "size": 13151,
+    "modified": "2025-08-08T10:52:47.065810",
+    "sha256": "74a28902784c92ce85147bb71bd5fc3732c41bc10a8a84caa380e5106219af70"
+  },
+  {
+    "path": "services/realtime/startup.py",
+    "size": 4956,
+    "modified": "2025-08-08T10:52:47.066121",
+    "sha256": "69bef149f3294ec20b70137d0e1a45508066f23a200367866bc9d06f97fcae75"
+  },
+  {
+    "path": "services/routers/__init__.py",
+    "size": 22,
+    "modified": "2025-08-08T10:52:47.067554",
+    "sha256": "620ac45eb0329e3ba01aafd4216224213cb285512bcb6e5b1b5a34b707faaa0a"
+  },
+  {
+    "path": "services/routers/auth.py",
+    "size": 12844,
+    "modified": "2025-08-08T10:52:47.067077",
+    "sha256": "1a2bec4103ba8420ae143db305fcabf89fb11b72c5da091a04d707010fe2f909"
+  },
+  {
+    "path": "services/schemas.py",
+    "size": 3865,
+    "modified": "2025-08-08T10:52:47.068038",
+    "sha256": "9182a6f7e5746eea23ffd26d4ea053dbb34317106053d1686a84cdaf85d5a088"
+  },
+  {
+    "path": "services/tests/__init__.py",
+    "size": 20,
+    "modified": "2025-08-08T10:52:47.069760",
+    "sha256": "89588b0c2be9d872060e78aa68ccf95f94ca27ea6bcb79a43509d66c296c73ce"
+  },
+  {
+    "path": "services/tests/test_agent.py",
+    "size": 8054,
+    "modified": "2025-08-08T10:52:47.068651",
+    "sha256": "98d72000506e25353d4589e0abccb1541697d052587bd8b2b767f3c4a2cca50c"
+  },
+  {
+    "path": "services/tests/test_dependencies.py",
+    "size": 6838,
+    "modified": "2025-08-08T10:52:47.068950",
+    "sha256": "853b350a9db3a1fe5b0014c83e76f1a35ce15eb455c2f04355e442ca7ef53c24"
+  },
+  {
+    "path": "services/tests/test_token_service.py",
+    "size": 7580,
+    "modified": "2025-08-08T10:52:47.069512",
+    "sha256": "f48763d2fb282fa64c3a205b7f25cdf2b714425fddca00903448e117a77a0171"
+  },
+  {
+    "path": "services/token_service.py",
+    "size": 34397,
+    "modified": "2025-08-08T10:52:47.070276",
+    "sha256": "83dffa1b4d179ed965c0185ed2af66f199ce6259853acc1aedf02becd46dadeb"
+  },
+  {
+    "path": "services/user_service.py",
+    "size": 1781,
+    "modified": "2025-08-08T10:52:47.070604",
+    "sha256": "1d0d88f5596867cb2ca5f063a23f51206933b9163d1965590b421749a420f079"
+  },
+  {
+    "path": "solution.md",
+    "size": 0,
+    "modified": "2025-08-08T10:52:47.071019",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "STABILIZATION_COMPLETE.md",
+    "size": 2969,
+    "modified": "2025-08-08T10:52:47.071350",
+    "sha256": "51e6bcca26a679eb06609b1dedaad43bc534dc98cfc1683fa96f2de864e66058"
+  },
+  {
+    "path": "templates/email/document_update.html",
+    "size": 0,
+    "modified": "2025-08-08T10:52:47.071943",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "templates/email/document_update.txt",
+    "size": 0,
+    "modified": "2025-08-08T10:52:47.072292",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "templates/email/prediction_complete.txt",
+    "size": 0,
+    "modified": "2025-08-08T10:52:47.072662",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "templates/email/system_alert.txt",
+    "size": 0,
+    "modified": "2025-08-08T10:52:47.072918",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "test_imports.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:47.081684",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "test_security.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:47.081916",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "tests/__init__.py",
+    "size": 36,
+    "modified": "2025-08-08T10:52:47.081470",
+    "sha256": "e88f3b7481690840723cfbcb97184af724a381461c3c88c03637e6acf08c055a"
+  },
+  {
+    "path": "tests/agent.py",
+    "size": 21272,
+    "modified": "2025-08-08T10:52:47.073621",
+    "sha256": "a391c29b0c433a8fb7b48d946467372b7fe9379f2ee4e0f60fc03e94620612e7"
+  },
+  {
+    "path": "tests/conftest.py",
+    "size": 3026,
+    "modified": "2025-08-08T10:52:47.073897",
+    "sha256": "ff5345f5201be568c783e6dc923d531f90bdbafda7c1489d79cc75150baf3b47"
+  },
+  {
+    "path": "tests/dependencies.py",
+    "size": 11908,
+    "modified": "2025-08-08T10:52:47.074525",
+    "sha256": "01ebc403b642013a414d35587cb6574632bfacc88167cdfdb61fa10cc7b53b3b"
+  },
+  {
+    "path": "tests/test_auth.py",
+    "size": 24330,
+    "modified": "2025-08-08T10:52:47.075191",
+    "sha256": "2801a485d0de8a9ff87d56f976c379fbc7ba33cd8455adaa8cd4e6ff76778c79"
+  },
+  {
+    "path": "tests/test_case.py",
+    "size": 16635,
+    "modified": "2025-08-08T10:52:47.075674",
+    "sha256": "4f9b05665130ffa39c40cb4f087e2ae75516d4fbd2d3f69763425edeb4c84068"
+  },
+  {
+    "path": "tests/test_client.py",
+    "size": 12619,
+    "modified": "2025-08-08T10:52:47.075960",
+    "sha256": "d8ea136c6c3851e60908484d819549a26f5a53ba5be1e79d864daf2ddca3dca4"
+  },
+  {
+    "path": "tests/test_document_collaboration.py",
+    "size": 35953,
+    "modified": "2025-08-08T10:52:47.076455",
+    "sha256": "6f8d56e1e2f2f67031a448e0a2607c9b1524ba9f86764b83e320a6d277f8c4f4"
+  },
+  {
+    "path": "tests/test_document_prediction.py",
+    "size": 28187,
+    "modified": "2025-08-08T10:52:47.077433",
+    "sha256": "57a09a41dbcdf0a54b3324b9e115009c38a38d1b970041c070383cf89a4fb303"
+  },
+  {
+    "path": "tests/test_document_storage.py",
+    "size": 39475,
+    "modified": "2025-08-08T10:52:47.078389",
+    "sha256": "14ebc525b8b012e390ab0285af9631d4f9ee66c75cee0de0d3a0bb92e0a61c6f"
+  },
+  {
+    "path": "tests/test_email_verification.py",
+    "size": 21599,
+    "modified": "2025-08-08T10:52:47.079204",
+    "sha256": "b4ed772d81930903754ec9b67076a36daf28aff7c46e4b3321a393bc914fd2c2"
+  },
+  {
+    "path": "tests/test_forms_phase12.py",
+    "size": 6396,
+    "modified": "2025-08-08T10:52:47.080050",
+    "sha256": "b253c1e1396658bcdf7b375164aba6f176370245c3f8adb279c139c6783dfa07"
+  },
+  {
+    "path": "tests/test_phase6_integration.py",
+    "size": 23262,
+    "modified": "2025-08-08T10:52:47.080722",
+    "sha256": "93f7a7b3279531c92ca9abd7cca01833543f399e0e09e9cb510ae9d242515116"
+  },
+  {
+    "path": "tests/test_token_refresh.py",
+    "size": 4005,
+    "modified": "2025-08-08T10:52:47.081206",
+    "sha256": "3778c14dc51355567e21ed81fcfdacb87a51df48281024a371ac67f0443138d4"
+  },
+  {
+    "path": "tools/__init__.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:47.082883",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "tools/code_audit_automation.py",
+    "size": 13053,
+    "modified": "2025-08-08T10:52:47.082247",
+    "sha256": "99f7a7e1d621ed1633e64c292340781fc2658834c909b0da77ba7b00929a50c3"
+  },
+  {
+    "path": "tools/pylance_error_fixer.py",
+    "size": 12314,
+    "modified": "2025-08-08T10:52:47.082663",
+    "sha256": "460eafe910ceb560bd29d6d77ca18daac325a23efaf9e956e4565de58e66a577"
+  },
+  {
+    "path": "validate_progress.py",
+    "size": 0,
+    "modified": "2025-08-08T10:52:47.083073",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

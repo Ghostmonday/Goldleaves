@@ -1,0 +1,47 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Create venv (uv)",
+      "type": "shell",
+      "command": "python -m venv .venv && . .venv/bin/activate && pip install -U pip uv || echo Done",
+      "problemMatcher": []
+    },
+    {
+      "label": "Install deps (uv)",
+      "type": "shell",
+      "command": ". .venv/bin/activate && uv pip install -r requirements.txt || uv sync || pip install -e .",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run API (uvicorn)",
+      "type": "shell",
+      "command": ". .venv/bin/activate && uvicorn routers.main:app --reload --port 8000",
+      "problemMatcher": []
+    },
+    {
+      "label": "Tests (pytest)",
+      "type": "shell",
+      "command": ". .venv/bin/activate && pytest -q",
+      "problemMatcher": []
+    },
+    {
+      "label": "Lint (ruff)",
+      "type": "shell",
+      "command": ". .venv/bin/activate && ruff check .",
+      "problemMatcher": []
+    },
+    {
+      "label": "Format (ruff)",
+      "type": "shell",
+      "command": ". .venv/bin/activate && ruff format .",
+      "problemMatcher": []
+    },
+    {
+      "label": "Type check (mypy)",
+      "type": "shell",
+      "command": ". .venv/bin/activate && mypy .",
+      "problemMatcher": []
+    }
+  ]
+}
