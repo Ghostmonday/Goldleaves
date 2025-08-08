@@ -1,1 +1,0 @@
-"""Test suite for Gold Leaves API"""
