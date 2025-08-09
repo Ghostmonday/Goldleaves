@@ -2,7 +2,7 @@
 
 import pytest
 import asyncio
-from datetime import datetime, timedelta
+from datetime import timedelta
 from uuid import uuid4
 
 from token_service import (
@@ -18,7 +18,6 @@ from token_service import (
     cleanup_expired_tokens,
     get_token_stats,
     send_email_verification,
-    TokenError,
     TokenExpiredError,
     TokenInvalidError,
     TokenRevokedError

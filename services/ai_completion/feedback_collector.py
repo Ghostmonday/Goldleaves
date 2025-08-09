@@ -1,7 +1,7 @@
 # services/ai_completion/feedback_collector.py
 """Collects and processes user feedback on AI predictions."""
 
-from builtins import len
+
 import logging
 from typing import Dict, Any, List, Optional
 from datetime import datetime

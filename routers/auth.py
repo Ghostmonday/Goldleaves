@@ -5,19 +5,7 @@
 
 from fastapi import APIRouter, Depends, HTTPException, Request, BackgroundTasks
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from typing import Optional, Dict, Any
-from builtins import property, getattr, list, dict
-
-from .contract import RouterContract, RouterTags, HTTPStatus, ErrorResponseSchema, SuccessResponseSchema, register_router
-from .schemas import (
-    UserRegistrationSchema, UserLoginSchema, UserProfileSchema, TokenSchema,
-    EmailVerificationSchema, ResendVerificationSchema, PasswordResetRequestSchema,
-    PasswordResetSchema, MessageResponseSchema, UserUpdateSchema
-)
-from .services import UserService, TokenService, EmailService, AuditService, SecurityService
-from .rate_limiter import get_rate_limiter
-from .middleware import get_middleware_stack
-
+from typing import Dict, Any
 # Security scheme
 security = HTTPBearer()
 

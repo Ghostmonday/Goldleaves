@@ -16,12 +16,10 @@ from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks, 
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from jose import JWTError, jwt
 from typing import Generator, Optional, List
 from datetime import datetime, timedelta
-from uuid import UUID, uuid4
 import logging
 
 # Local configuration

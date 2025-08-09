@@ -4,7 +4,7 @@ Provides password hashing, JWT token management, and security helpers.
 """
 
 from datetime import datetime, timedelta
-from typing import Any, Union, Optional
+from typing import Any, Optional
 import secrets
 import hashlib
 

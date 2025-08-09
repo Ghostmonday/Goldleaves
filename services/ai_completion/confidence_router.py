@@ -1,7 +1,6 @@
 # services/ai_completion/confidence_router.py
 """Routes predictions based on confidence levels."""
 
-from typing import Dict, Any, List, Optional
 from enum import Enum
 
 

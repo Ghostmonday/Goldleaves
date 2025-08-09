@@ -13,17 +13,6 @@
 
 from __future__ import annotations
 import logging
-from builtins import set, getattr, dict
-import uuid
-import time
-import smtplib
-import asyncio
-from datetime import datetime, timedelta
-from typing import Dict, Optional, Union, Set, List, Any, Protocol
-from jose import jwt, JWTError
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-
 # Configure logging
 logger = logging.getLogger(__name__)
 
@@ -85,19 +74,15 @@ settings = Config()
 # Custom exceptions for dependency injection
 class TokenError(Exception):
     """Base class for token-related exceptions."""
-    pass
 
 class TokenExpiredError(TokenError):
     """Exception raised when a token has expired."""
-    pass
 
 class TokenInvalidError(TokenError):
     """Exception raised when a token is invalid."""
-    pass
 
 class TokenRevokedError(TokenError):
     """Exception raised when a token has been revoked."""
-    pass
 
 # In-memory storage for fallback scenarios
 _revoked_tokens: Set[str] = set()
@@ -410,7 +395,7 @@ async def create_token_payload(
     if config_service is None:
         config_service = await get_config_service()
     
-    jwt_settings = config_service.get_jwt_settings()
+    config_service.get_jwt_settings()
     
     to_encode = data.copy()
     expire = datetime.utcnow() + (expires_delta or timedelta(minutes=15))
@@ -512,19 +497,15 @@ async def get_dependency_health_status(
     
     return health_status
     """Base class for token-related exceptions."""
-    pass
 
 class TokenExpiredError(TokenError):
     """Exception raised when a token has expired."""
-    pass
 
 class TokenInvalidError(TokenError):
     """Exception raised when a token is invalid."""
-    pass
 
 class TokenRevokedError(TokenError):
     """Exception raised when a token has been revoked."""
-    pass
 
 # In-memory storage for revoked tokens (in production, use Redis or database)
 _revoked_tokens: Set[str] = set()

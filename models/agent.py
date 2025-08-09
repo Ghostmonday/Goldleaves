@@ -11,13 +11,6 @@
 
 """Models Agent - Complete isolated implementation."""
 
-from builtins import len, hasattr, print
-from sqlalchemy import Boolean, Column, Integer, String, DateTime, ForeignKey, CheckConstraint, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker, Session
-from datetime import datetime
-from typing import Generator
-
 # Local dependencies (all in this file for complete isolation)
 class Config:
     DATABASE_URL: str = "sqlite:///./test.db"  # Use SQLite for testing

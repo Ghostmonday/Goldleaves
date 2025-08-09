@@ -7,15 +7,11 @@ import asyncio
 import time
 import json
 from abc import ABC, abstractmethod
-from collections import defaultdict, deque
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, List, Optional, Tuple, Any, Union
-from contextlib import asynccontextmanager
+from typing import Dict, Optional, Any
 
-from .contract import RouterContract, ServiceProtocol
-from .schemas import RateLimitStatusSchema, RateLimitExceededSchema
+from .schemas import RateLimitStatusSchema
 
 class RateLimitAlgorithm(str, Enum):
     """Rate limiting algorithms."""
@@ -64,27 +60,22 @@ class RateLimitBackendInterface(ABC):
     @abstractmethod
     async def get(self, key: str) -> Optional[Any]:
         """Get value by key."""
-        pass
     
     @abstractmethod
     async def set(self, key: str, value: Any, ttl: Optional[int] = None) -> bool:
         """Set value with optional TTL."""
-        pass
     
     @abstractmethod
     async def increment(self, key: str, amount: int = 1, ttl: Optional[int] = None) -> int:
         """Increment counter."""
-        pass
     
     @abstractmethod
     async def delete(self, key: str) -> bool:
         """Delete key."""
-        pass
     
     @abstractmethod
     async def exists(self, key: str) -> bool:
         """Check if key exists."""
-        pass
 
 class MemoryBackend(RateLimitBackendInterface):
     """In-memory rate limit backend."""
@@ -186,7 +177,6 @@ class RateLimitAlgorithmInterface(ABC):
         backend: RateLimitBackendInterface
     ) -> RateLimitResult:
         """Check if request is within rate limit."""
-        pass
 
 class SlidingWindowRateLimiter(RateLimitAlgorithmInterface):
     """Sliding window rate limiter."""

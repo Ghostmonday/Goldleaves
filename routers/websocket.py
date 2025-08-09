@@ -7,7 +7,7 @@ Handles WebSocket connections and integrates all real-time services.
 import json
 import logging
 from typing import Dict, Any, Optional
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends, HTTPException
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends
 from fastapi.security import HTTPBearer
 
 from services.realtime import (

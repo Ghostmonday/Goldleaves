@@ -2,24 +2,23 @@
 
 from typing import Optional, List, Dict, Any, Tuple
 from sqlalchemy.orm import Session
-from sqlalchemy import and_, or_, func, desc, asc, text
-from datetime import datetime, timedelta, date
+from sqlalchemy import and_, or_, func, desc, asc
+from datetime import datetime, timedelta
 import secrets
 import string
 from decimal import Decimal
 
 from models.case import (
-    Case, TimeEntry, CaseEvent, CaseTask, CaseDocument,
-    CaseType, CaseStatus, CasePriority, CaseBillingType, 
-    TimeEntryStatus, TaskStatus, TaskPriority, CourtLevel
+    Case, TimeEntry, CaseEvent, CaseTask, CaseType,
+    CaseStatus, CasePriority, TimeEntryStatus, TaskStatus
 )
 from models.client import Client
-from models.user import User, Organization
+from models.user import User
 from schemas.case.core import (
     CaseCreate, CaseUpdate, CaseFilter, CaseStats,
     CaseBulkAction, CaseBulkResult
 )
-from core.exceptions import NotFoundError, ValidationError, PermissionError
+from core.exceptions import NotFoundError, ValidationError
 
 
 class CaseService:

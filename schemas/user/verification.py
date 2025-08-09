@@ -5,8 +5,7 @@ from typing import Optional, List
 from .dependencies import (
     UserRole,
     validate_password_strength, 
-    validate_name_format, 
-    validate_phone_number,
+    validate_phone_number, 
     validate_url_format
 )
 

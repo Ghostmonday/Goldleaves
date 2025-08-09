@@ -14,7 +14,7 @@ Base response wrapper schemas for consistent API responses.
 Provides standardized success/error response patterns.
 """
 
-from typing import Optional, Generic, TypeVar, Any, Dict, List, Literal
+from typing import Optional, Generic, TypeVar, Any, Dict, List
 from datetime import datetime
 from pydantic import BaseModel, Field
 from pydantic.generics import GenericModel

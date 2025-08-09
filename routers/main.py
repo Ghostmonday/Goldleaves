@@ -6,17 +6,6 @@
 from __future__ import annotations
 import uvicorn
 from typing import Dict, Any
-from builtins import len, list, print, getattr
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse, PlainTextResponse
-from contextlib import asynccontextmanager
-from datetime import datetime
-
-from .contract import get_all_routers, ROUTER_REGISTRY, RouterTags, ErrorResponseSchema
-from .middleware import get_middleware_stack, MIDDLEWARE_REGISTRY
-from .schemas import HealthCheckSchema
-from .services import SystemService
-
 # Lifespan event handler
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -79,7 +68,7 @@ def create_app(config: Dict[str, Any] = None) -> FastAPI:
     app.add_middleware(RequestContextMiddleware)
     
     # Add routers
-    routers = get_all_routers()
+    get_all_routers()
     for router_contract in ROUTER_REGISTRY.values():
         app.include_router(
             router_contract.router,

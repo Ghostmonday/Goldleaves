@@ -5,10 +5,8 @@ Provides structured logging with proper formatting and rotation.
 
 import logging
 import logging.handlers
-import os
 import sys
 from pathlib import Path
-from typing import Any, Dict
 
 from app.config import settings
 

@@ -3,19 +3,15 @@
 
 """Service layer implementations for business logic."""
 
-import asyncio
 import hashlib
 import secrets
 import uuid
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any, Tuple
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 
 from .schemas import (
     UserRole, UserStatus, UserRegistrationSchema, UserLoginSchema,
-    UserProfileSchema, TokenSchema, AdminUserCreateSchema,
-    OrganizationSchema, AuditLogSchema
+    UserProfileSchema, TokenSchema
 )
 
 # ===== MOCK DATABASE =====

@@ -2,7 +2,6 @@
 
 import pytest
 import asyncio
-from datetime import datetime, timedelta
 
 from dependencies import (
     get_db_session,
@@ -51,7 +50,7 @@ class TestDependencies:
         
         # Test cache operations
         await cache.set("test_key", "test_value", ttl=60)
-        value = await cache.get("test_key")
+        await cache.get("test_key")
         await cache.delete("test_key")
     
     @pytest.mark.asyncio
@@ -76,7 +75,7 @@ class TestDependencies:
         config = await get_config_service()
         
         # Test config methods
-        setting = config.get_setting("SECRET_KEY", "default")
+        config.get_setting("SECRET_KEY", "default")
         jwt_settings = config.get_jwt_settings()
         email_settings = config.get_email_settings()
         

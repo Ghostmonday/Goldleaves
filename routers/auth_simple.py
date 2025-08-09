@@ -8,16 +8,14 @@ from datetime import timedelta
 
 from models.core_db import get_db
 from models.user import User
-from models.user_schemas import UserCreate, UserResponse, UserLogin
+from models.user_schemas import UserCreate, UserResponse
 from core.security import (
     create_access_token, 
     create_refresh_token, 
     get_password_hash, 
-    verify_password,
-    verify_access_token
+    verify_password
 )
 from core.config import get_settings
-from models.email_utils import email_service
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 

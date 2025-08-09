@@ -20,7 +20,6 @@ from datetime import datetime
 from enum import Enum
 from uuid import UUID
 
-from ..dependencies import create_field_metadata
 
 
 class AuditAction(str, Enum):

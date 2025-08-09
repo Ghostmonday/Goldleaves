@@ -4,7 +4,7 @@ FastAPI routes for form crowdsourcing system
 """
 
 from __future__ import annotations
-from typing import List, Dict, Any, Optional
+from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Query, status
 from fastapi.security import HTTPBearer
 from sqlalchemy.orm import Session
@@ -18,8 +18,7 @@ from schemas.forms import (
     FormFeedbackRequest, FormFeedbackResponse, ContributorRewardRequest,
     FormDetailResponse, FormListItem, PaginatedFormResponse, FormStatsResponse,
     ContributorRewardStatus, FeedbackStatsResponse, FormSearchRequest,
-    FormFilters, FormType, FormStatus, FormLanguage, ContributorType,
-    FeedbackType, Priority
+    FormFilters, FormType, FormStatus, FormLanguage, ContributorType
 )
 
 router = APIRouter(prefix="/api/v1/forms", tags=["forms"])
@@ -538,7 +537,7 @@ async def get_form_statistics(
     try:
         # TODO: Implement comprehensive statistics gathering
         from sqlalchemy import func
-        from models.forms import Form, ContributorStats, FormFeedback
+        from models.forms import Form, ContributorStats
         
         # Basic counts
         total_forms = db.query(func.count(Form.id)).scalar() or 0

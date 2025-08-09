@@ -3,7 +3,6 @@
 from typing import Dict, Any, Optional, List
 from pydantic import BaseModel, Field, validator
 from datetime import datetime
-from enum import Enum
 
 from models.document import PredictionStatus
 

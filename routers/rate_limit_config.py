@@ -14,7 +14,7 @@
 Rate limiting configuration and strategies.
 """
 from dataclasses import dataclass
-from typing import Dict, Optional, Callable
+from typing import Optional, Callable
 from fastapi import Request
 
 from .rate_limiter import RateLimitAlgorithm, AdvancedRateLimiter

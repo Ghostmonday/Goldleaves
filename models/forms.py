@@ -9,7 +9,6 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
 from enum import Enum as PyEnum
-from typing import Dict, List, Any, Optional
 
 from core.db.base import Base
 from core.db.mixins import TimestampMixin, SoftDeleteMixin

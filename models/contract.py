@@ -8,9 +8,6 @@ ensuring compliance with the Goldleaves architecture.
 """
 
 from typing import Dict, List, Any
-from enum import Enum
-from builtins import hasattr
-
 # Contract keys for model validation
 MODEL_CONTRACTS = {
     "User": {

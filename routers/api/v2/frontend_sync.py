@@ -4,10 +4,10 @@ Frontend-facing API v2 router with optimized endpoints for UI consumption.
 Implements aggregated, simplified responses with proper caching and pagination.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Header, status
+from fastapi import APIRouter, Depends, Query
 from fastapi.responses import JSONResponse
-from typing import Optional, List, Dict, Any
-from datetime import datetime, timedelta
+from typing import Optional, List, Any
+from datetime import datetime
 import json
 
 # Import database and dependencies
@@ -18,8 +18,8 @@ from models.user import User
 # Import schemas
 from schemas.frontend.user_profile import UserProfileResponse, ProfileUpdateRequest
 from schemas.frontend.documents import (
-    DocumentListResponse, DocumentFilter, DocumentSort, 
-    PaginationMeta, DocumentListItem, DocumentType, DocumentStatus
+    DocumentListResponse, DocumentFilter, DocumentType, 
+    DocumentStatus
 )
 from schemas.frontend.dashboard import DashboardStatsResponse
 from schemas.frontend.forms import FormMetadataResponse

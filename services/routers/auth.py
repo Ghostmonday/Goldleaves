@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, Depends, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from datetime import datetime
 import logging
-from typing import List, Optional
+from typing import Optional
 
 from schemas import (
     EmailVerificationRequest, 
@@ -23,7 +23,7 @@ from token_service import (
     TokenRevokedError
 )
 from core.email_utils import send_verification_email
-from models.user import User, get_user_by_id, get_all_users, update_user_email_verified
+from models.user import get_user_by_id, get_all_users, update_user_email_verified
 
 # Configure logging
 logger = logging.getLogger(__name__)

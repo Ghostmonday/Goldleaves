@@ -14,8 +14,7 @@ from fastapi import HTTPException, UploadFile
 
 from models.forms import (
     Form, FormField, ContributorStats, RewardLedger, FormFeedback, 
-    FormVersion, Jurisdiction, FormType, FormStatus, ContributorType,
-    FormLanguage
+    Jurisdiction, FormStatus
 )
 from models.user import User
 from schemas.forms import (
@@ -45,7 +44,7 @@ class FormService:
             form_id = self._generate_form_id()
             
             # Check for potential duplicates
-            similar_forms = self._check_duplicates(form_request)
+            self._check_duplicates(form_request)
             
             # Create jurisdiction if needed
             jurisdiction = self._get_or_create_jurisdiction(form_request.metadata.jurisdiction)
@@ -669,7 +668,6 @@ class FormService:
         # - Find available reviewers
         # - Consider workload balancing
         # - Assign based on expertise
-        pass
     
     def _apply_form_filters(self, query, filters: FormFilters):
         """Apply search filters to query."""

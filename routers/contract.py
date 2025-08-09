@@ -5,42 +5,9 @@
 
 from abc import ABC, abstractmethod
 from fastapi import APIRouter
-from typing import Dict, List, Protocol, Any, Optional, Union
+from typing import Dict, List, Protocol, Any, Optional
 from enum import Enum
 from pydantic import BaseModel
-from builtins import property
-from datetime import datetime
-import asyncio
-
-class RouterTags(str, Enum):
-    """Standardized router tags for OpenAPI documentation."""
-    AUTH = "authentication"
-    USERS = "users"
-    ADMIN = "admin"
-    ORGANIZATIONS = "organizations"
-    AUDIT = "audit"
-    RATE_LIMIT = "rate-limiting"
-    HEALTH = "health"
-    DOCUMENTS = "documents"
-    COLLABORATION = "collaboration"
-    STORAGE = "storage"
-    COURT_PACKAGING = "court-packaging"
-    FORMS = "forms"
-
-class HTTPStatus(int, Enum):
-    """Standard HTTP status codes."""
-    OK = 200
-    CREATED = 201
-    NO_CONTENT = 204
-    BAD_REQUEST = 400
-    UNAUTHORIZED = 401
-    FORBIDDEN = 403
-    NOT_FOUND = 404
-    CONFLICT = 409
-    UNPROCESSABLE_ENTITY = 422
-    TOO_MANY_REQUESTS = 429
-    INTERNAL_SERVER_ERROR = 500
-
 # Alias for compatibility with rate_limiter.py
 StatusCodes = HTTPStatus
 
@@ -64,24 +31,20 @@ class RouterContract(ABC):
     @abstractmethod
     def router(self) -> APIRouter:
         """FastAPI router instance."""
-        pass
     
     @property
     @abstractmethod
     def prefix(self) -> str:
         """URL prefix for this router."""
-        pass
     
     @property
     @abstractmethod
     def tags(self) -> List[str]:
         """OpenAPI tags for this router."""
-        pass
     
     @abstractmethod
     def configure_routes(self) -> None:
         """Configure all routes for this router."""
-        pass
 
 class ServiceProtocol(Protocol):
     """Protocol defining service layer interface."""
@@ -108,7 +71,6 @@ class MiddlewareContract(ABC):
     @abstractmethod
     async def __call__(self, request, call_next):
         """Middleware call implementation."""
-        pass
 
 # === RATE LIMITING CONTRACTS ===
 

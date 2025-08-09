@@ -2,27 +2,21 @@
 
 from typing import Optional, List, Dict, Any, Tuple
 from sqlalchemy.orm import Session, joinedload
-from sqlalchemy import and_, or_, func, desc, asc, text
+from sqlalchemy import and_, or_, func, desc, asc
 from datetime import datetime, timedelta
-import json
-import hashlib
-import secrets
-import string
-from decimal import Decimal
 
 from models.document import (
-    Document, DocumentVersion, DocumentCorrection, DocumentShare,
-    PredictionStatus, DocumentType, DocumentStatus, DocumentConfidentiality
+    Document, DocumentVersion, DocumentCorrection, PredictionStatus,
+    DocumentType, DocumentStatus, DocumentConfidentiality
 )
-from models.user import User, Organization
 from models.case import Case
 from models.client import Client
 from schemas.document import (
     DocumentCreate, DocumentUpdate, DocumentFilter, DocumentStats,
-    DocumentPrediction, PredictionIngest, DocumentCorrection as CorrectionSchema,
-    DocumentBulkAction, DocumentBulkResult
+    PredictionIngest, DocumentCorrection as CorrectionSchema, DocumentBulkAction,
+    DocumentBulkResult
 )
-from core.exceptions import NotFoundError, ValidationError, PermissionError
+from core.exceptions import NotFoundError, ValidationError
 
 
 class DocumentService:

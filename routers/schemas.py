@@ -4,7 +4,7 @@
 """Pydantic schemas for request/response validation."""
 
 from pydantic import BaseModel, EmailStr, validator, Field
-from typing import Optional, List, Dict, Any, Union
+from typing import Optional, List, Dict, Any
 from datetime import datetime
 from enum import Enum
 

@@ -15,18 +15,13 @@ Provides schemas for TOTP, backup codes, and 2FA management.
 """
 
 from pydantic import BaseModel, Field, validator, SecretStr
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
 from datetime import datetime
 from enum import Enum
 from uuid import UUID
 
 from ..dependencies import (
-    non_empty_string,
-    uuid_field,
-    timestamp_field,
-    validate_non_empty_string,
-    create_field_metadata,
-    Status
+    create_field_metadata
 )
 
 

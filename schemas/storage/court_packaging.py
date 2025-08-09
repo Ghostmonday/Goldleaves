@@ -2,7 +2,7 @@
 
 """Phase 7: Court-ready packaging schemas with jurisdiction-aware validation."""
 
-from typing import Optional, List, Dict, Any, Union
+from typing import Optional, List, Dict, Any
 from pydantic import BaseModel, Field, validator
 from datetime import datetime, date
 from enum import Enum

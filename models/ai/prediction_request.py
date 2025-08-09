@@ -2,7 +2,7 @@
 """AI prediction request model for form completion sessions."""
 
 from datetime import datetime
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any
 from enum import Enum
 from sqlalchemy import Column, Integer, String, DateTime, Text, JSON, Boolean, Float, ForeignKey
 from sqlalchemy.orm import relationship

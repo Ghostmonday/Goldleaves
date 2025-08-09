@@ -15,12 +15,11 @@ Provides schemas for administrative user operations.
 """
 
 from pydantic import BaseModel, Field, EmailStr, validator
-from typing import Optional, List, Dict, Any
+from typing import Optional, Dict, Any
 from datetime import datetime
 from enum import Enum
 from uuid import UUID
 
-from ..dependencies import create_field_metadata
 
 
 class AdminUserStatus(str, Enum):

@@ -2,9 +2,7 @@
 
 from typing import Optional, List, Dict, Any
 from pydantic import BaseModel, Field, validator
-from datetime import datetime, date
-from decimal import Decimal
-from enum import Enum
+from datetime import datetime
 
 from models.document import (
     PredictionStatus, DocumentType, DocumentStatus, DocumentConfidentiality

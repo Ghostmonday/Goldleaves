@@ -10,11 +10,9 @@ from typing import Dict, List, Optional, Callable, Any
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response, JSONResponse
-from fastapi import HTTPException, status
+from fastapi import status
 
-from .contract import MiddlewareContract
 from .services import AuditService, SecurityService, OrganizationService
-from .schemas import UserRole
 from .rate_limiter import get_rate_limiter, RateLimitResult
 from core.security import verify_access_token
 

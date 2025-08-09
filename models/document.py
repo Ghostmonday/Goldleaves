@@ -2,12 +2,10 @@
 
 from sqlalchemy import Column, Integer, String, Text, DateTime, Float, Boolean, ForeignKey, Enum as SQLEnum, JSON, Index
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-from datetime import datetime, timedelta
+from datetime import datetime
 import enum
 import secrets
 import string
-from typing import Dict, Any, Optional, List
 
 from models.user import Base, TimestampMixin, SoftDeleteMixin
 

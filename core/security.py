@@ -1,5 +1,5 @@
 from passlib.context import CryptContext
-from jose import JWTError, jwt
+from jose import jwt
 from datetime import datetime, timedelta
 from typing import Optional
 from app.config import settings

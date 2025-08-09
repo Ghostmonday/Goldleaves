@@ -2,20 +2,19 @@
 
 from typing import List, Dict, Any, Optional
 from fastapi import APIRouter, Depends, HTTPException, status, Query, Path, Body
-from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from core.db.session import get_db
 from core.dependencies import get_current_user, get_current_organization
 from routers.dependencies import require_permission
-from routers.contract import RouterContract, RouterTags, register_router
+from routers.contract import RouterContract, register_router
 from models.user import User, Organization
 from services.document import DocumentService
 from schemas.document import (
     DocumentCreate, DocumentUpdate, DocumentResponse, DocumentFilter,
     DocumentStats, DocumentPrediction, PredictionIngest, 
     DocumentCorrection, DocumentBulkAction, DocumentBulkResult,
-    DocumentAudit, DocumentSearchResponse, DocumentPermissionCheck
+    DocumentSearchResponse, DocumentPermissionCheck
 )
 
 

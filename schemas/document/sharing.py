@@ -15,19 +15,11 @@ Provides schemas for document sharing, access control, and collaboration permiss
 """
 
 from pydantic import BaseModel, Field, validator
-from typing import List, Optional, Dict, Any, Set
-from datetime import datetime, timedelta
+from typing import List, Optional, Dict
+from datetime import datetime
 from enum import Enum
 from uuid import UUID
 
-from ..dependencies import (
-    non_empty_string,
-    uuid_field,
-    timestamp_field,
-    validate_non_empty_string,
-    create_field_metadata,
-    PermissionLevel
-)
 
 
 class ShareType(str, Enum):

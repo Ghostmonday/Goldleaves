@@ -14,9 +14,8 @@
 Unit tests for the advanced rate limiter implementation.
 """
 import asyncio
-import time
 import pytest
-from unittest.mock import Mock, AsyncMock
+from unittest.mock import Mock
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
@@ -27,8 +26,7 @@ from .rate_limiter import (
     RateLimitState,
     InMemoryStorage,
     RateLimitChecker,
-    limiter,
-    advanced_limiter
+    limiter
 )
 
 

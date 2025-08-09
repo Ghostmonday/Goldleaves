@@ -2,8 +2,7 @@
 """Logs prediction metrics and performance data."""
 
 import logging
-from typing import Dict, Any, List, Optional
-from datetime import datetime
+from typing import Dict, Any, List
 from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
@@ -42,7 +41,6 @@ class PredictionLogger:
     
     def _calculate_metrics(self, request, response, predicted_fields: List) -> Dict[str, Any]:
         """Calculate performance metrics."""
-        from builtins import len, sum
         
         if not predicted_fields:
             return {

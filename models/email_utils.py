@@ -4,7 +4,6 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
-from typing import Optional
 
 # ✅ Phase 3: send_verification_email function - COMPLETED
 
@@ -127,7 +126,6 @@ class EmailService:
         try:
             reset_url = f"{self.frontend_url}/reset-password?token={reset_token}"
             
-            subject = "Password Reset - Goldleaves"
             html_body = f"""
             <!DOCTYPE html>
             <html>
