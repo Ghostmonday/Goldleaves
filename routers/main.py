@@ -9,6 +9,7 @@ from typing import Dict, Any
 from builtins import len, list, print, getattr
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 from datetime import datetime
 
@@ -78,6 +79,12 @@ def create_app(config: Dict[str, Any] = None) -> FastAPI:
     
     app.add_middleware(RequestContextMiddleware)
     
+    # Mount static files
+    import os
+    static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
+    if os.path.exists(static_dir):
+        app.mount("/static", StaticFiles(directory=static_dir), name="static")
+    
     # Add routers
     routers = get_all_routers()
     for router_contract in ROUTER_REGISTRY.values():
@@ -125,18 +132,39 @@ def create_app(config: Dict[str, Any] = None) -> FastAPI:
         from observability.metrics import metrics_collector
         return metrics_collector.export_json_format()
     
-    # Add Prometheus metrics endpoint
     @app.get(
-        "/metrics/prometheus",
+        "/billing/success",
         response_class=PlainTextResponse,
         tags=[RouterTags.HEALTH],
-        summary="Prometheus metrics",
-        description="Get metrics in Prometheus format"
+        summary="Billing success page",
+        description="Billing payment success return page"
     )
-    async def get_prometheus_metrics() -> str:
-        """Get metrics in Prometheus format."""
-        from observability.metrics import metrics_collector
-        return metrics_collector.export_prometheus_format()
+    async def billing_success_page():
+        """Serve billing success page."""
+        import os
+        static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
+        success_file = os.path.join(static_dir, "billing-success.html")
+        if os.path.exists(success_file):
+            with open(success_file, 'r') as f:
+                return f.read()
+        return "Payment successful! Your subscription has been activated."
+    
+    @app.get(
+        "/billing/cancel",
+        response_class=PlainTextResponse,
+        tags=[RouterTags.HEALTH],
+        summary="Billing cancel page", 
+        description="Billing payment cancel return page"
+    )
+    async def billing_cancel_page():
+        """Serve billing cancel page."""
+        import os
+        static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
+        cancel_file = os.path.join(static_dir, "billing-cancel.html")
+        if os.path.exists(cancel_file):
+            with open(cancel_file, 'r') as f:
+                return f.read()
+        return "Payment cancelled. You can try again at any time."
     
     # Global exception handler
     @app.exception_handler(Exception)

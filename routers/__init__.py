@@ -6,6 +6,7 @@
 from . import auth
 from . import agent
 from . import document_collaboration_contract
+from . import billing
 
 # Import core contract utilities
 from .contract import (

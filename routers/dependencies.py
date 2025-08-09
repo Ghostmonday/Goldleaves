@@ -101,6 +101,16 @@ def get_verified_user(current_user: User = Depends(get_current_user)) -> User:
         )
     return current_user
 
+def get_current_tenant(current_user: User = Depends(get_current_user)) -> Optional[Dict[str, Any]]:
+    """Get current tenant/organization context for the user."""
+    # In this simplified implementation, we'll return a mock tenant
+    # In production, this would query the user's organization from the database
+    return {
+        "id": "tenant_123",
+        "name": "Default Organization",
+        "user_id": current_user.id
+    }
+
 # Router utilities
 def create_router(prefix: str, tags: List[str]) -> APIRouter:
     """Create a router with standard configuration."""
