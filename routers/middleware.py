@@ -355,6 +355,9 @@ class CORSMiddleware(BaseHTTPMiddleware):
         if self.allow_credentials and origin:
             response.headers["Access-Control-Allow-Credentials"] = "true"
 
+# Import usage tracking middleware
+from app.usage.middleware import UsageTrackingMiddleware
+
 # Middleware registry for easy configuration
 MIDDLEWARE_REGISTRY = {
     "request_context": RequestContextMiddleware,
@@ -363,7 +366,8 @@ MIDDLEWARE_REGISTRY = {
     "audit": AuditMiddleware,
     "organization": OrganizationContextMiddleware,
     "authentication": AuthenticationMiddleware,
-    "cors": CORSMiddleware
+    "cors": CORSMiddleware,
+    "usage_tracking": UsageTrackingMiddleware
 }
 
 def get_middleware_stack(app, config: Dict[str, Any] = None) -> List[BaseHTTPMiddleware]:
@@ -379,6 +383,7 @@ def get_middleware_stack(app, config: Dict[str, Any] = None) -> List[BaseHTTPMid
         "rate_limit",
         "authentication",
         "organization",
+        "usage_tracking",
         "audit"
     ]
     
@@ -398,5 +403,5 @@ def get_middleware_stack(app, config: Dict[str, Any] = None) -> List[BaseHTTPMid
 __all__ = [
     "RequestContextMiddleware", "RateLimitMiddleware", "SecurityMiddleware",
     "AuditMiddleware", "OrganizationContextMiddleware", "AuthenticationMiddleware",
-    "CORSMiddleware", "MIDDLEWARE_REGISTRY", "get_middleware_stack"
+    "CORSMiddleware", "UsageTrackingMiddleware", "MIDDLEWARE_REGISTRY", "get_middleware_stack"
 ]
