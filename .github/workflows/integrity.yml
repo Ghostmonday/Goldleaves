@@ -1,0 +1,12 @@
+name: Integrity Audit
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, infra/** ]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Smoke
+        run: echo "Integrity check triggered successfully"
