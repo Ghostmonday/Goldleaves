@@ -1,9 +1,9 @@
 # schemas/document/prediction.py
 
-from typing import Dict, Any, Optional, List
-from pydantic import BaseModel, Field, validator
 from datetime import datetime
-from enum import Enum
+from typing import Any, Dict, List, Optional
+
+from pydantic import BaseModel, Field, validator
 
 from models.document import PredictionStatus
 

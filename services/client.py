@@ -1,19 +1,24 @@
 # services/client.py
 
-from typing import Optional, List, Dict, Any, Tuple
-from sqlalchemy.orm import Session
-from sqlalchemy import and_, or_, func, desc, asc
-from datetime import datetime, timedelta
 import secrets
 import string
+from datetime import datetime, timedelta
+from typing import List, Optional, Tuple
 
-from models.client import Client, ClientDocument, ClientType, ClientStatus, ClientPriority, Language
-from models.user import User, Organization
+from sqlalchemy import and_, asc, desc, or_
+from sqlalchemy.orm import Session
+
+from core.exceptions import NotFoundError, ValidationError
+from models.client import Client, ClientPriority, ClientStatus, ClientType
+from models.user import User
 from schemas.client.core import (
-    ClientCreate, ClientUpdate, ClientFilter, ClientStats, 
-    ClientBulkAction, ClientBulkResult
+    ClientBulkAction,
+    ClientBulkResult,
+    ClientCreate,
+    ClientFilter,
+    ClientStats,
+    ClientUpdate,
 )
-from core.exceptions import NotFoundError, ValidationError, PermissionError
 
 
 class ClientService:

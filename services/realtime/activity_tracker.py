@@ -6,14 +6,15 @@ Provides insights into user behavior patterns.
 """
 
 from __future__ import annotations
-import json
+
 import asyncio
+import json
 import logging
-from typing import Dict, Any, Optional, List, Union
+from builtins import dict, len, list, range, set
+from collections import defaultdict, deque
 from datetime import datetime, timedelta
 from enum import Enum
-from collections import defaultdict, deque
-from builtins import set, len, dict, list, range
+from typing import Any, Dict, List, Optional
 
 try:
     import redis.asyncio as redis

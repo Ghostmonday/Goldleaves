@@ -14,16 +14,11 @@ Webhook payload schemas for different event types.
 Provides standardized payload structures for webhook events.
 """
 
-from pydantic import BaseModel, Field
-from typing import Optional, Dict, Any
 from datetime import datetime
+from typing import Any, Dict, Optional
 from uuid import UUID
 
-from ..dependencies import (
-    uuid_field,
-    timestamp_field,
-    create_field_metadata
-)
+from pydantic import BaseModel, Field
 
 
 class WebhookPayload(BaseModel):

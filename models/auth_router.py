@@ -1,25 +1,35 @@
 # models/auth_router.py
 
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from builtins import getattr
+from datetime import timedelta
+from typing import Any, Dict
+
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from sqlalchemy import func
-from typing import List, Dict, Any
-from builtins import getattr
-from datetime import datetime, timedelta
-import bcrypt
 
+from core.config import get_settings
+from core.security import (
+    create_access_token,
+    create_refresh_token,
+    decode_token,
+    get_password_hash,
+    verify_access_token,
+    verify_password,
+)
 from models.core_db import get_db
+from models.email_utils import email_service
+from models.token_service import TokenService
 from models.user import User
 from models.user_schemas import (
-    UserCreate, UserResponse, UserLogin, Token, 
-    EmailVerificationRequest, EmailVerificationResponse,
-    AdminUserResponse, AdminUserListResponse, UserUpdateRequest
+    AdminUserListResponse,
+    AdminUserResponse,
+    EmailVerificationRequest,
+    EmailVerificationResponse,
+    UserCreate,
+    UserResponse,
+    UserUpdateRequest,
 )
-from models.token_service import TokenService
-from models.email_utils import email_service
-from core.security import create_access_token, create_refresh_token, decode_token, get_password_hash, verify_password, verify_access_token
-from core.config import get_settings
 
 # ✅ Phase 3: /verify-email endpoint - COMPLETED
 # ✅ Phase 3: /admin/users endpoint with admin-only permission checks - COMPLETED

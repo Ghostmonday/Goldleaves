@@ -1,11 +1,13 @@
 # schemas/user.py
 
 from __future__ import annotations
-from pydantic import BaseModel, EmailStr
-from typing import Optional, List
-from builtins import list
+
 from datetime import datetime
 from enum import Enum
+from typing import List, Optional
+
+from pydantic import BaseModel, EmailStr
+
 
 # Define enums for consistency with models
 class UserRole(str, Enum):

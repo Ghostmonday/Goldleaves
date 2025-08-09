@@ -14,10 +14,11 @@ Error schemas and exception handling for consistent error responses.
 Provides standardized error formats and validation error patterns.
 """
 
-from typing import List, Dict, Any, Optional, Union
-from enum import Enum
-from pydantic import BaseModel, Field, validator
 from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional
+
+from pydantic import BaseModel, Field, validator
 
 
 class ErrorCode(str, Enum):

@@ -1,25 +1,36 @@
 # services/case.py
 
-from typing import Optional, List, Dict, Any, Tuple
-from sqlalchemy.orm import Session
-from sqlalchemy import and_, or_, func, desc, asc, text
-from datetime import datetime, timedelta, date
 import secrets
 import string
+from datetime import datetime, timedelta
 from decimal import Decimal
+from typing import Any, Dict, List, Optional, Tuple
 
+from sqlalchemy import and_, asc, desc, func, or_
+from sqlalchemy.orm import Session
+
+from core.exceptions import NotFoundError, ValidationError
 from models.case import (
-    Case, TimeEntry, CaseEvent, CaseTask, CaseDocument,
-    CaseType, CaseStatus, CasePriority, CaseBillingType, 
-    TimeEntryStatus, TaskStatus, TaskPriority, CourtLevel
+    Case,
+    CaseEvent,
+    CasePriority,
+    CaseStatus,
+    CaseTask,
+    CaseType,
+    TaskStatus,
+    TimeEntry,
+    TimeEntryStatus,
 )
 from models.client import Client
-from models.user import User, Organization
+from models.user import User
 from schemas.case.core import (
-    CaseCreate, CaseUpdate, CaseFilter, CaseStats,
-    CaseBulkAction, CaseBulkResult
+    CaseBulkAction,
+    CaseBulkResult,
+    CaseCreate,
+    CaseFilter,
+    CaseStats,
+    CaseUpdate,
 )
-from core.exceptions import NotFoundError, ValidationError, PermissionError
 
 
 class CaseService:

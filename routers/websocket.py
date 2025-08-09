@@ -6,19 +6,20 @@ Handles WebSocket connections and integrates all real-time services.
 
 import json
 import logging
-from typing import Dict, Any, Optional
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends, HTTPException
+from typing import Any, Dict, Optional
+
+from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 from fastapi.security import HTTPBearer
 
+from core.security import decode_access_token
 from services.realtime import (
-    connection_manager,
+    activity_tracker,
     broadcaster,
+    connection_manager,
     presence_tracker,
     session_store,
-    activity_tracker
 )
 from services.realtime.connection_manager import MessageType
-from core.security import decode_access_token
 
 logger = logging.getLogger(__name__)
 security = HTTPBearer()

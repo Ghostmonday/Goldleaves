@@ -1,14 +1,27 @@
 # models/case.py
 
-from sqlalchemy import Boolean, Column, Integer, String, DateTime, ForeignKey, Text, Enum, Index, JSON, Numeric
-from sqlalchemy.orm import relationship
 from datetime import datetime
-from enum import Enum as PyEnum
 from decimal import Decimal
+from enum import Enum as PyEnum
+
+from sqlalchemy import (
+    JSON,
+    Boolean,
+    Column,
+    DateTime,
+    Enum,
+    ForeignKey,
+    Index,
+    Integer,
+    Numeric,
+    String,
+    Text,
+)
+from sqlalchemy.orm import relationship
 
 # Import from local dependencies
 from .dependencies import Base, utcnow
-from .user import TimestampMixin, SoftDeleteMixin
+from .user import SoftDeleteMixin, TimestampMixin
 
 
 class CaseType(PyEnum):

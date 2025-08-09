@@ -14,20 +14,12 @@ Document versioning and history schemas.
 Provides schemas for document versions, history tracking, and revision management.
 """
 
-from pydantic import BaseModel, Field, validator
-from typing import List, Optional, Dict, Any, Union
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
 from uuid import UUID
 
-from ..dependencies import (
-    non_empty_string,
-    uuid_field,
-    timestamp_field,
-    validate_non_empty_string,
-    create_field_metadata,
-    Status
-)
+from pydantic import BaseModel, Field, validator
 
 
 class VersionType(str, Enum):

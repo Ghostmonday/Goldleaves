@@ -1,28 +1,28 @@
 # tests/test_token_service.py
 
-import pytest
 import asyncio
-from datetime import datetime, timedelta
+from datetime import timedelta
 from uuid import uuid4
 
+import pytest
 from token_service import (
-    create_access_token,
-    create_refresh_token,
-    verify_token,
-    revoke_token,
-    is_token_revoked,
-    create_email_token,
-    verify_email_token,
-    create_token_response,
-    refresh_access_token,
-    cleanup_expired_tokens,
-    get_token_stats,
-    send_email_verification,
-    TokenError,
     TokenExpiredError,
     TokenInvalidError,
-    TokenRevokedError
+    TokenRevokedError,
+    cleanup_expired_tokens,
+    create_access_token,
+    create_email_token,
+    create_refresh_token,
+    create_token_response,
+    get_token_stats,
+    is_token_revoked,
+    refresh_access_token,
+    revoke_token,
+    send_email_verification,
+    verify_email_token,
+    verify_token,
 )
+
 
 class TestTokenService:
     """Test cases for token service functions."""

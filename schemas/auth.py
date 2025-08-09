@@ -1,10 +1,9 @@
 """Authentication schemas."""
 
-from typing import Optional
-from pydantic import BaseModel, Field, EmailStr, validator
 from datetime import datetime
+from typing import Optional
 
-from schemas.base import SuccessResponse
+from pydantic import BaseModel, EmailStr, Field, validator
 
 
 class BaseSchema(BaseModel):

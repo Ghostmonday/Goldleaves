@@ -4,18 +4,21 @@
 """Main FastAPI application demonstrating the Phase 4 contract-based router architecture."""
 
 from __future__ import annotations
-import uvicorn
-from typing import Dict, Any
-from builtins import len, list, print, getattr
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse, PlainTextResponse
+
+from builtins import getattr, len, list, print
 from contextlib import asynccontextmanager
 from datetime import datetime
+from typing import Any, Dict
 
-from .contract import get_all_routers, ROUTER_REGISTRY, RouterTags, ErrorResponseSchema
-from .middleware import get_middleware_stack, MIDDLEWARE_REGISTRY
+import uvicorn
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse, PlainTextResponse
+
+from .contract import ROUTER_REGISTRY, ErrorResponseSchema, RouterTags, get_all_routers
+from .middleware import MIDDLEWARE_REGISTRY
 from .schemas import HealthCheckSchema
 from .services import SystemService
+
 
 # Lifespan event handler
 @asynccontextmanager
@@ -52,8 +55,12 @@ def create_app(config: Dict[str, Any] = None) -> FastAPI:
     # Add middleware directly instead of using the middleware stack for now
     # This avoids the double app parameter issue
     from .middleware import (
-        RequestContextMiddleware, RateLimitMiddleware, SecurityMiddleware,
-        AuditMiddleware, OrganizationContextMiddleware, AuthenticationMiddleware
+        AuditMiddleware,
+        AuthenticationMiddleware,
+        OrganizationContextMiddleware,
+        RateLimitMiddleware,
+        RequestContextMiddleware,
+        SecurityMiddleware,
     )
     
     # Add middleware in reverse order (FastAPI adds them as a stack)

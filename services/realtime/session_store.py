@@ -5,12 +5,13 @@ Stores user sessions with preferences and activity tracking.
 Provides session persistence across browser refreshes.
 """
 
-import json
 import asyncio
+import json
 import logging
-from typing import Dict, Any, Optional, List
 from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
 from uuid import uuid4
+
 import redis.asyncio as redis
 
 logger = logging.getLogger(__name__)

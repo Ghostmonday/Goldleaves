@@ -3,20 +3,31 @@
 
 """Authentication router implementation with full contract compliance."""
 
-from fastapi import APIRouter, Depends, HTTPException, Request, BackgroundTasks
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from typing import Optional, Dict, Any
-from builtins import property, getattr, list, dict
+from builtins import dict, getattr, list, property
+from typing import Any, Dict
 
-from .contract import RouterContract, RouterTags, HTTPStatus, ErrorResponseSchema, SuccessResponseSchema, register_router
-from .schemas import (
-    UserRegistrationSchema, UserLoginSchema, UserProfileSchema, TokenSchema,
-    EmailVerificationSchema, ResendVerificationSchema, PasswordResetRequestSchema,
-    PasswordResetSchema, MessageResponseSchema, UserUpdateSchema
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+
+from .contract import (
+    ErrorResponseSchema,
+    HTTPStatus,
+    RouterContract,
+    RouterTags,
+    SuccessResponseSchema,
+    register_router,
 )
-from .services import UserService, TokenService, EmailService, AuditService, SecurityService
 from .rate_limiter import get_rate_limiter
-from .middleware import get_middleware_stack
+from .schemas import (
+    EmailVerificationSchema,
+    ResendVerificationSchema,
+    TokenSchema,
+    UserLoginSchema,
+    UserProfileSchema,
+    UserRegistrationSchema,
+    UserUpdateSchema,
+)
+from .services import EmailService, SecurityService, TokenService, UserService
 
 # Security scheme
 security = HTTPBearer()

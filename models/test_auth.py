@@ -1,11 +1,8 @@
 # tests/test_auth.py
 
 import pytest
-from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime, timedelta
-import bcrypt
 
 # ✅ Phase 3: Tests for both /verify-email and /admin/users endpoints - COMPLETED
 
@@ -38,7 +35,6 @@ class TestEmailVerification:
         """
         # Implementation for successful email verification
         from models.token_service import TokenService
-        from models.user import User
         
         # Mock test user
         test_email = "test@example.com"
@@ -94,8 +90,6 @@ class TestEmailVerification:
         2. User's verification status remains unchanged
         """
         # Implementation for expired token test
-        from models.token_service import TokenService
-        import jwt
         from datetime import datetime, timedelta
         
         # Create an expired token manually
@@ -415,7 +409,6 @@ def test_db():
 @pytest.fixture  
 def test_user(test_db):
     """Create test user."""
-    from models.user import User
     
     # Implementation would create actual test user
     return {"id": 1, "email": "test@example.com", "is_admin": False}
@@ -423,7 +416,6 @@ def test_user(test_db):
 @pytest.fixture
 def test_admin(test_db):
     """Create test admin user."""
-    from models.user import User
     
     # Implementation would create actual admin user
     return {"id": 2, "email": "admin@example.com", "is_admin": True}

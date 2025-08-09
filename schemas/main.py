@@ -14,9 +14,11 @@ from builtins import any, len
 """Schemas Agent - Complete isolated implementation."""
 
 from datetime import datetime
-from typing import Optional, List, Union
-from pydantic import BaseModel, EmailStr, Field, validator, constr, root_validator
 from enum import Enum
+from typing import Optional
+
+from pydantic import BaseModel, EmailStr, Field, validator
+
 
 # Local dependencies (all in this file for complete isolation)
 class Config:

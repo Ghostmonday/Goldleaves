@@ -14,10 +14,11 @@ Pagination schemas for consistent paginated API responses.
 Provides standardized pagination patterns and metadata.
 """
 
-from typing import Generic, TypeVar, List, Optional, Dict, Any
+from math import ceil
+from typing import Any, Dict, Generic, List, Optional, TypeVar
+
 from pydantic import BaseModel, Field, validator
 from pydantic.generics import GenericModel
-from math import ceil
 
 # Generic type for paginated data
 T = TypeVar('T')
@@ -286,7 +287,8 @@ def create_pagination_links(
     return links
 
 
-from typing import Generic, TypeVar, List, Optional
+from typing import Generic, List, Optional, TypeVar
+
 from pydantic import BaseModel, Field
 
 T = TypeVar('T')

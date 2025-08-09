@@ -1,10 +1,9 @@
 # core/email_utils.py
 
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 import os
-from typing import Optional
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 # ✅ Phase 3: send_verification_email function - COMPLETED
 

@@ -2,28 +2,41 @@
 
 """Phase 6: Document collaboration service for version control, diffing, and secure sharing."""
 
-from typing import Optional, List, Dict, Any, Tuple
-from sqlalchemy.orm import Session, joinedload
-from sqlalchemy import and_, or_, func, desc, asc, text
-from datetime import datetime, timedelta
-import json
 import difflib
-import re
+import json
+from datetime import datetime, timedelta
+from typing import Any, Dict, List
 from urllib.parse import urljoin
 
+from sqlalchemy import and_, desc, func, or_
+from sqlalchemy.orm import Session, joinedload
+
+from core.exceptions import NotFoundError, PermissionError, ValidationError
 from models.document import (
-    Document, DocumentVersion, DocumentSecureShare, DocumentShareAccessLog,
-    DocumentAuditEvent, DocumentVersionDiff, AuditEventType, SecureSharePermission
+    AuditEventType,
+    Document,
+    DocumentAuditEvent,
+    DocumentSecureShare,
+    DocumentShareAccessLog,
+    DocumentVersion,
+    DocumentVersionDiff,
 )
-from models.user import User, Organization
-from core.exceptions import NotFoundError, ValidationError, PermissionError
-from services.document import DocumentService
 from schemas.document.collaboration import (
-    VersionComparisonRequest, VersionDiffResponse, FieldDiff, ContentDiff,
-    VersionHistoryResponse, VersionHistoryEntry, SecureShareCreate, SecureShareResponse,
-    ShareAccessRequest, ShareAccessResponse, AuditEventResponse, DocumentAuditTrailResponse,
-    CollaborationStats
+    AuditEventResponse,
+    CollaborationStats,
+    ContentDiff,
+    DocumentAuditTrailResponse,
+    FieldDiff,
+    SecureShareCreate,
+    SecureShareResponse,
+    ShareAccessRequest,
+    ShareAccessResponse,
+    VersionComparisonRequest,
+    VersionDiffResponse,
+    VersionHistoryEntry,
+    VersionHistoryResponse,
 )
+from services.document import DocumentService
 
 
 class DocumentCollaborationService:

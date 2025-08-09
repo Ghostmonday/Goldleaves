@@ -4,6 +4,7 @@ Provides specific exception types for better error handling.
 """
 
 from typing import Any, Dict, Optional
+
 from fastapi import HTTPException, status
 
 

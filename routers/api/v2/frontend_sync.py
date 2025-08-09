@@ -4,29 +4,32 @@ Frontend-facing API v2 router with optimized endpoints for UI consumption.
 Implements aggregated, simplified responses with proper caching and pagination.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Header, status
-from fastapi.responses import JSONResponse
-from typing import Optional, List, Dict, Any
-from datetime import datetime, timedelta
 import json
+from datetime import datetime
+from typing import Any, List, Optional
+
+from fastapi import APIRouter, Depends, Query
+from fastapi.responses import JSONResponse
+
+from core.database import get_db
 
 # Import database and dependencies
 from core.dependencies import get_current_active_user
-from core.database import get_db
 from models.user import User
-
-# Import schemas
-from schemas.frontend.user_profile import UserProfileResponse, ProfileUpdateRequest
-from schemas.frontend.documents import (
-    DocumentListResponse, DocumentFilter, DocumentSort, 
-    PaginationMeta, DocumentListItem, DocumentType, DocumentStatus
-)
 from schemas.frontend.dashboard import DashboardStatsResponse
+from schemas.frontend.documents import (
+    DocumentFilter,
+    DocumentListResponse,
+    DocumentStatus,
+    DocumentType,
+)
 from schemas.frontend.forms import FormMetadataResponse
 from schemas.frontend.notifications import NotificationFeedResponse
 
+# Import schemas
+from schemas.frontend.user_profile import ProfileUpdateRequest, UserProfileResponse
+
 # Import service
-from services.frontend_sync import FrontendSyncService
 from services.frontend_sync import FrontendSyncService
 
 # Initialize router
@@ -281,7 +284,7 @@ async def health_check():
 def _register_frontend_sync_router():
     """Register the Phase 11 frontend sync router."""
     try:
-        from ...contract import RouterContract, register_router, RouterTags
+        from ...contract import RouterContract, RouterTags, register_router
         
         frontend_sync_contract = RouterContract(
             name="frontend_sync",

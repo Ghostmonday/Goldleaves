@@ -11,12 +11,23 @@
 
 """Models Agent - Complete isolated implementation."""
 
-from builtins import len, hasattr, print
-from sqlalchemy import Boolean, Column, Integer, String, DateTime, ForeignKey, CheckConstraint, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker, Session
+from builtins import hasattr, len, print
 from datetime import datetime
 from typing import Generator
+
+from sqlalchemy import (
+    Boolean,
+    CheckConstraint,
+    Column,
+    DateTime,
+    ForeignKey,
+    Integer,
+    String,
+    create_engine,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import Session, relationship, sessionmaker
+
 
 # Local dependencies (all in this file for complete isolation)
 class Config:

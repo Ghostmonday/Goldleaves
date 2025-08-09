@@ -2,25 +2,32 @@
 
 """Phase 6: Document collaboration router for version control, diffing, and secure sharing."""
 
-from typing import List, Optional, Dict, Any
-from fastapi import APIRouter, Depends, HTTPException, Request, Query, BackgroundTasks
+from datetime import datetime
+from typing import List, Optional
+
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, Request
 from fastapi.security import HTTPBearer
 from sqlalchemy.orm import Session
-from datetime import datetime
 
 from core.db.session import get_db
 from core.dependencies import get_current_user
-from core.security import verify_api_key, require_permission
-from models.user import User
-from models.document import AuditEventType, SecureSharePermission
-from services.document_collaboration import DocumentCollaborationService
-from schemas.document.collaboration import (
-    VersionComparisonRequest, VersionDiffResponse, VersionHistoryResponse,
-    SecureShareCreate, SecureShareResponse, ShareAccessRequest, ShareAccessResponse,
-    DocumentAuditTrailResponse, CollaborationStats
-)
-from core.exceptions import NotFoundError, ValidationError, PermissionError
+from core.exceptions import NotFoundError, PermissionError, ValidationError
 from core.logging import get_logger
+from core.security import require_permission
+from models.document import AuditEventType
+from models.user import User
+from schemas.document.collaboration import (
+    CollaborationStats,
+    DocumentAuditTrailResponse,
+    SecureShareCreate,
+    SecureShareResponse,
+    ShareAccessRequest,
+    ShareAccessResponse,
+    VersionComparisonRequest,
+    VersionDiffResponse,
+    VersionHistoryResponse,
+)
+from services.document_collaboration import DocumentCollaborationService
 
 logger = get_logger(__name__)
 router = APIRouter(prefix="/documents", tags=["Document Collaboration"])
@@ -247,7 +254,7 @@ async def access_secure_document_share(
         
         return share_access
         
-    except NotFoundError as e:
+    except NotFoundError:
         logger.warning(f"Share {share_slug} not found")
         raise HTTPException(status_code=404, detail="Share not found or has expired")
     except ValidationError as e:
@@ -534,8 +541,9 @@ async def get_recent_collaboration_activity(
 ):
     """Get recent collaboration activity across the organization."""
     try:
-        from models.document import DocumentAuditEvent
         from sqlalchemy import desc
+
+        from models.document import DocumentAuditEvent
         
         # Get recent audit events
         recent_events = db.query(DocumentAuditEvent).filter(

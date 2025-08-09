@@ -1,9 +1,10 @@
 """User schemas."""
 
-from typing import Optional, List
-from uuid import UUID
 from datetime import datetime
-from pydantic import BaseModel, Field, EmailStr
+from typing import Optional
+from uuid import UUID
+
+from pydantic import BaseModel, EmailStr, Field
 
 from schemas.base import PaginatedResponse
 

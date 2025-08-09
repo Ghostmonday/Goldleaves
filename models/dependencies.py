@@ -11,11 +11,13 @@
 
 """Dependencies for models agent - isolated workspace."""
 
-from sqlalchemy import Boolean, Column, Integer, String, DateTime, ForeignKey, CheckConstraint, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker, Session
 from datetime import datetime
 from typing import Generator
+
+from sqlalchemy import CheckConstraint, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import Session, sessionmaker
+
 
 # Local configuration
 class Config:

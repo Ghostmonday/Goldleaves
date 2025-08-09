@@ -14,13 +14,12 @@ Admin user management schemas.
 Provides schemas for administrative user operations.
 """
 
-from pydantic import BaseModel, Field, EmailStr, validator
-from typing import Optional, List, Dict, Any
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, Optional
 from uuid import UUID
 
-from ..dependencies import create_field_metadata
+from pydantic import BaseModel, EmailStr, Field, validator
 
 
 class AdminUserStatus(str, Enum):

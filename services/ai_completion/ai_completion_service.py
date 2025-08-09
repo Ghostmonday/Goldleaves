@@ -2,20 +2,24 @@
 """Core AI completion service for form prediction."""
 
 import json
-import asyncio
+from builtins import filter, len, locals, sum
 from datetime import datetime
-from typing import Dict, Any, List, Optional, Tuple
 from enum import Enum
-from builtins import len, locals, filter, sum
+from typing import Any, Dict, List, Optional
+
 import openai
 from sqlalchemy.orm import Session
 
-from models.ai import (
-    PredictedField, PredictionRequest, PredictionResponse,
-    ConfidenceLevel, PredictionStatus, RequestStatus, ResponseStatus
-)
 from core.config import settings
 from core.logging import get_logger
+from models.ai import (
+    ConfidenceLevel,
+    PredictedField,
+    PredictionRequest,
+    PredictionResponse,
+    ResponseStatus,
+)
+
 from .confidence_router import ConfidenceRouter
 from .prediction_logger import PredictionLogger
 

@@ -1,7 +1,10 @@
-from typing import List, Optional
-from pydantic import BaseModel, Field, validator, root_validator
 from datetime import datetime
+from typing import List, Optional
+
+from pydantic import BaseModel, Field, root_validator, validator
+
 from ..user import UserResponse
+
 
 class UserLoginRequest(BaseModel):
     """Request payload for user authentication."""

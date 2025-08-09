@@ -1,22 +1,27 @@
 # routers/case.py
 
+from datetime import date
 from typing import List, Optional
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from datetime import date
 
 from core.db.session import get_db
 from core.dependencies import get_current_active_user, get_current_organization_id
+from core.exceptions import NotFoundError, ValidationError
 from models.user import User
-from services.case import CaseService
-from schemas.case.core import (
-    CaseCreate, CaseUpdate, CaseResponse, CaseFilter, 
-    CaseStats, CaseBulkAction, CaseBulkResult
-)
 from schemas.base.pagination import PaginatedResponse
 from schemas.base.responses import SuccessResponse
-from core.exceptions import NotFoundError, ValidationError
-
+from schemas.case.core import (
+    CaseBulkAction,
+    CaseBulkResult,
+    CaseCreate,
+    CaseFilter,
+    CaseResponse,
+    CaseStats,
+    CaseUpdate,
+)
+from services.case import CaseService
 
 router = APIRouter(
     prefix="/cases",
@@ -43,7 +48,7 @@ async def create_case(
         return CaseResponse.from_orm(case)
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to create case")
 
 
@@ -210,7 +215,7 @@ async def update_case(
         raise HTTPException(status_code=404, detail="Case not found")
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to update case")
 
 
@@ -238,7 +243,7 @@ async def delete_case(
         raise HTTPException(status_code=404, detail="Case not found")
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to delete case")
 
 
@@ -267,7 +272,7 @@ async def close_case(
         raise HTTPException(status_code=404, detail="Case not found")
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to close case")
 
 
@@ -294,7 +299,7 @@ async def reopen_case(
         raise HTTPException(status_code=404, detail="Case not found")
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to reopen case")
 
 
@@ -318,5 +323,5 @@ async def bulk_update_cases(
             updated_by_id=current_user.id
         )
         return result
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to perform bulk operation")

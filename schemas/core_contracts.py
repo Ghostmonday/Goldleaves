@@ -12,8 +12,10 @@
 # - [x] Annotate fields with metadata for future auto-docs
 
 
-from typing import Dict, List, Type, Any
+from typing import Any, Dict, List, Type
+
 from pydantic import BaseModel
+
 
 class SchemaContract(BaseModel):
     version: str = "4.0.0"
@@ -64,13 +66,11 @@ Shared validation utilities and dependencies for all schema modules.
 Provides reusable validators, field types, and utility functions.
 """
 
-from typing import Optional, Union, Any, List, Dict
-from datetime import datetime
-from enum import Enum
 import re
-from pydantic import validator, Field
-from uuid import UUID
+from enum import Enum
+from typing import Any, Dict, List, Optional
 
+from pydantic import Field
 
 # === SHARED FIELD TYPES ===
 
@@ -269,9 +269,10 @@ Application configuration schemas.
 Provides schemas for system configuration and settings.
 """
 
-from pydantic import BaseModel, Field
-from typing import Optional, Dict, Any
 from enum import Enum
+from typing import Any, Dict, Optional
+
+from pydantic import BaseModel, Field
 
 
 def create_field_metadata(

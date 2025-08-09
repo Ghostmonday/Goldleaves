@@ -2,10 +2,10 @@
 
 """Phase 6: Document collaboration schemas for version control, diffing, and secure sharing."""
 
-from typing import Optional, List, Dict, Any, Union
-from pydantic import BaseModel, Field, validator, HttpUrl
 from datetime import datetime
-from enum import Enum
+from typing import Any, Dict, List, Optional
+
+from pydantic import BaseModel, Field, validator
 
 from models.document import AuditEventType, SecureSharePermission
 

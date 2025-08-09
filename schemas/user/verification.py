@@ -1,13 +1,13 @@
-from pydantic import BaseModel, EmailStr, Field, validator, root_validator
-from typing import Optional, List
+from typing import List, Optional
+
+from pydantic import BaseModel, EmailStr, Field, root_validator, validator
 
 # Import validation functions from dependencies (folder isolation maintained)
 from .dependencies import (
     UserRole,
-    validate_password_strength, 
-    validate_name_format, 
+    validate_password_strength,
     validate_phone_number,
-    validate_url_format
+    validate_url_format,
 )
 
 # Request Schemas

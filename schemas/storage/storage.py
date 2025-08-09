@@ -2,10 +2,11 @@
 
 """Phase 7: Document storage and export schemas for secure file management."""
 
-from typing import Optional, List, Dict, Any, Union
-from pydantic import BaseModel, Field, validator
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
+from pydantic import BaseModel, Field, validator
 
 
 class FileFormat(str, Enum):

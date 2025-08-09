@@ -10,15 +10,16 @@
 # - [x] Unit test all service methods under tests/
 
 from __future__ import annotations
+
 import asyncio
 import logging
 import uuid
-from builtins import set, len, List
+from builtins import List, len, set
 from datetime import datetime, timedelta
-from typing import Dict, Optional, Union, Set, Any, Protocol
-import time
-from jose import jwt, JWTError
+from typing import Any, Dict, Optional, Protocol, Set
 from uuid import UUID
+
+from jose import JWTError, jwt
 
 # Configure logging
 logger = logging.getLogger(__name__)

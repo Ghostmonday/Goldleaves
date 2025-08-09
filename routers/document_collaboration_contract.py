@@ -2,10 +2,12 @@
 
 """Phase 6: Document collaboration router contract and registration."""
 
-from fastapi import APIRouter
 from typing import List
-from .contract import RouterContract, RouterTags, register_router
+
+from fastapi import APIRouter
+
 from . import document_collaboration
+from .contract import RouterContract, RouterTags, register_router
 
 
 class DocumentCollaborationRouterContract(RouterContract):

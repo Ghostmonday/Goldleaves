@@ -14,20 +14,14 @@ Permission and role management schemas for authorization.
 Provides schemas for roles, permissions, and access control.
 """
 
-from pydantic import BaseModel, Field, validator
-from typing import List, Optional, Dict, Any, Set
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
 from uuid import UUID
 
-from ..dependencies import (
-    non_empty_string,
-    uuid_field,
-    timestamp_field,
-    validate_non_empty_string,
-    create_field_metadata,
-    PermissionLevel
-)
+from pydantic import BaseModel, Field, validator
+
+from ..dependencies import PermissionLevel, create_field_metadata, validate_non_empty_string
 
 
 class ResourceType(str, Enum):

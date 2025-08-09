@@ -1,13 +1,13 @@
 # models/client.py
 
-from sqlalchemy import Boolean, Column, Integer, String, DateTime, ForeignKey, Text, Enum, Index, JSON
-from sqlalchemy.orm import relationship
-from datetime import datetime
 from enum import Enum as PyEnum
 
+from sqlalchemy import JSON, Column, DateTime, Enum, ForeignKey, Index, Integer, String, Text
+from sqlalchemy.orm import relationship
+
 # Import from local dependencies
-from .dependencies import Base, utcnow
-from .user import TimestampMixin, SoftDeleteMixin
+from .dependencies import Base
+from .user import SoftDeleteMixin, TimestampMixin
 
 
 class ClientType(PyEnum):

@@ -4,23 +4,38 @@ FastAPI routes for form crowdsourcing system
 """
 
 from __future__ import annotations
-from typing import List, Dict, Any, Optional
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Query, status
+
+from typing import Optional
+
+from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile, status
 from fastapi.security import HTTPBearer
 from sqlalchemy.orm import Session
 
 from core.db.session import get_db
-from core.dependencies import get_current_user, get_current_admin_user
+from core.dependencies import get_current_admin_user, get_current_user
 from models.user import User
-from services.forms import FormService
 from schemas.forms import (
-    FormUploadRequest, FormUploadResponse, FormReviewRequest, FormReviewResponse,
-    FormFeedbackRequest, FormFeedbackResponse, ContributorRewardRequest,
-    FormDetailResponse, FormListItem, PaginatedFormResponse, FormStatsResponse,
-    ContributorRewardStatus, FeedbackStatsResponse, FormSearchRequest,
-    FormFilters, FormType, FormStatus, FormLanguage, ContributorType,
-    FeedbackType, Priority
+    ContributorRewardRequest,
+    ContributorRewardStatus,
+    ContributorType,
+    FeedbackStatsResponse,
+    FormDetailResponse,
+    FormFeedbackRequest,
+    FormFeedbackResponse,
+    FormFilters,
+    FormLanguage,
+    FormListItem,
+    FormReviewRequest,
+    FormReviewResponse,
+    FormSearchRequest,
+    FormStatsResponse,
+    FormStatus,
+    FormType,
+    FormUploadRequest,
+    FormUploadResponse,
+    PaginatedFormResponse,
 )
+from services.forms import FormService
 
 router = APIRouter(prefix="/api/v1/forms", tags=["forms"])
 security = HTTPBearer()
@@ -538,7 +553,8 @@ async def get_form_statistics(
     try:
         # TODO: Implement comprehensive statistics gathering
         from sqlalchemy import func
-        from models.forms import Form, ContributorStats, FormFeedback
+
+        from models.forms import ContributorStats, Form
         
         # Basic counts
         total_forms = db.query(func.count(Form.id)).scalar() or 0

@@ -9,12 +9,10 @@
 # - [x] Avoid direct usage of router/request objects
 # - [x] Unit test all service methods under tests/
 
-from builtins import getattr
-
-import os
 import logging
-from typing import Optional, Dict, Any, Protocol
-from datetime import timedelta
+import os
+from builtins import getattr
+from typing import Any, Dict, Optional, Protocol
 
 # Configure logging
 logger = logging.getLogger(__name__)

@@ -2,8 +2,8 @@
 """Logs prediction metrics and performance data."""
 
 import logging
-from typing import Dict, Any, List, Optional
-from datetime import datetime
+from typing import Any, Dict, List
+
 from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)

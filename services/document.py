@@ -1,28 +1,33 @@
 # services/document.py
 
-from typing import Optional, List, Dict, Any, Tuple
-from sqlalchemy.orm import Session, joinedload
-from sqlalchemy import and_, or_, func, desc, asc, text
 from datetime import datetime, timedelta
-import json
-import hashlib
-import secrets
-import string
-from decimal import Decimal
+from typing import Any, Dict, List, Optional, Tuple
 
-from models.document import (
-    Document, DocumentVersion, DocumentCorrection, DocumentShare,
-    PredictionStatus, DocumentType, DocumentStatus, DocumentConfidentiality
-)
-from models.user import User, Organization
+from sqlalchemy import and_, asc, desc, func, or_
+from sqlalchemy.orm import Session, joinedload
+
+from core.exceptions import NotFoundError, ValidationError
 from models.case import Case
 from models.client import Client
-from schemas.document import (
-    DocumentCreate, DocumentUpdate, DocumentFilter, DocumentStats,
-    DocumentPrediction, PredictionIngest, DocumentCorrection as CorrectionSchema,
-    DocumentBulkAction, DocumentBulkResult
+from models.document import (
+    Document,
+    DocumentConfidentiality,
+    DocumentCorrection,
+    DocumentStatus,
+    DocumentType,
+    DocumentVersion,
+    PredictionStatus,
 )
-from core.exceptions import NotFoundError, ValidationError, PermissionError
+from schemas.document import (
+    DocumentBulkAction,
+    DocumentBulkResult,
+    DocumentCreate,
+    DocumentFilter,
+    DocumentStats,
+    DocumentUpdate,
+    PredictionIngest,
+)
+from schemas.document import DocumentCorrection as CorrectionSchema
 
 
 class DocumentService:

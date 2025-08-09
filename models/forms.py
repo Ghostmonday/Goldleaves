@@ -4,15 +4,29 @@ Complete database models for forms, contributors, and rewards
 """
 
 from __future__ import annotations
-from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey, JSON, Float, Enum, Index, UniqueConstraint
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.hybrid import hybrid_property
+
 from datetime import datetime
 from enum import Enum as PyEnum
-from typing import Dict, List, Any, Optional
+
+from sqlalchemy import (
+    JSON,
+    Boolean,
+    Column,
+    DateTime,
+    Enum,
+    Float,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import relationship
 
 from core.db.base import Base
-from core.db.mixins import TimestampMixin, SoftDeleteMixin
+from core.db.mixins import SoftDeleteMixin, TimestampMixin
 
 
 class FormType(str, PyEnum):

@@ -12,17 +12,16 @@
 
 """Dependencies for routers agent - isolated workspace."""
 
-from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks, Request
-from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from jose import JWTError, jwt
-from typing import Generator, Optional, List
-from datetime import datetime, timedelta
-from uuid import UUID, uuid4
 import logging
+from datetime import datetime, timedelta
+from typing import Generator, List, Optional
+
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request, status
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker
+
 
 # Local configuration
 class Config:

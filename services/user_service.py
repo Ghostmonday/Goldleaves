@@ -3,8 +3,9 @@ Placeholder user service implementation.
 This will be implemented as part of the refactoring process.
 """
 
-from typing import List, Optional, Dict, Any
+from typing import Any, Dict, List, Optional
 from uuid import UUID
+
 from sqlalchemy.orm import Session
 
 from models.user import User

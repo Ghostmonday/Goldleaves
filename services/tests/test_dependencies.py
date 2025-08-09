@@ -1,25 +1,25 @@
 # tests/test_dependencies.py
 
-import pytest
 import asyncio
-from datetime import datetime, timedelta
 
+import pytest
 from dependencies import (
-    get_db_session,
+    cleanup_expired_revoked_tokens,
+    create_email_message,
+    create_token_payload,
+    generate_jti,
     get_audit_service,
     get_cache_service,
+    get_config_service,
+    get_db_session,
+    get_dependency_health_status,
     get_email_service,
     get_webhook_service,
-    get_config_service,
     is_token_revoked,
     revoke_token,
-    create_email_message,
     send_email_async,
-    generate_jti,
-    create_token_payload,
-    cleanup_expired_revoked_tokens,
-    get_dependency_health_status
 )
+
 
 class TestDependencies:
     """Test cases for dependency injection functions."""

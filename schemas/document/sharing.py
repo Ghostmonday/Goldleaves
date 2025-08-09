@@ -14,20 +14,12 @@ Document sharing and permissions schemas.
 Provides schemas for document sharing, access control, and collaboration permissions.
 """
 
-from pydantic import BaseModel, Field, validator
-from typing import List, Optional, Dict, Any, Set
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
+from typing import Dict, List, Optional
 from uuid import UUID
 
-from ..dependencies import (
-    non_empty_string,
-    uuid_field,
-    timestamp_field,
-    validate_non_empty_string,
-    create_field_metadata,
-    PermissionLevel
-)
+from pydantic import BaseModel, Field, validator
 
 
 class ShareType(str, Enum):

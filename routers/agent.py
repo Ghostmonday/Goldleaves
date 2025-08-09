@@ -12,18 +12,18 @@
 
 """Routers Agent - Complete isolated implementation."""
 
-from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks, Request
-from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from jose import JWTError, jwt
-from typing import Generator, Optional, List
-from datetime import datetime, timedelta
-from uuid import UUID, uuid4
-from pydantic import BaseModel
 import logging
+from datetime import datetime, timedelta
+from typing import Generator, List, Optional
+from uuid import uuid4
+
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request, status
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
+from pydantic import BaseModel
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker
+
 
 # Local dependencies (all in this file for complete isolation)
 class Config:

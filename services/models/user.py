@@ -1,13 +1,14 @@
 # models/user.py
 
-from sqlalchemy import Column, String, Boolean, DateTime, Integer, Text, Enum as SQLEnum, text
+import enum
+import logging
+from datetime import datetime
+from typing import Dict, Optional
+
+from sqlalchemy import Boolean, Column, DateTime, Integer, String, Text, create_engine, text
+from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
-from datetime import datetime
-from typing import List, Dict, Optional
-import logging
-import enum
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -364,4 +365,5 @@ async def init_mock_data():
 
 # Initialize mock data
 import asyncio
+
 asyncio.create_task(init_mock_data())

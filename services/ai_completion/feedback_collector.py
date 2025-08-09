@@ -1,11 +1,12 @@
 # services/ai_completion/feedback_collector.py
 """Collects and processes user feedback on AI predictions."""
 
-from builtins import len
 import logging
-from typing import Dict, Any, List, Optional
+from builtins import len
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
 from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)

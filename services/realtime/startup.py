@@ -8,11 +8,11 @@ import asyncio
 import logging
 from typing import Optional
 
-from .connection_manager import connection_manager
+from .activity_tracker import activity_tracker
 from .broadcaster import broadcaster
+from .connection_manager import connection_manager
 from .presence_tracker import presence_tracker
 from .session_store import session_store
-from .activity_tracker import activity_tracker
 
 logger = logging.getLogger(__name__)
 

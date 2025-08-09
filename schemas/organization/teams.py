@@ -14,21 +14,14 @@ Team management schemas for organizing members.
 Provides schemas for creating, managing, and organizing teams within organizations.
 """
 
-from pydantic import BaseModel, Field, validator
-from typing import Optional, List, Dict, Any
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
 from uuid import UUID
 
-from ..dependencies import (
-    non_empty_string,
-    uuid_field,
-    timestamp_field,
-    validate_non_empty_string,
-    validate_slug,
-    create_field_metadata,
-    Status
-)
+from pydantic import BaseModel, Field, validator
+
+from ..dependencies import validate_non_empty_string, validate_slug
 
 
 class TeamRole(str, Enum):

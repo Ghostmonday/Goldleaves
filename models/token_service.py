@@ -1,10 +1,11 @@
 # token_service.py
 
-import jwt
+import os
 import secrets
 from datetime import datetime, timedelta
 from typing import Optional
-import os
+
+import jwt
 
 # ✅ Phase 3: Email verification token generation and validation - COMPLETED
 

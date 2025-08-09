@@ -12,17 +12,18 @@
 """Services Agent - Complete implementation with full dependency injection architecture."""
 
 from __future__ import annotations
-import logging
-from builtins import set, getattr, len, print
-import uuid
-import time
-import smtplib
+
 import asyncio
+import logging
+import smtplib
+import uuid
+from builtins import getattr, len, print, set
 from datetime import datetime, timedelta
-from typing import Dict, Optional, Union, Set, List, Any, Protocol
-from jose import jwt, JWTError
-from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from typing import Any, Dict, List, Optional, Protocol, Set
+
+from jose import JWTError, jwt
 
 # Configure logging
 logger = logging.getLogger(__name__)

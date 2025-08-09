@@ -3,10 +3,12 @@
 
 """Pydantic schemas for request/response validation."""
 
-from pydantic import BaseModel, EmailStr, validator, Field
-from typing import Optional, List, Dict, Any, Union
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
+from pydantic import BaseModel, EmailStr, Field, validator
+
 
 # ===== USER SCHEMAS =====
 class UserRole(str, Enum):

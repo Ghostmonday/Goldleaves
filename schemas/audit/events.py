@@ -14,13 +14,12 @@ Audit events schemas.
 Provides schemas for system events and activity tracking.
 """
 
-from pydantic import BaseModel, Field
-from typing import Optional, Dict, Any, List
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
 from uuid import UUID
 
-from ..dependencies import create_field_metadata
+from pydantic import BaseModel, Field
 
 
 class EventType(str, Enum):

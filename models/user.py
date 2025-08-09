@@ -13,14 +13,16 @@
 # models/user.py
 
 from __future__ import annotations
-from sqlalchemy import Boolean, Column, Integer, String, DateTime, ForeignKey, CheckConstraint, Enum, Index
-from sqlalchemy.orm import relationship
-from datetime import datetime
-from enum import Enum as PyEnum
+
 from builtins import property
+from enum import Enum as PyEnum
+
+from sqlalchemy import Boolean, Column, DateTime, Enum, ForeignKey, Index, Integer, String
+from sqlalchemy.orm import relationship
 
 # Import from local dependencies
-from .dependencies import Base, utcnow, create_password_constraint, create_email_constraint
+from .dependencies import Base, create_email_constraint, create_password_constraint, utcnow
+
 
 # Phase 4: Define enums for schema alignment
 class OrganizationPlan(PyEnum):

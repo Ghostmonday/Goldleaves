@@ -14,20 +14,14 @@ Document comments and collaboration schemas.
 Provides schemas for document comments, threads, and collaborative features.
 """
 
-from pydantic import BaseModel, Field, validator
-from typing import List, Optional, Dict, Any
 from datetime import datetime
 from enum import Enum
+from typing import Dict, List, Optional
 from uuid import UUID
 
-from ..dependencies import (
-    non_empty_string,
-    uuid_field,
-    timestamp_field,
-    validate_non_empty_string,
-    create_field_metadata,
-    Status
-)
+from pydantic import BaseModel, Field, validator
+
+from ..dependencies import validate_non_empty_string
 
 
 class CommentType(str, Enum):

@@ -1,16 +1,13 @@
 # core/email_utils.py
 
+import asyncio
 import logging
 import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from typing import Optional
-import asyncio
 from datetime import timedelta
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
-from token_service import create_email_token
 from agent import create_email_verification_token
-from config import settings
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -36,7 +33,6 @@ async def send_verification_email(user_id: str, email: str, expires_delta: timed
     """
     try:
         # Create email verification token
-        from uuid import UUID
         token = await create_email_verification_token(
             user_id=user_id,
             email=email,

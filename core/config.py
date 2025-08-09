@@ -1,7 +1,8 @@
+from builtins import all, property
+
+from pydantic import SecretStr
 from pydantic_settings import BaseSettings
-from builtins import property, all
-from pydantic import SecretStr, field_validator
-from typing import List
+
 
 class Settings(BaseSettings):
     app_name: str = "Gold Leaves"

@@ -14,20 +14,14 @@ Webhook configuration schemas for managing webhook endpoints and settings.
 Provides schemas for creating, updating, and managing webhooks.
 """
 
-from pydantic import BaseModel, Field, validator
-from typing import List, Optional, Dict, Any
 from datetime import datetime
 from enum import Enum
+from typing import Dict, List, Optional
 from uuid import UUID
 
-from ..dependencies import (
-    non_empty_string,
-    uuid_field,
-    timestamp_field,
-    validate_url,
-    create_field_metadata,
-    Status
-)
+from pydantic import BaseModel, Field, validator
+
+from ..dependencies import validate_url
 
 
 class WebhookEvent(str, Enum):

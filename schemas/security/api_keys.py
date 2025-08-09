@@ -14,20 +14,14 @@ API key management schemas for authentication and authorization.
 Provides schemas for creating, managing, and validating API keys.
 """
 
-from pydantic import BaseModel, Field, SecretStr, validator
-from typing import List, Optional, Dict, Any
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
+from typing import List, Optional
 from uuid import UUID
 
-from ..dependencies import (
-    non_empty_string,
-    uuid_field,
-    timestamp_field,
-    validate_non_empty_string,
-    create_field_metadata,
-    Status
-)
+from pydantic import BaseModel, Field, SecretStr, validator
+
+from ..dependencies import create_field_metadata, validate_non_empty_string
 
 
 class APIKeyScope(str, Enum):

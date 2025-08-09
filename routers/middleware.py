@@ -6,17 +6,18 @@
 import time
 import uuid
 from datetime import datetime
-from typing import Dict, List, Optional, Callable, Any
+from typing import Any, Callable, Dict, List, Optional
+
+from fastapi import status
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from starlette.responses import Response, JSONResponse
-from fastapi import HTTPException, status
+from starlette.responses import JSONResponse, Response
 
-from .contract import MiddlewareContract
-from .services import AuditService, SecurityService, OrganizationService
-from .schemas import UserRole
-from .rate_limiter import get_rate_limiter, RateLimitResult
 from core.security import verify_access_token
+
+from .rate_limiter import RateLimitResult, get_rate_limiter
+from .services import AuditService, OrganizationService, SecurityService
+
 
 class RequestContextMiddleware(BaseHTTPMiddleware):
     """Middleware for adding request context and metadata."""

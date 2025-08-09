@@ -5,15 +5,16 @@ Tracks which users are online and where they are active.
 Provides room-based presence information.
 """
 
-import json
 import asyncio
+import json
 import logging
-from typing import Dict, Any, Optional, List, Set
 from datetime import datetime, timedelta
 from enum import Enum
+from typing import Any, Dict, List, Optional, Set
+
 import redis.asyncio as redis
 
-from .connection_manager import connection_manager, MessageType
+from .connection_manager import MessageType, connection_manager
 
 logger = logging.getLogger(__name__)
 

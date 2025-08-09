@@ -1,21 +1,26 @@
 # routers/client.py
 
 from typing import List, Optional
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from core.db.session import get_db
 from core.dependencies import get_current_active_user, get_current_organization_id
+from core.exceptions import NotFoundError, ValidationError
 from models.user import User
-from services.client import ClientService
-from schemas.client.core import (
-    ClientCreate, ClientUpdate, ClientResponse, ClientFilter, 
-    ClientStats, ClientBulkAction, ClientBulkResult
-)
 from schemas.base.pagination import PaginatedResponse
 from schemas.base.responses import SuccessResponse
-from core.exceptions import NotFoundError, ValidationError
-
+from schemas.client.core import (
+    ClientBulkAction,
+    ClientBulkResult,
+    ClientCreate,
+    ClientFilter,
+    ClientResponse,
+    ClientStats,
+    ClientUpdate,
+)
+from services.client import ClientService
 
 router = APIRouter(
     prefix="/clients",
@@ -42,7 +47,7 @@ async def create_client(
         return ClientResponse.from_orm(client)
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to create client")
 
 
@@ -179,7 +184,7 @@ async def update_client(
         raise HTTPException(status_code=404, detail="Client not found")
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to update client")
 
 
@@ -206,7 +211,7 @@ async def delete_client(
         raise HTTPException(status_code=404, detail="Client not found")
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to delete client")
 
 
@@ -227,7 +232,7 @@ async def bulk_update_clients(
             updated_by_id=current_user.id
         )
         return result
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to perform bulk operation")
 
 
@@ -253,5 +258,5 @@ async def get_client_cases(
         
     except NotFoundError:
         raise HTTPException(status_code=404, detail="Client not found")
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to get client cases")

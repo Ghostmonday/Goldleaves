@@ -4,14 +4,14 @@ WebSocket connection manager for real-time communication.
 Handles WebSocket connections, disconnections, and message broadcasting.
 """
 
-from typing import Dict, List, Set, Optional, Any
-from fastapi import WebSocket, WebSocketDisconnect
-from datetime import datetime
-import json
 import asyncio
 import logging
+from builtins import len, list, set
+from datetime import datetime
 from enum import Enum
-from builtins import set, list, len
+from typing import Any, Dict, List, Optional, Set
+
+from fastapi import WebSocket
 
 logger = logging.getLogger(__name__)
 

@@ -1,9 +1,11 @@
 # schemas.py
 
-from pydantic import BaseModel, Field, EmailStr, validator
-from typing import Optional, List
 from datetime import datetime
 from enum import Enum
+from typing import List, Optional
+
+from pydantic import BaseModel, Field, validator
+
 
 class TokenResponse(BaseModel):
     """Schema for token response."""

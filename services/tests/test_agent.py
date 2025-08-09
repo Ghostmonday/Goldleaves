@@ -1,28 +1,24 @@
 # tests/test_agent.py
 
-import pytest
 import asyncio
-from datetime import datetime, timedelta
-from uuid import uuid4
 
+import pytest
 from agent import (
-    create_email_verification_token,
-    verify_email_verification_token,
+    TokenInvalidError,
     create_access_token,
+    create_email_verification_token,
     create_refresh_token,
+    get_email_functions_async,
+    get_services_async,
+    get_token_functions_async,
+    health_check_services,
     is_token_revoked,
     revoke_token,
     send_verification_email,
     send_welcome_email,
-    get_services_async,
-    get_token_functions_async,
-    get_email_functions_async,
-    health_check_services,
-    TokenError,
-    TokenExpiredError,
-    TokenInvalidError,
-    TokenRevokedError
+    verify_email_verification_token,
 )
+
 
 class TestAgent:
     """Test cases for agent service functions."""

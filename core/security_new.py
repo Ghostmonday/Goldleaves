@@ -3,16 +3,14 @@ Security utilities for authentication and authorization.
 Provides password hashing, JWT token management, and security helpers.
 """
 
-from datetime import datetime, timedelta
-from typing import Any, Union, Optional
-import secrets
 import hashlib
-
-from jose import JWTError, jwt
-from passlib.context import CryptContext
+import secrets
+from datetime import datetime, timedelta
+from typing import Any, Optional
 
 from app.config import settings
-
+from jose import JWTError, jwt
+from passlib.context import CryptContext
 
 # Password hashing context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

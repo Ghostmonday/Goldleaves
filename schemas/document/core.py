@@ -1,14 +1,11 @@
 # schemas/document/core.py
 
-from typing import Optional, List, Dict, Any
-from pydantic import BaseModel, Field, validator
-from datetime import datetime, date
-from decimal import Decimal
-from enum import Enum
+from datetime import datetime
+from typing import Any, Dict, List, Optional
 
-from models.document import (
-    PredictionStatus, DocumentType, DocumentStatus, DocumentConfidentiality
-)
+from pydantic import BaseModel, Field, validator
+
+from models.document import DocumentConfidentiality, DocumentStatus, DocumentType, PredictionStatus
 
 
 class AddressSchema(BaseModel):

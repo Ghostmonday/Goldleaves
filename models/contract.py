@@ -7,9 +7,8 @@ This file defines the contract interface for the models agent,
 ensuring compliance with the Goldleaves architecture.
 """
 
-from typing import Dict, List, Any
-from enum import Enum
 from builtins import hasattr
+from typing import Any, Dict, List
 
 # Contract keys for model validation
 MODEL_CONTRACTS = {

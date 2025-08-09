@@ -2,31 +2,37 @@
 
 """Phase 7: Document storage router for secure file management, export, and court packaging."""
 
-import os
 import mimetypes
-from typing import List, Optional, Dict, Any
-from fastapi import APIRouter, Depends, HTTPException, Request, Query, UploadFile, File, BackgroundTasks
-from fastapi.responses import FileResponse, StreamingResponse
+import os
+from datetime import datetime
+from typing import List, Optional
+
+from fastapi import APIRouter, BackgroundTasks, Depends, File, HTTPException, Query, UploadFile
+from fastapi.responses import FileResponse
 from fastapi.security import HTTPBearer
 from sqlalchemy.orm import Session
-from datetime import datetime
-from io import BytesIO
 
 from core.db.session import get_db
 from core.dependencies import get_current_user
-from core.security import verify_api_key, require_permission
-from models.user import User
-from models.document import AuditEventType
-from services.document_storage import DocumentStorageService
-from schemas.storage.storage import (
-    DocumentUploadRequest, DocumentExportRequest, FileUploadResponse,
-    FileRetrievalResponse, ExportResponse, StorageStats, FileFormat
-)
-from schemas.storage.court_packaging import (
-    CourtPackagingRequest, CourtPackageResponse, JurisdictionType
-)
-from core.exceptions import NotFoundError, ValidationError, PermissionError
+from core.exceptions import NotFoundError, PermissionError, ValidationError
 from core.logging import get_logger
+from core.security import require_permission
+from models.user import User
+from schemas.storage.court_packaging import (
+    CourtPackageResponse,
+    CourtPackagingRequest,
+    JurisdictionType,
+)
+from schemas.storage.storage import (
+    DocumentExportRequest,
+    DocumentUploadRequest,
+    ExportResponse,
+    FileFormat,
+    FileRetrievalResponse,
+    FileUploadResponse,
+    StorageStats,
+)
+from services.document_storage import DocumentStorageService
 
 logger = get_logger(__name__)
 router = APIRouter(prefix="/documents", tags=["Document Storage"])

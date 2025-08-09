@@ -14,20 +14,12 @@ Document bulk operations schemas.
 Provides schemas for bulk operations on multiple documents.
 """
 
-from pydantic import BaseModel, Field, validator
-from typing import List, Optional, Dict, Any, Union, Literal
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Literal, Optional
 from uuid import UUID
 
-from ..dependencies import (
-    non_empty_string,
-    uuid_field,
-    timestamp_field,
-    validate_non_empty_string,
-    create_field_metadata,
-    Status
-)
+from pydantic import BaseModel, Field, validator
 
 
 class BulkAction(str, Enum):

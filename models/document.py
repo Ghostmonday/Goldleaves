@@ -1,15 +1,26 @@
 # models/document.py
 
-from sqlalchemy import Column, Integer, String, Text, DateTime, Float, Boolean, ForeignKey, Enum as SQLEnum, JSON, Index
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-from datetime import datetime, timedelta
 import enum
 import secrets
 import string
-from typing import Dict, Any, Optional, List
+from datetime import datetime
 
-from models.user import Base, TimestampMixin, SoftDeleteMixin
+from sqlalchemy import (
+    JSON,
+    Boolean,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
+)
+from sqlalchemy import Enum as SQLEnum
+from sqlalchemy.orm import relationship
+
+from models.user import Base, SoftDeleteMixin, TimestampMixin
 
 
 class PredictionStatus(enum.Enum):

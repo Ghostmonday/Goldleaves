@@ -4,10 +4,12 @@ Complete Pydantic schemas for API requests/responses
 """
 
 from __future__ import annotations
-from typing import Optional, List, Dict, Any, Union
-from pydantic import BaseModel, Field, validator, constr, EmailStr
+
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
+from pydantic import BaseModel, EmailStr, Field, validator
 
 
 # Enums matching the models

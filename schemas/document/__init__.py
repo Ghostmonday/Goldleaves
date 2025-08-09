@@ -1,10 +1,10 @@
 # schemas/document/__init__.py
 
-from .core import *
-from .prediction import *
-from .correction import *
 from .audit import *
 from .collaboration import *
+from .core import *
+from .correction import *
+from .prediction import *
 
 __all__ = [
     # Core document schemas
@@ -69,74 +69,74 @@ __all__ = [
 # Bulk operations schemas
 from .bulk import (
     BulkAction,
-    BulkOperationStatus,
-    BulkDocumentRequest,
-    BulkMoveRequest,
     BulkCopyRequest,
-    BulkMetadataUpdate,
-    BulkUpdateMetadataRequest,
-    BulkPermissionRequest,
-    BulkTagRequest,
+    BulkDocumentRequest,
     BulkExportRequest,
+    BulkMetadataUpdate,
+    BulkMoveRequest,
+    BulkOperationCancel,
+    BulkOperationListParams,
     BulkOperationResponse,
     BulkOperationResult,
-    BulkOperationListParams,
-    BulkOperationCancel,
-    BulkOperationStats
+    BulkOperationStats,
+    BulkOperationStatus,
+    BulkPermissionRequest,
+    BulkTagRequest,
+    BulkUpdateMetadataRequest,
 )
 
 # Comments schemas
 from .comments import (
-    CommentType,
-    CommentStatus,
-    CommentReaction,
+    BulkCommentAction,
     CommentAnchor,
     CommentCreate,
-    CommentUpdate,
-    CommentResponse,
-    CommentThread,
     CommentListParams,
-    CommentReactionRequest,
     CommentModerationRequest,
+    CommentReaction,
+    CommentReactionRequest,
+    CommentResponse,
     CommentStats,
-    BulkCommentAction
+    CommentStatus,
+    CommentThread,
+    CommentType,
+    CommentUpdate,
 )
 
 # Sharing schemas
 from .sharing import (
-    ShareType,
     AccessLevel,
-    ShareStatus,
-    LinkAccess,
-    DocumentShareCreate,
-    DocumentShareUpdate,
-    DocumentShareResponse,
-    ShareLinkAccessRequest,
+    BulkShareAction,
     DocumentPermissionCheck,
     DocumentPermissionResponse,
+    DocumentShareCreate,
+    DocumentShareResponse,
+    DocumentShareUpdate,
+    LinkAccess,
+    ShareLinkAccessRequest,
     ShareListParams,
     ShareStats,
-    BulkShareAction
+    ShareStatus,
+    ShareType,
 )
 
 # Versioning schemas
 from .versioning import (
-    VersionType,
-    VersionStatus,
+    BulkVersionAction,
     ChangeType,
-    MergeConflictType,
     DocumentVersionCreate,
-    DocumentVersionUpdate,
     DocumentVersionResponse,
-    VersionComparisonRequest,
-    VersionDiff,
-    VersionComparisonResponse,
-    VersionRestoreRequest,
-    VersionMergeRequest,
+    DocumentVersionUpdate,
     MergeConflict,
+    MergeConflictType,
+    VersionComparisonRequest,
+    VersionComparisonResponse,
+    VersionDiff,
     VersionListParams,
+    VersionMergeRequest,
+    VersionRestoreRequest,
     VersionStats,
-    BulkVersionAction
+    VersionStatus,
+    VersionType,
 )
 
 # Export all schemas for Phase 4 contract compliance
