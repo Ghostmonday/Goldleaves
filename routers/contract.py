@@ -26,6 +26,7 @@ class RouterTags(str, Enum):
     STORAGE = "storage"
     COURT_PACKAGING = "court-packaging"
     FORMS = "forms"
+    BILLING = "billing"
 
 class HTTPStatus(int, Enum):
     """Standard HTTP status codes."""
