@@ -17,6 +17,12 @@ class Settings(BaseSettings):
     allowed_origins: str = "http://localhost:3000"
     verification_token_expire_hours: int = 24
     reset_token_expire_hours: int = 1
+    
+    # Stripe configuration
+    stripe_secret_key: SecretStr = SecretStr("")
+    stripe_webhook_secret: SecretStr = SecretStr("")
+    stripe_price_pro: str = ""
+    stripe_price_team: str = ""
 
     @property
     def is_development(self):
