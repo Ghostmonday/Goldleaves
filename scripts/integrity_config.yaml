@@ -1,0 +1,189 @@
+# Goldleaves Integrity Check Configuration
+# Configuration for the full-scope integrity scan
+
+# Authentication and authorization settings
+auth:
+  # Public endpoints that don't require authentication
+  public_endpoints:
+    - "routers/main.py"  # Contains health/docs endpoints
+    - "tests/"           # Test files can have unauthed routes
+
+# Frontend configuration (if present)
+frontend:
+  # Minimum test coverage percentage required
+  coverage_baseline: 80
+  
+  # Build warning tolerance
+  allow_build_warnings: false
+  
+  # Lint configuration
+  lint_severity: "error"  # error, warning, info
+
+# Architecture conventions for file organization
+architecture:
+  # Backend Python files
+  backend_models:
+    path: "models/"
+    pattern: ".*\\.py$"
+    description: "Database models"
+  
+  backend_routers:
+    path: "routers/"
+    pattern: ".*\\.py$"
+    description: "API route definitions"
+  
+  backend_services:
+    path: "services/"
+    pattern: ".*\\.py$"
+    description: "Business logic services"
+  
+  backend_schemas:
+    path: "schemas/"
+    pattern: ".*\\.py$"
+    description: "Pydantic schemas"
+  
+  backend_core:
+    path: "core/"
+    pattern: ".*\\.py$"
+    description: "Core utilities and configuration"
+  
+  # Test files
+  tests:
+    path: "tests/"
+    pattern: "test_.*\\.py$"
+    description: "Test modules"
+  
+  # Frontend files (if present)
+  frontend_components:
+    path: "src/components/"
+    pattern: ".*\\.(js|ts|jsx|tsx)$"
+    description: "React components"
+  
+  frontend_pages:
+    path: "pages/"
+    pattern: ".*\\.(js|ts|jsx|tsx)$"
+    description: "Page components"
+  
+  frontend_hooks:
+    path: "src/hooks/"
+    pattern: "use.*\\.(js|ts)$"
+    description: "React hooks"
+  
+  # Configuration and documentation
+  config_files:
+    paths: ["config/", "scripts/", "alembic/"]
+    patterns: [".*\\.(yaml|yml|json|py|ini)$"]
+    description: "Configuration and setup files"
+
+# Environment variable checking
+environment:
+  # Variables that are expected to be documented
+  required_documentation:
+    - ".env.example"
+    - "README.md"
+  
+  # Environment variables that are allowed to be undocumented (temporary/debug vars)
+  documentation_exceptions:
+    - "DEBUG"
+    - "PYTHONPATH"
+    - "PATH"
+
+# Dependency management
+dependencies:
+  # Python packages that are allowed to appear unused
+  # (typically dev tools or optional dependencies)
+  unused_allowlist:
+    - "pytest"
+    - "black" 
+    - "isort"
+    - "mypy"
+    - "flake8"
+    - "ruff"
+    - "pytest-cov"
+    - "httpx"  # Often used only in tests
+    - "python-dotenv"  # May be imported implicitly
+  
+  # Critical packages that must be used if present
+  critical_packages:
+    - "fastapi"
+    - "sqlalchemy"
+    - "pydantic"
+
+# Linting and code quality
+linting:
+  # Tools to run (in order of preference)
+  tools:
+    - "ruff"      # Modern, fast Python linter
+    - "flake8"    # Traditional Python linter
+    - "black"     # Code formatter
+    - "isort"     # Import sorter
+  
+  # Fail on linting issues?
+  fail_on_issues: true
+  
+  # Maximum issues allowed before failing
+  max_issues: 0
+
+# Route validation
+routes:
+  # Patterns that indicate authentication is required
+  auth_patterns:
+    - "get_current_user"
+    - "require_auth"
+    - "Depends\\("
+    - "tenant"
+    - "organization"
+    - "current_user"
+  
+  # Patterns that indicate public endpoints
+  public_patterns:
+    - "/health"
+    - "/docs"
+    - "/openapi"
+    - "/redoc"
+    - "/login"
+    - "/register"
+    - "/auth/login"
+    - "/auth/register"
+    - "public=True"
+  
+  # Required response schema patterns
+  response_schema_patterns:
+    - "response_model="
+    - "-> .*Schema"
+    - "Response\\["
+
+# Git and versioning
+git:
+  # How far back to check for new files (hours)
+  new_file_window_hours: 48
+  
+  # Branches to include in checks
+  include_branches:
+    - "main"
+    - "develop"
+    - "feature/*"
+    - "fix/*"
+    - "infra/*"
+
+# Performance and timeouts
+performance:
+  # Maximum time for individual checks (seconds)
+  check_timeout: 120
+  
+  # Maximum time for build operations (seconds)  
+  build_timeout: 300
+  
+  # Maximum time for test runs (seconds)
+  test_timeout: 300
+
+# Reporting
+reporting:
+  # Include detailed error output?
+  include_details: true
+  
+  # Maximum number of details to show per check
+  max_details_per_check: 10
+  
+  # Include timing information?
+  include_timing: true
