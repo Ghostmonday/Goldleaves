@@ -9,7 +9,6 @@ from typing import List, Optional, Union, Callable, Any
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from core.db.session import get_db
 from core.dependencies import get_current_active_user
 from models.entitlement import Entitlement, PlanType
 from models.user import User
@@ -38,7 +37,8 @@ class EntitlementService:
             Active entitlement or None
         """
         if not db:
-            db = next(get_db())
+            from core.db.session import get_db as get_db_session
+            db = next(get_db_session())
         
         # If tenant_id is provided, look for organization-level entitlement first
         if tenant_id:
@@ -206,7 +206,8 @@ def requires_plan(
                 )
             
             # Check access
-            db = kwargs.get('db') or next(get_db())
+            from core.db.session import get_db as get_db_session
+            db = kwargs.get('db') or next(get_db_session())
             has_access = EntitlementService.check_plan_access(
                 user=user,
                 required_plans=required_plans,
@@ -261,7 +262,8 @@ def requires_feature(feature_name: str, tenant_id_param: Optional[str] = None) -
                 tenant_id = kwargs[tenant_id_param]
             
             # Check feature access
-            db = kwargs.get('db') or next(get_db())
+            from core.db.session import get_db as get_db_session
+            db = kwargs.get('db') or next(get_db_session())
             has_access = EntitlementService.check_feature_access(
                 user=user,
                 feature_name=feature_name,

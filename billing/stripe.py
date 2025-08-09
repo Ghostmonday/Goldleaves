@@ -14,7 +14,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from core.config import settings
-from core.db.session import get_db
+from core.db.session import get_db as get_database_session
 from models.entitlement import Entitlement, PlanType
 from models.user import User, Organization
 
@@ -51,7 +51,7 @@ class StripeService:
             Checkout session URL
         """
         if not db:
-            db = next(get_db())
+            db = next(get_database_session())
         
         try:
             # Validate plan
@@ -206,7 +206,7 @@ class StripeService:
             True if event was processed successfully
         """
         if not db:
-            db = next(get_db())
+            db = next(get_database_session())
         
         event_id = event['id']
         event_type = event['type']

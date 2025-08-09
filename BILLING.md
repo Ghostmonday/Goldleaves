@@ -316,6 +316,48 @@ Monitor these aspects in production:
 4. Test subscription upgrade/downgrade flows
 5. Validate feature limits and quotas
 
+## Quick Start Example
+
+Here's a complete example of how to integrate billing into your FastAPI application:
+
+```python
+from fastapi import FastAPI, Depends, HTTPException
+from core.entitlements import requires_plan, requires_feature, EntitlementService
+from routers.billing import router as billing_router
+
+app = FastAPI()
+app.include_router(billing_router)
+
+# Protect endpoint with plan requirement
+@app.get("/premium-feature")
+@requires_plan("PRO", "TEAM")
+def premium_feature():
+    return {"data": "premium_content"}
+
+# Protect endpoint with feature requirement  
+@app.get("/integrations")
+@requires_feature("custom_integrations")
+def custom_integrations():
+    return {"integrations": ["slack", "teams"]}
+
+# Manual usage checking
+@app.post("/api/process")
+def process_data(
+    data: dict,
+    user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
+):
+    # Check API limits
+    limit = EntitlementService.get_feature_limit(
+        user, "api_requests_per_month", db=db
+    )
+    
+    # Your processing logic here
+    return {"processed": True, "limit": limit}
+```
+
+See `billing_example.py` for a complete working example.
+
 ## Architecture Notes
 
 ### Database Design
