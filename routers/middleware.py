@@ -355,6 +355,83 @@ class CORSMiddleware(BaseHTTPMiddleware):
         if self.allow_credentials and origin:
             response.headers["Access-Control-Allow-Credentials"] = "true"
 
+class UsageMiddleware(BaseHTTPMiddleware):
+    """Middleware for tracking usage and enforcing plan limits."""
+    
+    def __init__(self, app):
+        super().__init__(app)
+    
+    async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        """Track usage and enforce plan limits."""
+        # Skip usage tracking for certain paths
+        if self._should_skip_usage_tracking(request):
+            return await call_next(request)
+        
+        # Get tenant ID from request state or headers
+        tenant_id = self._get_tenant_id(request)
+        if not tenant_id:
+            # If no tenant ID, skip usage tracking (might be unauthenticated request)
+            return await call_next(request)
+        
+        # Import here to avoid circular imports
+        from core.entitlements import get_usage_info, increment_usage
+        
+        # Get current usage info before incrementing
+        usage_info = get_usage_info(tenant_id)
+        
+        # Check hard cap before processing request
+        if usage_info.current_usage >= usage_info.hard_cap:
+            return JSONResponse(
+                status_code=429,
+                content={"error": "plan_limit_exceeded"}
+            )
+        
+        # Increment usage counter
+        new_usage = increment_usage(tenant_id, usage_info.unit)
+        
+        # Process the request
+        response = await call_next(request)
+        
+        # Check if we've hit the soft cap after processing
+        if new_usage >= usage_info.soft_cap:
+            response.headers["X-Plan-SoftCap"] = "true"
+        
+        return response
+    
+    def _should_skip_usage_tracking(self, request: Request) -> bool:
+        """Determine if usage tracking should be skipped for this request."""
+        skip_paths = [
+            "/health", "/metrics", "/docs", "/openapi.json", 
+            "/auth/login", "/auth/register", "/auth/refresh",
+            "/billing"  # Skip billing endpoints to avoid counting them
+        ]
+        return any(request.url.path.startswith(path) for path in skip_paths)
+    
+    def _get_tenant_id(self, request: Request) -> Optional[str]:
+        """Extract tenant ID from request state or headers."""
+        # Prefer request.state.tenant_id
+        tenant_id = getattr(request.state, "tenant_id", None)
+        if tenant_id:
+            return tenant_id
+        
+        # Fallback to X-Tenant-ID header
+        tenant_id = request.headers.get("X-Tenant-ID")
+        if tenant_id:
+            # Store in request state for later use
+            request.state.tenant_id = tenant_id
+            return tenant_id
+        
+        # Fallback: try to derive from user_id if available
+        user_id = getattr(request.state, "user_id", None)
+        if user_id:
+            # In a real implementation, you'd query the user's tenant
+            # For now, use user_id as tenant_id
+            tenant_id = f"tenant_{user_id}"
+            request.state.tenant_id = tenant_id
+            return tenant_id
+        
+        return None
+
 # Middleware registry for easy configuration
 MIDDLEWARE_REGISTRY = {
     "request_context": RequestContextMiddleware,
@@ -363,7 +440,8 @@ MIDDLEWARE_REGISTRY = {
     "audit": AuditMiddleware,
     "organization": OrganizationContextMiddleware,
     "authentication": AuthenticationMiddleware,
-    "cors": CORSMiddleware
+    "cors": CORSMiddleware,
+    "usage": UsageMiddleware
 }
 
 def get_middleware_stack(app, config: Dict[str, Any] = None) -> List[BaseHTTPMiddleware]:
@@ -379,6 +457,7 @@ def get_middleware_stack(app, config: Dict[str, Any] = None) -> List[BaseHTTPMid
         "rate_limit",
         "authentication",
         "organization",
+        "usage",  # Add usage middleware after authentication and organization
         "audit"
     ]
     
@@ -398,5 +477,5 @@ def get_middleware_stack(app, config: Dict[str, Any] = None) -> List[BaseHTTPMid
 __all__ = [
     "RequestContextMiddleware", "RateLimitMiddleware", "SecurityMiddleware",
     "AuditMiddleware", "OrganizationContextMiddleware", "AuthenticationMiddleware",
-    "CORSMiddleware", "MIDDLEWARE_REGISTRY", "get_middleware_stack"
+    "CORSMiddleware", "UsageMiddleware", "MIDDLEWARE_REGISTRY", "get_middleware_stack"
 ]

@@ -53,12 +53,16 @@ def create_app(config: Dict[str, Any] = None) -> FastAPI:
     # This avoids the double app parameter issue
     from .middleware import (
         RequestContextMiddleware, RateLimitMiddleware, SecurityMiddleware,
-        AuditMiddleware, OrganizationContextMiddleware, AuthenticationMiddleware
+        AuditMiddleware, OrganizationContextMiddleware, AuthenticationMiddleware,
+        UsageMiddleware
     )
     
     # Add middleware in reverse order (FastAPI adds them as a stack)
     if middleware_config.get("audit", {}).get("enabled", True):
         app.add_middleware(AuditMiddleware)
+    
+    if middleware_config.get("usage", {}).get("enabled", True):
+        app.add_middleware(UsageMiddleware)
     
     if middleware_config.get("organization", {}).get("enabled", True):
         app.add_middleware(OrganizationContextMiddleware)
@@ -164,6 +168,7 @@ def create_development_app() -> FastAPI:
             "rate_limit": {"enabled": True, "limiter_name": "api"},
             "security": {"enabled": True},
             "audit": {"enabled": True},
+            "usage": {"enabled": True},
             "authentication": {
                 "enabled": True,
                 "public_paths": ["/health", "/stats", "/metrics", "/metrics/prometheus", "/docs", "/openapi.json", "/auth/login", "/auth/register"]
@@ -185,6 +190,7 @@ def create_production_app() -> FastAPI:
             "rate_limit": {"enabled": True, "limiter_name": "api"},
             "security": {"enabled": True},
             "audit": {"enabled": True},
+            "usage": {"enabled": True},
             "authentication": {
                 "enabled": True,
                 "public_paths": ["/health", "/stats", "/metrics", "/metrics/prometheus"]

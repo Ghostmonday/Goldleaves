@@ -4,8 +4,9 @@
 
 # Import router contracts to register them
 from . import auth
-from . import agent
-from . import document_collaboration_contract
+# from . import agent  # Comment out temporarily due to import issues
+# from . import document_collaboration_contract  # Comment out temporarily
+from . import billing
 
 # Import core contract utilities
 from .contract import (

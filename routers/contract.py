@@ -26,6 +26,7 @@ class RouterTags(str, Enum):
     STORAGE = "storage"
     COURT_PACKAGING = "court-packaging"
     FORMS = "forms"
+    BILLING = "billing"
 
 class HTTPStatus(int, Enum):
     """Standard HTTP status codes."""
@@ -270,3 +271,25 @@ def _register_forms_router():
 
 # Auto-register forms on import
 _register_forms_router()
+
+# Register billing router
+def _register_billing_router():
+    """Register the billing router."""
+    try:
+        from .billing import router as billing_router
+        
+        # Create a simple router contract-like object for billing
+        class BillingRouterContract:
+            def __init__(self):
+                self.router = billing_router
+                self.prefix = ""  # Already has /billing prefix
+                self.tags = [RouterTags.BILLING]
+                
+        billing_contract = BillingRouterContract()
+        ROUTER_REGISTRY["billing"] = billing_contract
+    except ImportError:
+        # Billing router not available
+        pass
+
+# Auto-register billing on import
+_register_billing_router()
