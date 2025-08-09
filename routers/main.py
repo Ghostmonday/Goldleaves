@@ -5,7 +5,8 @@
 
 from __future__ import annotations
 
-from builtins import getattr, len, list, print
+import logging
+from builtins import getattr, len, list
 from contextlib import asynccontextmanager
 from datetime import datetime
 from typing import Any, Dict
@@ -14,10 +15,13 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, PlainTextResponse
 
+from core.logging import setup_logging
 from .contract import ROUTER_REGISTRY, ErrorResponseSchema, RouterTags, get_all_routers
 from .middleware import MIDDLEWARE_REGISTRY
 from .schemas import HealthCheckSchema
 from .services import SystemService
+
+logger = logging.getLogger(__name__)
 
 
 # Lifespan event handler
@@ -25,14 +29,15 @@ from .services import SystemService
 async def lifespan(app: FastAPI):
     """Application lifespan events."""
     # Startup
-    print("🚀 Goldleaves Backend starting up...")
-    print(f"📦 Loaded {len(ROUTER_REGISTRY)} routers")
-    print(f"🔧 Available middleware: {list(MIDDLEWARE_REGISTRY.keys())}")
+    setup_logging()
+    logger.info("🚀 Goldleaves Backend starting up...")
+    logger.info("📦 Loaded %d routers", len(ROUTER_REGISTRY))
+    logger.info("🔧 Available middleware: %s", list(MIDDLEWARE_REGISTRY.keys()))
     
     yield
     
     # Shutdown
-    print("🛑 Goldleaves Backend shutting down...")
+    logger.info("🛑 Goldleaves Backend shutting down...")
 
 def create_app(config: Dict[str, Any] = None) -> FastAPI:
     """Create and configure FastAPI application."""

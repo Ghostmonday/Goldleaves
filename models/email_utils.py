@@ -1,9 +1,12 @@
 # core/email_utils.py
 
+import logging
 import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+
+logger = logging.getLogger(__name__)
 
 # ✅ Phase 3: send_verification_email function - COMPLETED
 
@@ -107,8 +110,8 @@ class EmailService:
             # Send email
             if not self.email_address or not self.email_password:
                 # For development/testing - just log the email
-                print(f"[DEV] Email verification would be sent to: {email}")
-                print(f"[DEV] Verification URL: {verification_url}")
+                logger.info("[DEV] Email verification would be sent to: %s", email)
+                logger.info("[DEV] Verification URL: %s", verification_url)
                 return True
             
             with self._create_smtp_connection() as server:
@@ -117,7 +120,7 @@ class EmailService:
             return True
             
         except Exception as e:
-            print(f"Failed to send verification email to {email}: {str(e)}")
+            logger.error("Failed to send verification email to %s: %s", email, str(e))
             return False
 
     def send_password_reset_email(self, email: str, reset_token: str) -> bool:
@@ -145,15 +148,15 @@ class EmailService:
             """
             
             if not self.email_address or not self.email_password:
-                print(f"[DEV] Password reset email would be sent to: {email}")
-                print(f"[DEV] Reset URL: {reset_url}")
+                logger.info("[DEV] Password reset email would be sent to: %s", email)
+                logger.info("[DEV] Reset URL: %s", reset_url)
                 return True
                 
             # Actual email sending logic would go here
             return True
             
         except Exception as e:
-            print(f"Failed to send password reset email to {email}: {str(e)}")
+            logger.error("Failed to send password reset email to %s: %s", email, str(e))
             return False
 
 # Global email service instance

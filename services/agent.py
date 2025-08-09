@@ -780,25 +780,25 @@ def get_services():
 if __name__ == "__main__":
     async def main():
         services = await get_services_async()
-        print(f"Services agent loaded {len(services)} service functions:")
+        logger.info("Services agent loaded %d service functions:", len(services))
         for name, func in services.items():
-            print(f"  - {name}: {func.__doc__ or 'No description'}")
+            logger.info("  - %s: %s", name, func.__doc__ or 'No description')
         
         # Test token creation
         try:
             test_token = await create_email_verification_token("123", "test@example.com")
-            print(f"\nTest token created: {test_token[:50]}...")
+            logger.info("\nTest token created: %s...", test_token[:50])
             
             # Test token verification
             result = await verify_email_verification_token(test_token)
-            print(f"Token verification result: {result}")
+            logger.info("Token verification result: %s", result)
             
             # Test health check
             health = await health_check_services()
-            print(f"Health check: {health['overall_status']}")
+            logger.info("Health check: %s", health['overall_status'])
             
         except Exception as e:
-            print(f"Test failed: {e}")
+            logger.error("Test failed: %s", e)
     
     asyncio.run(main())
 
@@ -1052,18 +1052,18 @@ def get_email_functions():
 
 if __name__ == "__main__":
     services = get_services()
-    print(f"Services agent loaded {len(services)} service functions:")
+    logger.info("Services agent loaded %d service functions:", len(services))
     for name, func in services.items():
-        print(f"  - {name}: {func.__doc__ or 'No description'}")
+        logger.info("  - %s: %s", name, func.__doc__ or 'No description')
     
     # Test token creation
     try:
         test_token = create_email_verification_token("123", "test@example.com")
-        print(f"\nTest token created: {test_token[:50]}...")
+        logger.info("\nTest token created: %s...", test_token[:50])
         
         # Test token verification
         result = verify_email_verification_token(test_token)
-        print(f"Token verification result: {result}")
+        logger.info("Token verification result: %s", result)
         
     except Exception as e:
-        print(f"Test failed: {e}")
+        logger.error("Test failed: %s", e)

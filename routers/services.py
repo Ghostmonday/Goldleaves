@@ -4,6 +4,7 @@
 """Service layer implementations for business logic."""
 
 import hashlib
+import logging
 import secrets
 import uuid
 from datetime import datetime, timedelta
@@ -17,6 +18,8 @@ from .schemas import (
     UserRole,
     UserStatus,
 )
+
+logger = logging.getLogger(__name__)
 
 
 # ===== MOCK DATABASE =====
@@ -350,19 +353,19 @@ class EmailService:
     async def send_verification_email(email: str, token: str) -> bool:
         """Send email verification email (mock implementation)."""
         # In production, integrate with actual email service
-        print(f"[EMAIL] Verification email sent to {email} with token: {token}")
+        logger.info("[EMAIL] Verification email sent to %s with token: %s", email, token)
         return True
     
     @staticmethod
     async def send_password_reset_email(email: str, token: str) -> bool:
         """Send password reset email (mock implementation)."""
-        print(f"[EMAIL] Password reset email sent to {email} with token: {token}")
+        logger.info("[EMAIL] Password reset email sent to %s with token: %s", email, token)
         return True
     
     @staticmethod
     async def send_welcome_email(email: str, username: str) -> bool:
         """Send welcome email (mock implementation)."""
-        print(f"[EMAIL] Welcome email sent to {email} for user: {username}")
+        logger.info("[EMAIL] Welcome email sent to %s for user: %s", email, username)
         return True
 
 # ===== ORGANIZATION SERVICE =====

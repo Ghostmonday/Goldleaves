@@ -11,9 +11,12 @@
 
 """Models Agent - Complete isolated implementation."""
 
-from builtins import hasattr, len, print
+import logging
+from builtins import hasattr, len
 from datetime import datetime
 from typing import Generator
+
+logger = logging.getLogger(__name__)
 
 from sqlalchemy import (
     Boolean,
@@ -142,16 +145,16 @@ def get_models():
 def create_tables():
     """Create all tables in the database."""
     Base.metadata.create_all(bind=engine)
-    print("All tables created successfully")
+    logger.info("All tables created successfully")
 
 if __name__ == "__main__":
     models = get_models()
-    print(f"Models agent loaded {len(models)} model classes")
+    logger.info("Models agent loaded %d model classes", len(models))
     for name, model in models.items():
         if hasattr(model, '__tablename__'):
-            print(f"  - {name}: Table '{model.__tablename__}'")
+            logger.info("  - %s: Table '%s'", name, model.__tablename__)
         else:
-            print(f"  - {name}: {type(model).__name__}")
+            logger.info("  - %s: %s", name, type(model).__name__)
     
     # Optionally create tables
     create_tables()

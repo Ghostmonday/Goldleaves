@@ -223,7 +223,7 @@ def get_routes():
 if __name__ == "__main__":
     router_instance = get_router()
     routes = get_routes()
-    print(f"Routers agent loaded {len(routes)} routes:")
+    logger.info("Routers agent loaded %d routes:", len(routes))
     for route in routes:
         methods = ", ".join(route["methods"])
-        print(f"  - {methods} {route['path']} ({route['name']})")
+        logger.info("  - %s %s (%s)", methods, route['path'], route['name'])

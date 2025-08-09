@@ -9,7 +9,10 @@
 # - [x] Add version string and export mapping to `SchemaContract`
 # - [x] Annotate fields with metadata for future auto-docs
 
+import logging
 from builtins import any, len
+
+logger = logging.getLogger(__name__)
 
 """Schemas Agent - Complete isolated implementation."""
 
@@ -193,6 +196,6 @@ def get_schemas():
 
 if __name__ == "__main__":
     schemas = get_schemas()
-    print(f"Schemas agent loaded {len(schemas)} schema classes")
+    logger.info("Schemas agent loaded %d schema classes", len(schemas))
     for name, schema in schemas.items():
-        print(f"  - {name}: {schema.__doc__ or 'No description'}")
+        logger.info("  - %s: %s", name, schema.__doc__ or 'No description')
