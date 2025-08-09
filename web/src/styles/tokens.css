@@ -1,0 +1,189 @@
+/**
+ * Design tokens for motion, colors, and demo mode styles.
+ * These CSS custom properties ensure consistent theming across the application.
+ */
+
+:root {
+  /* Motion duration tokens */
+  --motion-duration-fast: 0.2s;
+  --motion-duration-normal: 0.4s;
+  --motion-duration-slow: 0.8s;
+
+  /* Motion easing tokens */
+  --motion-ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --motion-ease-emphasized: cubic-bezier(0.2, 0.0, 0, 1);
+  --motion-ease-decel: cubic-bezier(0.0, 0.0, 0.2, 1);
+
+  /* Z-index tokens */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+
+  /* Color tokens */
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-secondary: #6b7280;
+  --color-accent: #f59e0b;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  
+  /* Background colors */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-tertiary: #f3f4f6;
+  
+  /* Text colors */
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary: #9ca3af;
+  
+  /* Border colors */
+  --color-border-primary: #d1d5db;
+  --color-border-secondary: #e5e7eb;
+  
+  /* Focus ring color */
+  --color-focus: var(--color-primary);
+  
+  /* Demo mode colors */
+  --demo-highlight-color: #fbbf24;
+  --demo-highlight-bg: rgba(251, 191, 36, 0.1);
+  --demo-cursor-color: #dc2626;
+}
+
+/* Dark mode color overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-primary: #111827;
+    --color-bg-secondary: #1f2937;
+    --color-bg-tertiary: #374151;
+    
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #d1d5db;
+    --color-text-tertiary: #9ca3af;
+    
+    --color-border-primary: #4b5563;
+    --color-border-secondary: #374151;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-fast: 0ms;
+    --motion-duration-normal: 0ms;
+    --motion-duration-slow: 0ms;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Data attribute override for reduced motion */
+[data-reduce-motion="true"] {
+  --motion-duration-fast: 0ms;
+  --motion-duration-normal: 0ms;
+  --motion-duration-slow: 0ms;
+}
+
+[data-reduce-motion="true"] *,
+[data-reduce-motion="true"] *::before,
+[data-reduce-motion="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Demo mode styles */
+.demo-mode {
+  /* Enable demo mode features */
+}
+
+/* High-contrast cursor for demo mode */
+.demo-cursor,
+.demo-cursor * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23dc2626" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polygon points="13,2 3,14 12,14 11,22"></polygon></svg>') 12 4, auto !important;
+}
+
+/* Demo step highlighting */
+.demo-mode .demo-step-1,
+.demo-mode .demo-step-2,
+.demo-mode .demo-step-3,
+.demo-mode .demo-step-4,
+.demo-mode .demo-step-5,
+.demo-mode [class*="demo-step-"] {
+  position: relative;
+  outline: 3px solid var(--demo-highlight-color) !important;
+  outline-offset: 2px;
+  background-color: var(--demo-highlight-bg) !important;
+  
+  /* Pulse animation */
+  animation: demo-step-pulse 2s ease-in-out infinite;
+}
+
+.demo-mode .demo-step-1::before,
+.demo-mode .demo-step-2::before,
+.demo-mode .demo-step-3::before,
+.demo-mode .demo-step-4::before,
+.demo-mode .demo-step-5::before,
+.demo-mode [class*="demo-step-"]::before {
+  content: attr(data-step-label);
+  position: absolute;
+  top: -8px;
+  left: -4px;
+  background: var(--demo-highlight-color);
+  color: #000;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: var(--z-tooltip);
+  pointer-events: none;
+}
+
+/* Extract step number from class name for display */
+.demo-mode .demo-step-1::before { content: "1"; }
+.demo-mode .demo-step-2::before { content: "2"; }
+.demo-mode .demo-step-3::before { content: "3"; }
+.demo-mode .demo-step-4::before { content: "4"; }
+.demo-mode .demo-step-5::before { content: "5"; }
+
+@keyframes demo-step-pulse {
+  0%, 100% {
+    outline-color: var(--demo-highlight-color);
+    background-color: var(--demo-highlight-bg);
+  }
+  50% {
+    outline-color: rgba(251, 191, 36, 0.6);
+    background-color: rgba(251, 191, 36, 0.05);
+  }
+}
+
+/* Disable pulse animation when reduced motion is preferred */
+@media (prefers-reduced-motion: reduce) {
+  .demo-mode [class*="demo-step-"] {
+    animation: none !important;
+  }
+}
+
+[data-reduce-motion="true"] .demo-mode [class*="demo-step-"] {
+  animation: none !important;
+}
+
+/* Focus styles using tokens */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
