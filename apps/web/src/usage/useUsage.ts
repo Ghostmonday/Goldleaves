@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react';
 
-// Types
+// Types are defined in index.ts to avoid duplication, but we need them here for the implementation
 interface UsageSummary {
   total_calls: number;
   est_cost_cents: number;
