@@ -341,7 +341,7 @@ class AuthRouter(RouterContract):
                 )
             
             # Update user
-            update_dict = update_data.dict(exclude_unset=True)
+            update_dict = update_data.model_dump(exclude_unset=True)
             updated_user = await UserService.update_user(current_user["id"], update_dict)
             
             if not updated_user:

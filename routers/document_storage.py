@@ -292,7 +292,7 @@ async def get_document_file_metadata(
         
         # Build metadata response
         metadata_response = {
-            "file_meta": file_info.file_meta.dict(),
+            "file_meta": file_info.file_meta.model_dump(),
             "integrity_verified": file_info.file_meta.file_integrity_verified,
             "last_accessed": file_info.file_meta.last_accessed,
             "download_count": file_info.file_meta.download_count
@@ -704,7 +704,7 @@ async def validate_court_package_request(
             "jurisdiction_compliant": len(validation_errors) == 0,
             "validation_warnings": validation_warnings,
             "validation_errors": validation_errors,
-            "jurisdiction_rules": jurisdiction_rules.dict(),
+            "jurisdiction_rules": jurisdiction_rules.model_dump(),
             "estimated_processing_time_minutes": 5  # Estimated time
         }
         

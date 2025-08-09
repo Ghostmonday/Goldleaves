@@ -138,7 +138,7 @@ class DocumentService:
         
         # Track changes for version history
         changes = []
-        update_data = document_update.dict(exclude_unset=True)
+        update_data = document_update.model_dump(exclude_unset=True)
         
         for field, new_value in update_data.items():
             old_value = getattr(document, field)
@@ -299,7 +299,7 @@ class DocumentService:
             "model_version": prediction_data.model_version,
             "prediction_timestamp": prediction_data.prediction_timestamp.isoformat(),
             "overall_confidence": prediction_data.overall_confidence,
-            "predictions": [pred.dict() for pred in prediction_data.predictions],
+            "predictions": [pred.model_dump() for pred in prediction_data.predictions],
             "document_classification": prediction_data.document_classification,
             "entities": prediction_data.entities,
             "key_phrases": prediction_data.key_phrases,

@@ -66,7 +66,7 @@ class DocumentRouter(RouterContract):
         """Configure document CRUD endpoints."""
         
         @self._router.post("/", response_model=DocumentResponse, status_code=status.HTTP_201_CREATED)
-        async def create_document(
+        def create_document(
             *,
             db: Session = Depends(get_db),
             document_data: DocumentCreate,
@@ -87,7 +87,7 @@ class DocumentRouter(RouterContract):
                 raise HTTPException(status_code=400, detail=str(e))
 
         @self._router.get("/", response_model=Dict[str, Any])
-        async def list_documents(
+        def list_documents(
             *,
             db: Session = Depends(get_db),
             skip: int = Query(0, ge=0, description="Number of records to skip"),
@@ -152,7 +152,7 @@ class DocumentRouter(RouterContract):
             }
 
         @self._router.get("/{document_id}", response_model=DocumentResponse)
-        async def get_document(
+        def get_document(
             *,
             db: Session = Depends(get_db),
             document_id: int = Path(..., description="Document ID"),
@@ -166,7 +166,7 @@ class DocumentRouter(RouterContract):
             return DocumentResponse.from_orm(document)
 
         @self._router.put("/{document_id}", response_model=DocumentResponse)
-        async def update_document(
+        def update_document(
             *,
             db: Session = Depends(get_db),
             document_id: int = Path(..., description="Document ID"),
@@ -191,7 +191,7 @@ class DocumentRouter(RouterContract):
                 raise HTTPException(status_code=400, detail=str(e))
 
         @self._router.delete("/{document_id}", status_code=status.HTTP_204_NO_CONTENT)
-        async def delete_document(
+        def delete_document(
             *,
             db: Session = Depends(get_db),
             document_id: int = Path(..., description="Document ID"),
@@ -207,7 +207,7 @@ class DocumentRouter(RouterContract):
         """Configure AI prediction endpoints."""
         
         @self._router.post("/{document_id}/predict", response_model=DocumentResponse)
-        async def ingest_prediction(
+        def ingest_prediction(
             *,
             db: Session = Depends(get_db),
             document_id: int = Path(..., description="Document ID"),
@@ -230,7 +230,7 @@ class DocumentRouter(RouterContract):
                 raise HTTPException(status_code=400, detail=str(e))
 
         @self._router.get("/{document_id}/predictions", response_model=DocumentPrediction)
-        async def get_predictions(
+        def get_predictions(
             *,
             db: Session = Depends(get_db),
             document_id: int = Path(..., description="Document ID"),
@@ -263,7 +263,7 @@ class DocumentRouter(RouterContract):
         """Configure human correction endpoints."""
         
         @self._router.post("/{document_id}/correct", response_model=DocumentResponse)
-        async def apply_correction(
+        def apply_correction(
             *,
             db: Session = Depends(get_db),
             document_id: int = Path(..., description="Document ID"),
@@ -286,7 +286,7 @@ class DocumentRouter(RouterContract):
                 raise HTTPException(status_code=400, detail=str(e))
 
         @self._router.get("/{document_id}/corrections")
-        async def get_corrections(
+        def get_corrections(
             *,
             db: Session = Depends(get_db),
             document_id: int = Path(..., description="Document ID"),
@@ -328,7 +328,7 @@ class DocumentRouter(RouterContract):
         """Configure audit and version control endpoints."""
         
         @self._router.get("/{document_id}/audit", response_model=Dict[str, Any])
-        async def get_audit_trail(
+        def get_audit_trail(
             *,
             db: Session = Depends(get_db),
             document_id: int = Path(..., description="Document ID"),
@@ -349,7 +349,7 @@ class DocumentRouter(RouterContract):
                 raise HTTPException(status_code=400, detail=str(e))
 
         @self._router.get("/{document_id}/versions")
-        async def get_document_versions(
+        def get_document_versions(
             *,
             db: Session = Depends(get_db),
             document_id: int = Path(..., description="Document ID"),
@@ -389,7 +389,7 @@ class DocumentRouter(RouterContract):
         """Configure search and analytics endpoints."""
         
         @self._router.get("/stats/overview", response_model=DocumentStats)
-        async def get_document_stats(
+        def get_document_stats(
             *,
             db: Session = Depends(get_db),
             organization: Organization = Depends(get_current_organization),
@@ -399,7 +399,7 @@ class DocumentRouter(RouterContract):
             return DocumentService.get_document_stats(db, organization.id)
 
         @self._router.get("/search/quick", response_model=List[DocumentSearchResponse])
-        async def quick_search_documents(
+        def quick_search_documents(
             *,
             db: Session = Depends(get_db),
             q: str = Query(..., min_length=2, description="Search term"),
@@ -431,7 +431,7 @@ class DocumentRouter(RouterContract):
         """Configure bulk operation endpoints."""
         
         @self._router.post("/bulk", response_model=DocumentBulkResult)
-        async def bulk_update_documents(
+        def bulk_update_documents(
             *,
             db: Session = Depends(get_db),
             bulk_action: DocumentBulkAction,
@@ -455,7 +455,7 @@ class DocumentRouter(RouterContract):
         """Configure document sharing and permission endpoints."""
         
         @self._router.post("/{document_id}/share")
-        async def share_document(
+        def share_document(
             *,
             db: Session = Depends(get_db),
             document_id: int = Path(..., description="Document ID"),
@@ -514,7 +514,7 @@ class DocumentRouter(RouterContract):
             }
 
         @self._router.delete("/{document_id}/share/{share_id}")
-        async def revoke_document_share(
+        def revoke_document_share(
             *,
             db: Session = Depends(get_db),
             document_id: int = Path(..., description="Document ID"),
@@ -548,7 +548,7 @@ class DocumentRouter(RouterContract):
             return {"message": "Document share revoked successfully"}
 
         @self._router.get("/{document_id}/permissions", response_model=DocumentPermissionCheck)
-        async def check_document_permissions(
+        def check_document_permissions(
             *,
             db: Session = Depends(get_db),
             document_id: int = Path(..., description="Document ID"),

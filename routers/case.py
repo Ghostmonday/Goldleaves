@@ -31,7 +31,7 @@ router = APIRouter(
 
 
 @router.post("/", response_model=CaseResponse, status_code=201)
-async def create_case(
+def create_case(
     case_data: CaseCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
@@ -52,8 +52,8 @@ async def create_case(
         raise HTTPException(status_code=500, detail="Failed to create case")
 
 
-@router.get("/", response_model=PaginatedResponse[CaseResponse])
-async def list_cases(
+@router.get("/", response_model=PaginatedResponse[CaseResponse], response_model_exclude_none=True)
+def list_cases(
     skip: int = Query(0, ge=0, description="Number of records to skip"),
     limit: int = Query(100, ge=1, le=1000, description="Number of records to return"),
     search: Optional[str] = Query(None, description="Search in case number, title, description"),
@@ -107,8 +107,8 @@ async def list_cases(
     )
 
 
-@router.get("/search", response_model=List[CaseResponse])
-async def search_cases(
+@router.get("/search", response_model=List[CaseResponse], response_model_exclude_none=True)
+def search_cases(
     q: str = Query(..., min_length=2, description="Search term"),
     limit: int = Query(10, ge=1, le=50, description="Number of results to return"),
     db: Session = Depends(get_db),
@@ -127,8 +127,8 @@ async def search_cases(
     return [CaseResponse.from_orm(case) for case in cases]
 
 
-@router.get("/stats", response_model=CaseStats)
-async def get_case_stats(
+@router.get("/stats", response_model=CaseStats, response_model_exclude_none=True)
+def get_case_stats(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
     organization_id: int = Depends(get_current_organization_id)
@@ -139,7 +139,7 @@ async def get_case_stats(
 
 
 @router.get("/deadlines")
-async def get_upcoming_deadlines(
+def get_upcoming_deadlines(
     days_ahead: int = Query(30, ge=1, le=365, description="Number of days to look ahead"),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
@@ -156,8 +156,8 @@ async def get_upcoming_deadlines(
     return deadlines
 
 
-@router.get("/{case_id}", response_model=CaseResponse)
-async def get_case(
+@router.get("/{case_id}", response_model=CaseResponse, response_model_exclude_none=True)
+def get_case(
     case_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
@@ -172,8 +172,8 @@ async def get_case(
     return CaseResponse.from_orm(case)
 
 
-@router.get("/number/{case_number}", response_model=CaseResponse)
-async def get_case_by_number(
+@router.get("/number/{case_number}", response_model=CaseResponse, response_model_exclude_none=True)
+def get_case_by_number(
     case_number: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
@@ -193,7 +193,7 @@ async def get_case_by_number(
 
 
 @router.put("/{case_id}", response_model=CaseResponse)
-async def update_case(
+def update_case(
     case_id: int,
     case_update: CaseUpdate,
     db: Session = Depends(get_db),
@@ -220,7 +220,7 @@ async def update_case(
 
 
 @router.delete("/{case_id}", response_model=SuccessResponse)
-async def delete_case(
+def delete_case(
     case_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
@@ -248,7 +248,7 @@ async def delete_case(
 
 
 @router.post("/{case_id}/close", response_model=CaseResponse)
-async def close_case(
+def close_case(
     case_id: int,
     closure_reason: str = Query(..., description="Reason for closing the case"),
     final_notes: Optional[str] = Query(None, description="Final notes for the case"),
@@ -277,7 +277,7 @@ async def close_case(
 
 
 @router.post("/{case_id}/reopen", response_model=CaseResponse)
-async def reopen_case(
+def reopen_case(
     case_id: int,
     reason: str = Query(..., description="Reason for reopening the case"),
     db: Session = Depends(get_db),
@@ -304,7 +304,7 @@ async def reopen_case(
 
 
 @router.post("/bulk", response_model=CaseBulkResult)
-async def bulk_update_cases(
+def bulk_update_cases(
     bulk_action: CaseBulkAction,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),

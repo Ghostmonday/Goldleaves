@@ -42,7 +42,7 @@ security = HTTPBearer()
 
 
 @router.post("/upload", response_model=FormUploadResponse)
-async def upload_form(
+def upload_form(
     form_request: FormUploadRequest,
     file: Optional[UploadFile] = File(None),
     current_user: User = Depends(get_current_user),
@@ -100,8 +100,8 @@ async def upload_form(
         )
 
 
-@router.get("/search", response_model=PaginatedFormResponse)
-async def search_forms(
+@router.get("/search", response_model=PaginatedFormResponse, response_model_exclude_none=True)
+def search_forms(
     query: Optional[str] = Query(None, description="Search query"),
     form_type: Optional[FormType] = Query(None, description="Filter by form type"),
     form_status: Optional[FormStatus] = Query(None, description="Filter by status"),
@@ -192,7 +192,7 @@ async def search_forms(
         return PaginatedFormResponse(
             forms=form_items,
             pagination=pagination,
-            filters_applied=filters.dict(exclude_none=True),
+            filters_applied=filters.model_dump(exclude_none=True),
             sort_by=sort_by,
             sort_order=sort_order
         )
@@ -204,8 +204,8 @@ async def search_forms(
         )
 
 
-@router.get("/{form_id}", response_model=FormDetailResponse)
-async def get_form_details(
+@router.get("/{form_id}", response_model=FormDetailResponse, response_model_exclude_none=True)
+def get_form_details(
     form_id: str,
     current_user: Optional[User] = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -321,7 +321,7 @@ async def get_form_details(
 
 
 @router.post("/{form_id}/review", response_model=FormReviewResponse)
-async def review_form(
+def review_form(
     form_id: str,
     review_request: FormReviewRequest,
     current_user: User = Depends(get_current_admin_user),
@@ -379,7 +379,7 @@ async def review_form(
 
 
 @router.post("/feedback", response_model=FormFeedbackResponse)
-async def submit_feedback(
+def submit_feedback(
     feedback_request: FormFeedbackRequest,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -417,8 +417,8 @@ async def submit_feedback(
         )
 
 
-@router.get("/contributor/{contributor_id}/stats", response_model=ContributorRewardStatus)
-async def get_contributor_stats(
+@router.get("/contributor/{contributor_id}/stats", response_model=ContributorRewardStatus, response_model_exclude_none=True)
+def get_contributor_stats(
     contributor_id: int,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -504,7 +504,7 @@ async def get_contributor_stats(
 
 
 @router.post("/contributor/reward", response_model=dict)
-async def grant_manual_reward(
+def grant_manual_reward(
     reward_request: ContributorRewardRequest,
     current_user: User = Depends(get_current_admin_user),
     db: Session = Depends(get_db)
@@ -541,8 +541,8 @@ async def grant_manual_reward(
         )
 
 
-@router.get("/stats", response_model=FormStatsResponse)
-async def get_form_statistics(
+@router.get("/stats", response_model=FormStatsResponse, response_model_exclude_none=True)
+def get_form_statistics(
     db: Session = Depends(get_db)
 ):
     """
@@ -608,7 +608,7 @@ async def get_form_statistics(
 
 
 @router.get("/feedback/stats", response_model=FeedbackStatsResponse)
-async def get_feedback_statistics(
+def get_feedback_statistics(
     current_user: User = Depends(get_current_admin_user),
     db: Session = Depends(get_db)
 ):
@@ -671,7 +671,7 @@ async def get_feedback_statistics(
 
 # File download endpoint
 @router.get("/{form_id}/download")
-async def download_form_file(
+def download_form_file(
     form_id: str,
     current_user: Optional[User] = Depends(get_current_user),
     db: Session = Depends(get_db)

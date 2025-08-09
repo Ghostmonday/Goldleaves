@@ -182,7 +182,7 @@ class CaseService:
         
         # Track what changed for event logging
         changes = []
-        update_data = case_update.dict(exclude_unset=True)
+        update_data = case_update.model_dump(exclude_unset=True)
         
         for field, new_value in update_data.items():
             old_value = getattr(case, field)

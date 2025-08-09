@@ -112,7 +112,7 @@ class UserService:
         return {
             "user_id": user_id,
             "verification_token": verification_token,
-            "user": UserProfileSchema(**user).dict()
+            "user": UserProfileSchema(**user).model_dump()
         }
     
     @staticmethod
@@ -243,7 +243,7 @@ class UserService:
         paginated_users = users[start:end]
         
         return {
-            "users": [UserProfileSchema(**user).dict() for user in paginated_users],
+            "users": [UserProfileSchema(**user).model_dump() for user in paginated_users],
             "total": total,
             "page": page,
             "per_page": per_page,

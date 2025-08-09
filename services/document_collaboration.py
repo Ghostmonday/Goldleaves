@@ -190,7 +190,7 @@ class DocumentCollaborationService:
             from_version=comparison_request.from_version,
             to_version=comparison_request.to_version,
             field_diffs={
-                "diffs": [diff.dict() for diff in field_diffs]
+                "diffs": [diff.model_dump() for diff in field_diffs]
             },
             content_diff=content_diff.diff_content if content_diff else None,
             diff_summary=diff_summary,

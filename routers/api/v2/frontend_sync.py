@@ -126,7 +126,7 @@ async def update_user_profile(
         service = FrontendSyncService(db)
         
         # Convert request to dict for service
-        update_data = profile_update.dict(exclude_unset=True)
+        update_data = profile_update.model_dump(exclude_unset=True)
         
         # Update profile through service
         updated_profile = service.update_user_profile(current_user.id, update_data)

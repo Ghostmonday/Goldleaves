@@ -21,7 +21,7 @@ from models.user_schemas import UserCreate, UserResponse
 router = APIRouter(prefix="/auth", tags=["authentication"])
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-async def register(
+def register(
     user_data: UserCreate, 
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db)
@@ -69,7 +69,7 @@ async def register(
 
 
 @router.post("/login", response_model=Dict[str, Any])
-async def login(
+def login(
     form_data: OAuth2PasswordRequestForm = Depends(), 
     db: Session = Depends(get_db)
 ):
@@ -133,7 +133,7 @@ async def login(
 
 
 @router.post("/refresh", response_model=Dict[str, Any])
-async def refresh_token(
+def refresh_token(
     refresh_token: str,
     db: Session = Depends(get_db)
 ):

@@ -161,7 +161,7 @@ def create_app(config: Dict[str, Any] = None) -> FastAPI:
                 error_code="INTERNAL_ERROR",
                 timestamp=datetime.utcnow().isoformat(),
                 request_id=getattr(request.state, "request_id", "unknown")
-            ).dict()
+            ).model_dump()
         )
     
     return app

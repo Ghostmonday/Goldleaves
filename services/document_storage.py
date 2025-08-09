@@ -243,7 +243,7 @@ class DocumentStorageService:
             if 'files' not in document.metadata:
                 document.metadata['files'] = []
             
-            document.metadata['files'].append(file_meta.dict())
+            document.metadata['files'].append(file_meta.model_dump())
             db.commit()
             
             # Log audit event
@@ -890,7 +890,7 @@ class DocumentStorageService:
         filepath = export_dir / filename
         
         export_data = {
-            "metadata": export_metadata.dict(),
+            "metadata": export_metadata.model_dump(),
             "document": {
                 "id": document.id,
                 "title": document.title,
@@ -931,7 +931,7 @@ class DocumentStorageService:
         
         with zipfile.ZipFile(archive_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
             # Add metadata
-            zipf.writestr("metadata.json", json.dumps(export_metadata.dict(), indent=2))
+            zipf.writestr("metadata.json", json.dumps(export_metadata.model_dump(), indent=2))
             
             # Add document data
             zipf.writestr("document.json", json.dumps({
@@ -963,7 +963,7 @@ class DocumentStorageService:
         manifest_path = export_dir / "manifest.json"
         
         manifest_data = {
-            "export_metadata": export_metadata.dict(),
+            "export_metadata": export_metadata.model_dump(),
             "generated_files": generated_files,
             "file_checksums": {},
             "generation_timestamp": datetime.utcnow().isoformat()
@@ -1185,7 +1185,7 @@ class DocumentStorageService:
         manifest_path = package_dir / manifest_filename
         
         with open(manifest_path, 'w', encoding='utf-8') as f:
-            json.dump(metadata.dict(), f, indent=2, ensure_ascii=False, default=str)
+            json.dump(metadata.model_dump(), f, indent=2, ensure_ascii=False, default=str)
         
         return manifest_filename
     

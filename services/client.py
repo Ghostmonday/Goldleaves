@@ -156,7 +156,7 @@ class ClientService:
                 raise ValidationError(f"Client with email {client_update.email} already exists")
         
         # Update fields
-        update_data = client_update.dict(exclude_unset=True)
+        update_data = client_update.model_dump(exclude_unset=True)
         
         # Handle address separately
         if 'address' in update_data:
