@@ -4,7 +4,6 @@ Tests for the health, version, and metrics endpoints to ensure they
 return the expected responses and status codes.
 """
 import pytest
-import os
 from fastapi.testclient import TestClient
 from routers.health import router
 from fastapi import FastAPI

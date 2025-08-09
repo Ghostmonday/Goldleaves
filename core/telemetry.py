@@ -8,7 +8,7 @@ import os
 import logging
 from typing import Optional
 from fastapi import FastAPI, Request, Response
-from fastapi.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +40,7 @@ def init_sentry(dsn: Optional[str] = None) -> bool:
             traces_sample_rate=float(os.getenv("SENTRY_TRACES_SAMPLE_RATE", "0.1")),
             profiles_sample_rate=float(os.getenv("SENTRY_PROFILES_SAMPLE_RATE", "0.1")),
             integrations=[
-                FastApiIntegration(auto_session_tracking=True),
+                FastApiIntegration(),
                 SqlalchemyIntegration(),
             ],
             attach_stacktrace=True,
