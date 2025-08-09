@@ -271,3 +271,19 @@ def _register_forms_router():
 
 # Auto-register forms on import
 _register_forms_router()
+
+# Register billing router
+def _register_billing_router():
+    """Register the billing router."""
+    try:
+        from .billing import billing_router
+        
+        # The billing router already self-registers in its __init__ method
+        # This function exists for consistency with other routers
+        pass
+    except ImportError:
+        # Billing router not available
+        pass
+
+# Auto-register billing on import
+_register_billing_router()
