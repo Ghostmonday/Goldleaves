@@ -12,6 +12,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
 from core.security import verify_token
+
 from .constants import ErrorMessages
 
 # Set up logging
@@ -57,9 +58,9 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> Dict[str, Any
 from core.security import (
     create_access_token,
     create_refresh_token,
-    verify_password,
-    get_password_hash,
     generate_secure_token,
+    get_password_hash,
+    verify_password,
 )
 
 __all__ = [

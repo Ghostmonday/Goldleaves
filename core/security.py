@@ -11,6 +11,7 @@ from typing import Any, Dict, Optional
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
+
 # Mock settings for now - in real app this would come from config
 class MockSettings:
     ALGORITHM = "HS256"

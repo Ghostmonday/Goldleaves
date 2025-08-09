@@ -17,7 +17,7 @@ import asyncio
 import logging
 import smtplib
 import uuid
-from builtins import getattr, len, print, set
+from builtins import getattr, len, set
 from datetime import datetime, timedelta
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText

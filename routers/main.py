@@ -16,6 +16,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, PlainTextResponse
 
 from core.logging import setup_logging
+
 from .contract import ROUTER_REGISTRY, ErrorResponseSchema, RouterTags, get_all_routers
 from .middleware import MIDDLEWARE_REGISTRY
 from .schemas import HealthCheckSchema
