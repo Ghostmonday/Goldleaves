@@ -26,6 +26,7 @@ class RouterTags(str, Enum):
     STORAGE = "storage"
     COURT_PACKAGING = "court-packaging"
     FORMS = "forms"
+    USAGE = "usage"
 
 class HTTPStatus(int, Enum):
     """Standard HTTP status codes."""
@@ -270,3 +271,37 @@ def _register_forms_router():
 
 # Auto-register forms on import
 _register_forms_router()
+
+# Register usage router
+def _register_usage_router():
+    """Register the usage router."""
+    try:
+        from .usage import router as usage_router
+        
+        class UsageRouterContract(RouterContract):
+            """Usage router contract implementation."""
+            
+            @property
+            def router(self):
+                return usage_router
+            
+            @property 
+            def prefix(self):
+                return ""  # Already has /api/v1 prefix in routes
+            
+            @property
+            def tags(self):
+                return [RouterTags.USAGE]
+            
+            def configure_routes(self):
+                # Routes are already configured in the router module
+                pass
+        
+        usage_contract = UsageRouterContract()
+        register_router("usage", usage_contract)
+    except ImportError:
+        # Usage router not available
+        pass
+
+# Auto-register usage on import
+_register_usage_router()
