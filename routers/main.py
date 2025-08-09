@@ -55,8 +55,13 @@ def create_app(config: Dict[str, Any] = None) -> FastAPI:
         RequestContextMiddleware, RateLimitMiddleware, SecurityMiddleware,
         AuditMiddleware, OrganizationContextMiddleware, AuthenticationMiddleware
     )
+    from app.usage.middleware import UsageTrackingMiddleware
     
     # Add middleware in reverse order (FastAPI adds them as a stack)
+    # Usage tracking should be after auth but before audit
+    if middleware_config.get("usage_tracking", {}).get("enabled", True):
+        app.add_middleware(UsageTrackingMiddleware)
+    
     if middleware_config.get("audit", {}).get("enabled", True):
         app.add_middleware(AuditMiddleware)
     
@@ -164,6 +169,7 @@ def create_development_app() -> FastAPI:
             "rate_limit": {"enabled": True, "limiter_name": "api"},
             "security": {"enabled": True},
             "audit": {"enabled": True},
+            "usage_tracking": {"enabled": True},
             "authentication": {
                 "enabled": True,
                 "public_paths": ["/health", "/stats", "/metrics", "/metrics/prometheus", "/docs", "/openapi.json", "/auth/login", "/auth/register"]
@@ -185,6 +191,7 @@ def create_production_app() -> FastAPI:
             "rate_limit": {"enabled": True, "limiter_name": "api"},
             "security": {"enabled": True},
             "audit": {"enabled": True},
+            "usage_tracking": {"enabled": True},
             "authentication": {
                 "enabled": True,
                 "public_paths": ["/health", "/stats", "/metrics", "/metrics/prometheus"]
