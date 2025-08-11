@@ -61,7 +61,7 @@ class User:
         self.is_admin = is_admin
         self.email_verified = email_verified
 
-def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> dict:
     """Extract and validate current user from JWT token."""
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -78,21 +78,26 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         raise credentials_exception
         
     # Mock user lookup (in real implementation, query from database)
-    user = User(id=int(user_id), email="user@example.com")
-    return user
+    # Return as dict to match usage router expectations
+    return {
+        "user_id": int(user_id),
+        "email": "user@example.com",
+        "is_active": True,
+        "is_admin": False
+    }
 
-def get_admin_user(current_user: User = Depends(get_current_user)) -> User:
+def get_admin_user(current_user: dict = Depends(get_current_user)) -> dict:
     """Ensure current user has admin privileges."""
-    if not current_user.is_admin:
+    if not current_user.get("is_admin"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not enough privileges"
         )
     return current_user
 
-def get_verified_user(current_user: User = Depends(get_current_user)) -> User:
+def get_verified_user(current_user: dict = Depends(get_current_user)) -> dict:
     """Ensure current user has verified email."""
-    if not current_user.email_verified:
+    if not current_user.get("email_verified", False):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Email verification required"
@@ -168,3 +173,11 @@ def require_permission(permission: str):
         return True
     
     return permission_dependency
+
+def get_tenant_context() -> dict:
+    """Get tenant context for the current request."""
+    # Mock implementation - in production this would extract from request context
+    return {
+        "tenant_id": "tenant_123",
+        "tenant_name": "Default Tenant"
+    }
