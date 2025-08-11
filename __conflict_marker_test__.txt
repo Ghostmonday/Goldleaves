@@ -1,1 +1,5 @@
--NoNewline
+﻿<<<<<<< HEAD
+a
+=======
+b
+>>>>>>> test
