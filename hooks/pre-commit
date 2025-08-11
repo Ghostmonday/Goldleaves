@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Limit to files staged for commit
+STAGED=$(git diff --cached --name-only -z)
+if [ -z "$STAGED" ]; then
+  exit 0
+fi
+
+# Identify staged text files
+TEXT=$(printf '%s' "$STAGED" | xargs -0 file -I | awk -F: '$2 ~ /text/ {print $1}')
+if [ -z "$TEXT" ]; then
+  exit 0
+fi
+
+# Scan for conflict markers
+echo "$TEXT" | xargs -r git grep -n -E '^(<{7}|={7}|>{7})' -- >/tmp/conflicts.$$ || true
+if [ -s /tmp/conflicts.$$ ]; then
+  echo "ERROR: Conflict markers detected in staged files:" >&2
+  cat /tmp/conflicts.$$ >&2
+  rm -f /tmp/conflicts.$$
+  exit 1
+fi
+rm -f /tmp/conflicts.$$
+
+exit 0

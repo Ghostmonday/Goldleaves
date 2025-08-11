@@ -1,0 +1,44 @@
+name: Block conflict markers
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Determine base ref
+        id: base
+        shell: bash
+        run: |
+          if [ -n "${GITHUB_BASE_REF}" ]; then
+            echo "base_ref=${GITHUB_BASE_REF}" >> "$GITHUB_OUTPUT"
+          else
+            echo "base_ref=main" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Scan only changed files for conflict markers
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --prune --depth=2 origin "+refs/heads/*:refs/remotes/origin/*"
+          BASE=$(git merge-base HEAD origin/${{ steps.base.outputs.base_ref }})
+          # List changed files between BASE and HEAD
+          CHANGED=$(git diff --name-only -z "$BASE"...HEAD || true)
+          if [ -z "$CHANGED" ]; then
+            echo "No changed files to scan."
+            exit 0
+          fi
+          printf '%s' "$CHANGED" | (
+            set -o pipefail
+            xargs -0 file -I | awk -F: '$2 ~ /text/ {print $1}' | tr '\n' '\0'
+          ) | (
+            set -o pipefail
+            xargs -0 -r git grep -I -n -E '^(<{7}|={7}|>{7})' -- || true
+          ) | tee conflict_markers.txt
+          if [ -s conflict_markers.txt ]; then
+            echo "::error::Conflict markers detected in changed files." >&2
+            exit 1
+          fi
+          echo "No conflict markers found in changed files."

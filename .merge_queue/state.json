@@ -1,0 +1,28 @@
+{
+    "target":  "phone-chron",
+    "created_at":  "2025-08-10 23:48:29",
+    "branch_list":  [
+                        "origin/copilot/fix-0193ecf5-5807-4ba6-ab4c-64c5a75c8f78",
+                        "origin/copilot/fix-0358641f-fb9c-42f9-9fcb-bc3f3fadb8e8",
+                        "origin/copilot/fix-230b69d9-d5ea-497e-9bdd-f17c8faed56f",
+                        "origin/copilot/fix-246f8c86-1b11-4246-8161-6e86a048abb5",
+                        "origin/copilot/fix-356199d5-87cc-40fb-84bf-aecbfc45e9b6",
+                        "origin/copilot/fix-3e8d2cbf-e60d-48d1-9514-f49ba5727cf9",
+                        "origin/copilot/fix-45ffa0b1-9f3c-4ed6-b3d9-a50dbe0a16d7",
+                        "origin/copilot/fix-4af791f1-1751-4a10-b257-abddf78d5527",
+                        "origin/copilot/fix-4fbf8993-5a36-457d-85a1-84a21aab570c",
+                        "origin/copilot/fix-6d7f5e44-bdda-46c7-8155-d49db1da8b0a",
+                        "origin/copilot/fix-74758eda-7701-47e2-bcb3-2ddc33b9e911",
+                        "origin/copilot/fix-76bf759f-022c-4d3e-93e8-9f6d782d1dd6",
+                        "origin/copilot/fix-7d7c88d3-d137-4009-bcc7-c1bbc67a24a6",
+                        "origin/copilot/fix-809c456b-e911-413d-bb0d-41185f486ff6",
+                        "origin/copilot/fix-85526d7a-9719-4ee0-9400-dc4fbbc4d130",
+                        "origin/copilot/fix-a40f32cb-0d6b-4d37-8333-75099ae93ae9",
+                        "origin/copilot/fix-c28f35cd-dfc1-4037-8df1-b6505871905f",
+                        "origin/copilot/fix-ce9fe6c5-6b91-4239-8ddf-abc2de438610",
+                        "origin/copilot/fix-d88d7b63-2978-44fd-82f0-ed571ce53c52",
+                        "origin/copilot/fix-d97521c0-b54c-4b10-9c49-9c3c4419c172",
+                        "origin/copilot/fix-e8a8f322-e764-41d3-b4e4-51f44903676e"
+                    ],
+    "index":  21
+}
