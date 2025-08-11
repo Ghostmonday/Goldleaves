@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Limit to files staged for commit
-STAGED=$(git diff --cached --name-only -z)
-if [ -z "$STAGED" ]; then
+# Collect staged files (Added, Copied, Modified, Renamed)
+mapfile -t files < <(git diff --cached --name-only --diff-filter=ACMR)
+
+# Filter to text files
+text_files=()
+for f in "${files[@]}"; do
+  [ -f "$f" ] || continue
+  if file -I "$f" | grep -q "text/"; then
+    text_files+=("$f")
+  fi
+done
+
+if [ ${#text_files[@]} -eq 0 ]; then
   exit 0
 fi
 
-# Identify staged text files
-TEXT=$(printf '%s' "$STAGED" | xargs -0 file -I | awk -F: '$2 ~ /text/ {print $1}')
-if [ -z "$TEXT" ]; then
-  exit 0
-fi
-
-# Scan for conflict markers
-echo "$TEXT" | xargs -r git grep -n -E '^(<{7}|={7}|>{7})' -- >/tmp/conflicts.$$ || true
-if [ -s /tmp/conflicts.$$ ]; then
-  echo "ERROR: Conflict markers detected in staged files:" >&2
-  cat /tmp/conflicts.$$ >&2
-  rm -f /tmp/conflicts.$$
+# Scan for exact conflict markers at line start
+if grep -I -n -E '^(<{7}|={7}|>{7})' -- "${text_files[@]}" ; then
+  echo
+  echo "ERROR: Git merge conflict markers detected in staged files above."
+  echo "Please resolve them before committing."
   exit 1
 fi
-rm -f /tmp/conflicts.$$
-
-exit 0

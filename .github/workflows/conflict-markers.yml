@@ -1,44 +1,52 @@
-name: Block conflict markers
+name: Block merge conflict markers
 on:
-  push:
   pull_request:
+  push:
+    branches: ["**"]
+
 jobs:
-  check:
+  scan:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Determine base ref
-        id: base
-        shell: bash
-        run: |
-          if [ -n "${GITHUB_BASE_REF}" ]; then
-            echo "base_ref=${GITHUB_BASE_REF}" >> "$GITHUB_OUTPUT"
-          else
-            echo "base_ref=main" >> "$GITHUB_OUTPUT"
-          fi
-      - name: Scan only changed files for conflict markers
+      - name: Get changed files (PR or push)
+        id: diff
         shell: bash
         run: |
           set -euo pipefail
-          git fetch --no-tags --prune --depth=2 origin "+refs/heads/*:refs/remotes/origin/*"
-          BASE=$(git merge-base HEAD origin/${{ steps.base.outputs.base_ref }})
-          # List changed files between BASE and HEAD
-          CHANGED=$(git diff --name-only -z "$BASE"...HEAD || true)
-          if [ -z "$CHANGED" ]; then
-            echo "No changed files to scan."
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch --no-tags --prune --depth=2 origin ${{ github.base_ref }}
+            base="${{ github.event.pull_request.base.sha }}"
+            head="${{ github.sha }}"
+          else
+            base="$(git rev-parse HEAD^ || echo '')"
+            head="$(git rev-parse HEAD)"
+          fi
+          if [ -n "$base" ]; then
+            git diff --name-only "$base" "$head" > changed.txt
+          else
+            git ls-files > changed.txt
+          fi
+          # Filter to text files only
+          : > text_changed.txt
+          while IFS= read -r f; do
+            [ -f "$f" ] || continue
+            if file -I "$f" | grep -q "text/"; then echo "$f" >> text_changed.txt; fi
+          done < changed.txt
+          echo "Changed text files:"
+          cat text_changed.txt || true
+      - name: Scan for conflict markers
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -s text_changed.txt ]; then
+            echo "No text files changed."
             exit 0
           fi
-          printf '%s' "$CHANGED" | (
-            set -o pipefail
-            xargs -0 file -I | awk -F: '$2 ~ /text/ {print $1}' | tr '\n' '\0'
-          ) | (
-            set -o pipefail
-            xargs -0 -r git grep -I -n -E '^(<{7}|={7}|>{7})' -- || true
-          ) | tee conflict_markers.txt
-          if [ -s conflict_markers.txt ]; then
-            echo "::error::Conflict markers detected in changed files." >&2
+          if xargs -a text_changed.txt grep -I -n -E '^(<{7}|={7}|>{7})' -- ; then
+            echo "::error::Conflict markers detected in changed files."
             exit 1
+          else
+            echo "✅ No conflict markers found."
           fi
-          echo "No conflict markers found in changed files."

@@ -1,36 +1,18 @@
-Contributing
-============
+# Contributing
 
-Conflict-marker guardrails
---------------------------
+## Local hooks (pre-commit)
+Enable the repo’s hooks directory once per clone:
+```bash
+git config core.hooksPath hooks
+chmod +x hooks/pre-commit
+```
 
-This repository blocks accidental commits that contain Git conflict markers.
+The pre-commit hook scans **staged text files** for Git conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`) and blocks commits if found.
 
-Local pre-commit hook
----------------------
+## CI guard
 
-You can enable the local hook to scan only staged text files:
+GitHub Actions workflow `Block merge conflict markers` scans **changed text files** on push/PR and fails if markers are present. This protects `main` even when commits are made via the GitHub UI or without local hooks.
 
-1. Configure Git to use the repo `hooks/` folder for hooks:
+## Docs merges
 
-   git config core.hooksPath hooks
-
-2. Ensure the hook is executable (on Unix-like systems):
-
-   chmod +x hooks/pre-commit
-
-The hook will fail the commit if any staged text file contains conflict markers (<<<<<<<, =======, >>>>>>>).
-
-CI check
---------
-
-On push and pull requests, GitHub Actions runs a check that scans changed text files for conflict markers and fails the build if any are found.
-
-Advanced
---------
-
-To prefer union merges for documentation, `.gitattributes` includes:
-
-    docs/** merge=union
-
-You can also add language- or path-specific rules here as needed.
+`.gitattributes` configures `docs/**` with `merge=union` to keep both sides in documentation merges, reducing manual conflict resolution.
