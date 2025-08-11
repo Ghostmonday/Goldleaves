@@ -64,3 +64,4 @@ PY
           if [ "${pct%%.*}" -lt 60 ]; then
             echo "Coverage below 60% (soft gate)"; exit 1
           fi
+          # noop change to trigger CI run
