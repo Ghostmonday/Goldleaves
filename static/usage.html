@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goldleaves - Usage Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        .header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .usage-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .upgrade-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .upgrade-button:hover {
+            background: #0056b3;
+        }
+        .upgrade-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .plan-selection {
+            margin: 20px 0;
+        }
+        .plan-option {
+            margin: 10px 0;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 400px;
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+        .error-message {
+            color: #dc3545;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Usage Dashboard</h1>
+            <p>Manage your Goldleaves subscription and usage</p>
+        </div>
+
+        <div class="usage-card">
+            <h3>Current Usage</h3>
+            <p><strong>Plan:</strong> Free Tier</p>
+            <p><strong>Documents Processed:</strong> 95/100</p>
+            <p><strong>API Calls This Month:</strong> 2,450/2,500</p>
+            
+            <div class="plan-selection">
+                <h4>Upgrade to unlock more features:</h4>
+                <div class="plan-option">
+                    <input type="radio" id="pro" name="plan" value="Pro" checked>
+                    <label for="pro">Pro Plan - $29/month (Unlimited documents, 10,000 API calls)</label>
+                </div>
+                <div class="plan-option">
+                    <input type="radio" id="team" name="plan" value="Team">
+                    <label for="team">Team Plan - $99/month (Unlimited everything, team collaboration)</label>
+                </div>
+            </div>
+            
+            <button id="upgradeBtn" class="upgrade-button">Upgrade Now</button>
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- 429 Rate Limit Modal -->
+    <div id="rateLimitModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Rate Limit Exceeded</h2>
+            <p>You've reached your usage limit for the current plan.</p>
+            <p>Upgrade to continue using Goldleaves without interruption.</p>
+            
+            <div class="plan-selection">
+                <div class="plan-option">
+                    <input type="radio" id="modalPro" name="modalPlan" value="Pro" checked>
+                    <label for="modalPro">Pro Plan - $29/month</label>
+                </div>
+                <div class="plan-option">
+                    <input type="radio" id="modalTeam" name="modalPlan" value="Team">
+                    <label for="modalTeam">Team Plan - $99/month</label>
+                </div>
+            </div>
+            
+            <button id="modalUpgradeBtn" class="upgrade-button">Upgrade Now</button>
+        </div>
+    </div>
+
+    <script>
+        // Global fetch wrapper for API calls
+        class ApiClient {
+            static async fetch(url, options = {}) {
+                const defaultOptions = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + this.getAuthToken()
+                    }
+                };
+                
+                const mergedOptions = {
+                    ...defaultOptions,
+                    ...options,
+                    headers: {
+                        ...defaultOptions.headers,
+                        ...options.headers
+                    }
+                };
+                
+                try {
+                    const response = await fetch(url, mergedOptions);
+                    
+                    if (response.status === 429) {
+                        // Show 429 modal
+                        this.show429Modal();
+                        throw new Error('Rate limit exceeded');
+                    }
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        throw new Error(errorData.detail || `HTTP ${response.status}`);
+                    }
+                    
+                    return await response.json();
+                } catch (error) {
+                    console.error('API Error:', error);
+                    throw error;
+                }
+            }
+            
+            static getAuthToken() {
+                // In a real app, this would get the token from localStorage, cookies, etc.
+                return 'mock-jwt-token';
+            }
+            
+            static show429Modal() {
+                document.getElementById('rateLimitModal').style.display = 'block';
+            }
+        }
+
+        // Checkout functionality
+        class CheckoutHandler {
+            static async createCheckoutSession(plan) {
+                try {
+                    console.log(`Creating checkout session for plan: ${plan}`);
+                    
+                    const response = await ApiClient.fetch('/api/v1/billing/checkout', {
+                        method: 'POST',
+                        body: JSON.stringify({ plan: plan })
+                    });
+                    
+                    if (response.url) {
+                        console.log(`Redirecting to checkout: ${response.url}`);
+                        window.location = response.url;
+                    } else {
+                        throw new Error('No checkout URL received');
+                    }
+                } catch (error) {
+                    this.showError(`Failed to create checkout session: ${error.message}`);
+                }
+            }
+            
+            static showError(message) {
+                const errorDiv = document.getElementById('errorMessage');
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                
+                // Hide error after 5 seconds
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            }
+            
+            static getSelectedPlan(formName = 'plan') {
+                const selected = document.querySelector(`input[name="${formName}"]:checked`);
+                return selected ? selected.value : 'Pro';
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Main upgrade button
+            document.getElementById('upgradeBtn').addEventListener('click', function() {
+                this.disabled = true;
+                this.textContent = 'Creating checkout session...';
+                
+                const plan = CheckoutHandler.getSelectedPlan('plan');
+                CheckoutHandler.createCheckoutSession(plan).finally(() => {
+                    this.disabled = false;
+                    this.textContent = 'Upgrade Now';
+                });
+            });
+            
+            // Modal upgrade button
+            document.getElementById('modalUpgradeBtn').addEventListener('click', function() {
+                const plan = CheckoutHandler.getSelectedPlan('modalPlan');
+                CheckoutHandler.createCheckoutSession(plan);
+            });
+            
+            // Modal close functionality
+            const modal = document.getElementById('rateLimitModal');
+            const closeBtn = modal.querySelector('.close');
+            
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Demo: Show 429 modal (for testing purposes)
+            // setTimeout(() => {
+            //     ApiClient.show429Modal();
+            // }, 3000);
+        });
+
+        // Expose for testing
+        window.CheckoutHandler = CheckoutHandler;
+        window.ApiClient = ApiClient;
+    </script>
+</body>
+</html>
