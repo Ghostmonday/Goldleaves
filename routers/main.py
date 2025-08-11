@@ -26,6 +26,21 @@ async def lifespan(app: FastAPI):
     print(f"📦 Loaded {len(ROUTER_REGISTRY)} routers")
     print(f"🔧 Available middleware: {list(MIDDLEWARE_REGISTRY.keys())}")
     
+    # Initialize observability
+    try:
+        from observability.init import init_observability
+        init_observability()
+    except ImportError:
+        print("⚠️ Observability components not available")
+    
+    # Apply rate limiting to API routes
+    try:
+        from app.limits.rate_limit import apply_rate_limit_to_app
+        apply_rate_limit_to_app(app, capacity=60, refill_per_min=60)
+        print("🚦 Rate limiting applied to /api/v1/* routes")
+    except ImportError:
+        print("⚠️ Rate limiting components not available")
+    
     yield
     
     # Shutdown
@@ -56,9 +71,20 @@ def create_app(config: Dict[str, Any] = None) -> FastAPI:
         AuditMiddleware, OrganizationContextMiddleware, AuthenticationMiddleware
     )
     
+    # Import usage metering middleware
+    try:
+        from app.usage.middleware import UsageMeteringMiddleware
+        usage_middleware_available = True
+    except ImportError:
+        usage_middleware_available = False
+    
     # Add middleware in reverse order (FastAPI adds them as a stack)
     if middleware_config.get("audit", {}).get("enabled", True):
         app.add_middleware(AuditMiddleware)
+    
+    # Add usage metering middleware after audit but before organization
+    if usage_middleware_available:
+        app.add_middleware(UsageMeteringMiddleware)
     
     if middleware_config.get("organization", {}).get("enabled", True):
         app.add_middleware(OrganizationContextMiddleware)
