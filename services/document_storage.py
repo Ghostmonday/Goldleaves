@@ -5,35 +5,26 @@
 import os
 import json
 import hashlib
-import secrets
-import tempfile
 import zipfile
 from datetime import datetime, timedelta
-from typing import List, Dict, Any, Optional, Union, BinaryIO
+from typing import List, Dict, Any, Optional, BinaryIO
 from pathlib import Path
-from io import BytesIO
-import shutil
 
 from sqlalchemy.orm import Session
-from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-import base64
 
 from models.user import User
 from models.document import Document, AuditEventType
-from models.contract import Contract
 from schemas.storage.storage import (
     DocumentUploadRequest, DocumentExportRequest, FileUploadResponse,
     FileRetrievalResponse, DocumentFileMeta, ExportResponse, ExportMetadata,
-    StorageStats, FileFormat, EncryptionType, ExportFormat
+    StorageStats, EncryptionType, ExportFormat
 )
 from schemas.storage.court_packaging import (
     CourtPackagingRequest, CourtPackageResponse, JurisdictionType,
     JurisdictionValidation, get_jurisdiction_rules, PackagingStatus
 )
 from core.storage_config import get_storage_config
-from core.exceptions import NotFoundError, ValidationError, PermissionError
+from core.exceptions import NotFoundError, ValidationError
 from core.logging import get_logger
 
 logger = get_logger(__name__)
@@ -56,34 +47,30 @@ import os
 import hashlib
 import uuid
 import zipfile
-import tempfile
-import shutil
-from typing import Optional, List, Dict, Any, Tuple, BinaryIO, Union
+from typing import Optional, List, Dict, Any, Tuple, BinaryIO
 from datetime import datetime, timedelta
 from pathlib import Path
 from sqlalchemy.orm import Session
-from sqlalchemy import and_, or_, func, desc
+from sqlalchemy import and_, func
 import json
-import base64
-from io import BytesIO
 
 from models.document import (
     Document, DocumentVersion, DocumentAuditEvent, AuditEventType
 )
-from models.user import User, Organization
-from core.exceptions import NotFoundError, ValidationError, PermissionError
-from core.security import encrypt_data, decrypt_data, generate_secure_token
+from models.user import User
+from core.exceptions import NotFoundError, ValidationError
+from core.security import encrypt_data, generate_secure_token
 from core.logging import get_logger
 from schemas.storage.storage import (
     DocumentUploadRequest, DocumentExportRequest, DocumentFileMeta,
     ExportMetadata, FileUploadResponse, FileRetrievalResponse, 
-    ExportResponse, StorageStats, FileFormat, ExportFormat, 
-    EncryptionType, StorageProvider, WatermarkConfig
+    ExportResponse, StorageStats, ExportFormat, EncryptionType, 
+    StorageProvider
 )
 from schemas.storage.court_packaging import (
     CourtPackagingRequest, PackagingStatus, CourtPackageResponse,
     PackageMetadata, JurisdictionValidation, get_jurisdiction_rules,
-    JurisdictionType, CourtDocumentType
+    JurisdictionType
 )
 
 logger = get_logger(__name__)

@@ -13,12 +13,9 @@
 # models/user.py
 
 from __future__ import annotations
-from sqlalchemy import Boolean, Column, Integer, String, DateTime, ForeignKey, CheckConstraint, Enum, Index
+from sqlalchemy import Boolean, Column, Integer, String, DateTime, ForeignKey, Enum, Index
 from sqlalchemy.orm import relationship
-from datetime import datetime
 from enum import Enum as PyEnum
-from builtins import property
-
 # Import from local dependencies
 from .dependencies import Base, utcnow, create_password_constraint, create_email_constraint
 

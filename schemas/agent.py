@@ -18,7 +18,6 @@ from pydantic import BaseModel, Field
 from typing import Dict, List, Any, Optional
 from enum import Enum
 
-from .dependencies import create_field_metadata
 from .core_contracts import SchemaContract
 
 

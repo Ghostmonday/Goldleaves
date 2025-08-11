@@ -1,11 +1,8 @@
 # tests/test_auth.py
 
 import pytest
-from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime, timedelta
-import bcrypt
 
 # ✅ Phase 3: Tests for both /verify-email and /admin/users endpoints - COMPLETED
 
@@ -38,7 +35,6 @@ class TestEmailVerification:
         """
         # Implementation for successful email verification
         from models.token_service import TokenService
-        from models.user import User
         
         # Mock test user
         test_email = "test@example.com"
@@ -94,8 +90,6 @@ class TestEmailVerification:
         2. User's verification status remains unchanged
         """
         # Implementation for expired token test
-        from models.token_service import TokenService
-        import jwt
         from datetime import datetime, timedelta
         
         # Create an expired token manually
@@ -167,7 +161,6 @@ class TestAdminUsers:
         4. Respects pagination parameters
         """
         # Implementation for successful admin user listing
-        mock_admin_token = "admin_bearer_token"
         query_params = {
             "page": 1,
             "per_page": 10,
@@ -275,7 +268,6 @@ class TestAdminUsers:
         3. Organization information is included if applicable
         """
         # Implementation for get user by ID test
-        user_id = 1
         expected_fields = [
             "id", "email", "is_active", "is_verified", "is_admin",
             "email_verified", "created_at", "last_login", "organization_id",
@@ -313,7 +305,6 @@ class TestAdminUsers:
         3. Updated user data is returned
         """
         # Implementation for user update test
-        user_id = 1
         update_data = {
             "is_active": False,
             "is_admin": True,
@@ -415,7 +406,6 @@ def test_db():
 @pytest.fixture  
 def test_user(test_db):
     """Create test user."""
-    from models.user import User
     
     # Implementation would create actual test user
     return {"id": 1, "email": "test@example.com", "is_admin": False}
@@ -423,7 +413,6 @@ def test_user(test_db):
 @pytest.fixture
 def test_admin(test_db):
     """Create test admin user."""
-    from models.user import User
     
     # Implementation would create actual admin user
     return {"id": 2, "email": "admin@example.com", "is_admin": True}
@@ -494,7 +483,6 @@ class TestAdminUsersEndpoint:
         # Mock test implementation
         # 1. Call /admin/users without auth header
         # 2. Assert 401 status code
-        pass
     
     def test_admin_get_users_forbidden_non_admin(self):
         """
@@ -510,7 +498,6 @@ class TestAdminUsersEndpoint:
         # 3. Call /admin/users with regular user token
         # 4. Assert 403 status code
         # 5. Assert error message about admin access required
-        pass
     
     def test_admin_get_users_with_filters(self):
         """
@@ -525,7 +512,6 @@ class TestAdminUsersEndpoint:
         # 1. Create various test users (admin, regular, active, inactive)
         # 2. Test each filter parameter
         # 3. Assert filtered results are correct
-        pass
     
     def test_admin_get_users_pagination(self):
         """
@@ -540,7 +526,6 @@ class TestAdminUsersEndpoint:
         # 1. Create multiple test users
         # 2. Test different page/per_page combinations
         # 3. Assert pagination metadata is correct
-        pass
     
     def test_admin_get_user_by_id_success(self):
         """
@@ -554,7 +539,6 @@ class TestAdminUsersEndpoint:
         # 1. Create test user and admin
         # 2. Call /admin/users/{user_id}
         # 3. Assert correct user data returned
-        pass
     
     def test_admin_get_user_by_id_not_found(self):
         """
@@ -566,7 +550,6 @@ class TestAdminUsersEndpoint:
         # Mock test implementation
         # 1. Call /admin/users/999999 (non-existent ID)
         # 2. Assert 404 status code
-        pass
     
     def test_admin_update_user_success(self):
         """
@@ -580,7 +563,6 @@ class TestAdminUsersEndpoint:
         # 1. Create test user
         # 2. Update user via /admin/users/{user_id}
         # 3. Assert changes are saved
-        pass
     
     def test_admin_delete_user_success(self):
         """
@@ -595,7 +577,6 @@ class TestAdminUsersEndpoint:
         # 2. Delete via /admin/users/{user_id}
         # 3. Assert user is deleted
         # 4. Test admin cannot delete self
-        pass
 
 class TestAuthenticationFlow:
     """Test complete authentication flow."""
@@ -615,7 +596,6 @@ class TestAuthenticationFlow:
         # 3. Verify email using token
         # 4. Login with verified user
         # 5. Assert all steps work correctly
-        pass
     
     def test_admin_user_management_flow(self):
         """
@@ -630,7 +610,6 @@ class TestAuthenticationFlow:
         # 2. Test admin list users
         # 3. Test admin update user
         # 4. Test admin delete user
-        pass
 
 # Mock fixtures for testing
 @pytest.fixture
@@ -654,41 +633,34 @@ def test_db():
 def test_user():
     """Create test user."""
     # Implementation would create and return test user
-    pass
 
 @pytest.fixture
 def test_admin():
     """Create test admin user."""
     # Implementation would create and return test admin user
-    pass
 
 @pytest.fixture
 def auth_headers():
     """Get authentication headers for test user."""
     # Implementation would return auth headers
-    pass
 
 @pytest.fixture
 def admin_headers():
     """Get authentication headers for admin user."""
     # Implementation would return admin auth headers
-    pass
 
 # Helper functions for tests
 def create_test_user(email: str, is_admin: bool = False, email_verified: bool = False):
     """Create a test user in the database."""
     # Implementation would create user in test database
-    pass
 
 def get_auth_token(email: str, password: str):
     """Get authentication token for user."""
     # Implementation would login and return token
-    pass
 
 def create_verification_token(email: str):
     """Create verification token for testing."""
     # Implementation would create test verification token
-    pass
 
 # Example test data
 TEST_USER_DATA = {

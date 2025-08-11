@@ -34,7 +34,6 @@ class DocumentCollaborationRouterContract(RouterContract):
         """Configure all routes for this router."""
         # Routes are already configured in the document_collaboration module
         # This method ensures the contract interface is satisfied
-        pass
 
 
 # Register the router contract

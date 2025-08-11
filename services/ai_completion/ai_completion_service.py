@@ -6,7 +6,7 @@ import asyncio
 from datetime import datetime
 from typing import Dict, Any, List, Optional, Tuple
 from enum import Enum
-from builtins import len, locals, filter, sum
+
 import openai
 from sqlalchemy.orm import Session
 

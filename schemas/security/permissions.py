@@ -15,15 +15,12 @@ Provides schemas for roles, permissions, and access control.
 """
 
 from pydantic import BaseModel, Field, validator
-from typing import List, Optional, Dict, Any, Set
+from typing import List, Optional, Dict, Any
 from datetime import datetime
 from enum import Enum
 from uuid import UUID
 
 from ..dependencies import (
-    non_empty_string,
-    uuid_field,
-    timestamp_field,
     validate_non_empty_string,
     create_field_metadata,
     PermissionLevel

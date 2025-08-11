@@ -13,17 +13,6 @@
 
 from __future__ import annotations
 import logging
-from builtins import set, getattr, len, print
-import uuid
-import time
-import smtplib
-import asyncio
-from datetime import datetime, timedelta
-from typing import Dict, Optional, Union, Set, List, Any, Protocol
-from jose import jwt, JWTError
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-
 # Configure logging
 logger = logging.getLogger(__name__)
 
@@ -85,19 +74,15 @@ settings = Config()
 # Custom exceptions for dependency injection
 class TokenError(Exception):
     """Base class for token-related exceptions."""
-    pass
 
 class TokenExpiredError(TokenError):
     """Exception raised when a token has expired."""
-    pass
 
 class TokenInvalidError(TokenError):
     """Exception raised when a token is invalid."""
-    pass
 
 class TokenRevokedError(TokenError):
     """Exception raised when a token has been revoked."""
-    pass
 
 # In-memory storage for fallback scenarios
 _revoked_tokens: Set[str] = set()
@@ -803,15 +788,12 @@ if __name__ == "__main__":
 
 class TokenExpiredError(TokenError):
     """Exception raised when a token has expired."""
-    pass
 
 class TokenInvalidError(TokenError):
     """Exception raised when a token is invalid."""
-    pass
 
 class TokenRevokedError(TokenError):
     """Exception raised when a token has been revoked."""
-    pass
 
 # In-memory storage for revoked tokens
 _revoked_tokens: Set[str] = set()

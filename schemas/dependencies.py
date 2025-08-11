@@ -6,21 +6,8 @@ to maintain backwards compatibility with existing schema imports.
 """
 
 from enum import Enum
-from typing import Optional
 from pydantic import Field
-from builtins import list
-
 # Re-export functions from core_contracts for backwards compatibility
-from .core_contracts import (
-    non_empty_string,
-    uuid_field,
-    timestamp_field,
-    validate_non_empty_string,
-    email_field,
-    LogLevel,
-    PermissionLevel,
-    create_field_metadata
-)
 
 
 class Status(str, Enum):

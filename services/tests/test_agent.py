@@ -2,8 +2,6 @@
 
 import pytest
 import asyncio
-from datetime import datetime, timedelta
-from uuid import uuid4
 
 from agent import (
     create_email_verification_token,
@@ -18,10 +16,7 @@ from agent import (
     get_token_functions_async,
     get_email_functions_async,
     health_check_services,
-    TokenError,
-    TokenExpiredError,
-    TokenInvalidError,
-    TokenRevokedError
+    TokenInvalidError
 )
 
 class TestAgent:

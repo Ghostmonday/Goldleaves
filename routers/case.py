@@ -43,7 +43,7 @@ async def create_case(
         return CaseResponse.from_orm(case)
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to create case")
 
 
@@ -210,7 +210,7 @@ async def update_case(
         raise HTTPException(status_code=404, detail="Case not found")
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to update case")
 
 
@@ -238,7 +238,7 @@ async def delete_case(
         raise HTTPException(status_code=404, detail="Case not found")
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to delete case")
 
 
@@ -267,7 +267,7 @@ async def close_case(
         raise HTTPException(status_code=404, detail="Case not found")
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to close case")
 
 
@@ -294,7 +294,7 @@ async def reopen_case(
         raise HTTPException(status_code=404, detail="Case not found")
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to reopen case")
 
 
@@ -318,5 +318,5 @@ async def bulk_update_cases(
             updated_by_id=current_user.id
         )
         return result
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to perform bulk operation")

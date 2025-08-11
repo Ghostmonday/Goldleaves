@@ -64,12 +64,10 @@ Shared validation utilities and dependencies for all schema modules.
 Provides reusable validators, field types, and utility functions.
 """
 
-from typing import Optional, Union, Any, List, Dict
-from datetime import datetime
+from typing import Optional, Any, List, Dict
 from enum import Enum
 import re
-from pydantic import validator, Field
-from uuid import UUID
+from pydantic import Field
 
 
 # === SHARED FIELD TYPES ===

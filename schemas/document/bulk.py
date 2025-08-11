@@ -15,19 +15,11 @@ Provides schemas for bulk operations on multiple documents.
 """
 
 from pydantic import BaseModel, Field, validator
-from typing import List, Optional, Dict, Any, Union, Literal
+from typing import List, Optional, Dict, Any, Literal
 from datetime import datetime
 from enum import Enum
 from uuid import UUID
 
-from ..dependencies import (
-    non_empty_string,
-    uuid_field,
-    timestamp_field,
-    validate_non_empty_string,
-    create_field_metadata,
-    Status
-)
 
 
 class BulkAction(str, Enum):

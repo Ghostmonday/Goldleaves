@@ -4,7 +4,6 @@ from typing import Optional
 from pydantic import BaseModel, Field, EmailStr, validator
 from datetime import datetime
 
-from schemas.base import SuccessResponse
 
 
 class BaseSchema(BaseModel):

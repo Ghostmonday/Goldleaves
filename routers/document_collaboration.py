@@ -2,7 +2,7 @@
 
 """Phase 6: Document collaboration router for version control, diffing, and secure sharing."""
 
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Request, Query, BackgroundTasks
 from fastapi.security import HTTPBearer
 from sqlalchemy.orm import Session
@@ -10,9 +10,9 @@ from datetime import datetime
 
 from core.db.session import get_db
 from core.dependencies import get_current_user
-from core.security import verify_api_key, require_permission
+from core.security import require_permission
 from models.user import User
-from models.document import AuditEventType, SecureSharePermission
+from models.document import AuditEventType
 from services.document_collaboration import DocumentCollaborationService
 from schemas.document.collaboration import (
     VersionComparisonRequest, VersionDiffResponse, VersionHistoryResponse,
@@ -100,7 +100,7 @@ async def compare_document_versions(
         await require_permission(db, current_user.id, document_id, "read")
         
         # Get client IP for audit logging
-        client_ip = request.client.host if request.client else None
+        request.client.host if request.client else None
         
         version_diff = DocumentCollaborationService.compare_versions(
             db=db,
@@ -247,7 +247,7 @@ async def access_secure_document_share(
         
         return share_access
         
-    except NotFoundError as e:
+    except NotFoundError:
         logger.warning(f"Share {share_slug} not found")
         raise HTTPException(status_code=404, detail="Share not found or has expired")
     except ValidationError as e:

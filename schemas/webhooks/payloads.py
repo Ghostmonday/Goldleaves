@@ -19,11 +19,6 @@ from typing import Optional, Dict, Any
 from datetime import datetime
 from uuid import UUID
 
-from ..dependencies import (
-    uuid_field,
-    timestamp_field,
-    create_field_metadata
-)
 
 
 class WebhookPayload(BaseModel):

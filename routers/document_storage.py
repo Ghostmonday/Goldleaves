@@ -4,19 +4,17 @@
 
 import os
 import mimetypes
-from typing import List, Optional, Dict, Any
-from fastapi import APIRouter, Depends, HTTPException, Request, Query, UploadFile, File, BackgroundTasks
-from fastapi.responses import FileResponse, StreamingResponse
+from typing import List, Optional
+from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File, BackgroundTasks
+from fastapi.responses import FileResponse
 from fastapi.security import HTTPBearer
 from sqlalchemy.orm import Session
 from datetime import datetime
-from io import BytesIO
 
 from core.db.session import get_db
 from core.dependencies import get_current_user
-from core.security import verify_api_key, require_permission
+from core.security import require_permission
 from models.user import User
-from models.document import AuditEventType
 from services.document_storage import DocumentStorageService
 from schemas.storage.storage import (
     DocumentUploadRequest, DocumentExportRequest, FileUploadResponse,

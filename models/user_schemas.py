@@ -3,7 +3,6 @@
 from __future__ import annotations
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List
-from builtins import list
 from datetime import datetime
 from enum import Enum
 

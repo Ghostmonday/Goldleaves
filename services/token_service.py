@@ -13,13 +13,6 @@ from __future__ import annotations
 import asyncio
 import logging
 import uuid
-from builtins import set, len, List
-from datetime import datetime, timedelta
-from typing import Dict, Optional, Union, Set, Any, Protocol
-import time
-from jose import jwt, JWTError
-from uuid import UUID
-
 # Configure logging
 logger = logging.getLogger(__name__)
 
@@ -55,19 +48,15 @@ class WebhookService(Protocol):
 # Define custom exceptions for token errors
 class TokenError(Exception):
     """Base class for token-related exceptions."""
-    pass
 
 class TokenExpiredError(TokenError):
     """Exception raised when a token has expired."""
-    pass
 
 class TokenInvalidError(TokenError):
     """Exception raised when a token is invalid."""
-    pass
 
 class TokenRevokedError(TokenError):
     """Exception raised when a token has been revoked."""
-    pass
 
 # In-memory storage for revoked tokens (fallback when cache unavailable)
 _revoked_tokens: Set[str] = set()

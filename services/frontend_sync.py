@@ -4,13 +4,13 @@ Provides business logic for frontend API integration
 """
 
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Any
+from typing import Dict, Any
 from sqlalchemy.orm import Session
 from sqlalchemy import func, desc, and_
 
-from models.user import User, Organization, UserStatus
-from models.document import Document, DocumentStatus
-from schemas.frontend.user_profile import UserProfileResponse, UserStats, UserPreferences
+from models.user import User
+from models.document import Document
+from schemas.frontend.user_profile import UserStats, UserPreferences
 from schemas.frontend.documents import DocumentListResponse, DocumentListItem, DocumentFilter
 from schemas.frontend.dashboard import DashboardStatsResponse, DashboardStats, DashboardWidget
 from schemas.frontend.forms import FormMetadataResponse, FormSection, FormFieldResponse
