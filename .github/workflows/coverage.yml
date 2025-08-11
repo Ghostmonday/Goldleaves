@@ -30,28 +30,34 @@ jobs:
         run: |
           set -euxo pipefail
           pytest --cov=. --cov-report=xml
-      - name: Report and gate on coverage
-        shell: bash
-        run: |
-          set -euo pipefail
-          COV=$(python - <<'PY'
-import xml.etree.ElementTree as ET
-try:
-    r = ET.parse('coverage.xml').getroot().get('line-rate', '0')
-    print(float(r) * 100)
-except Exception:
-    print('0')
-PY
-)
-          echo "coverage=${COV}"
-          echo "Coverage: ${COV}%" >> "$GITHUB_STEP_SUMMARY" || true
-          if [ "${COVERAGE_ENFORCE:-0}" = "1" ] && [ "$(printf '%.0f' "$COV")" -lt 60 ]; then
-            echo "Coverage below threshold and enforcement enabled"
-            exit 1
-          fi
-      - name: Upload coverage.xml
+      - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage.xml
-          if-no-files-found: error
+
+      - name: Compute coverage %
+        shell: bash
+        run: |
+          pct=$(python - <<'PY'
+import xml.etree.ElementTree as ET
+r=ET.parse('coverage.xml').getroot().get('line-rate','0')
+print(f"{float(r)*100:.2f}")
+PY
+)
+          echo "coverage=${pct}"
+
+      - name: Enforce coverage threshold (soft gate)
+        if: env.COVERAGE_ENFORCE == '1'
+        shell: bash
+        run: |
+          pct=$(python - <<'PY'
+import xml.etree.ElementTree as ET
+r=ET.parse('coverage.xml').getroot().get('line-rate','0')
+print(f"{float(r)*100:.0f}")
+PY
+)
+          echo "effective_coverage=${pct}"
+          if [ "${pct%%.*}" -lt 60 ]; then
+            echo "Coverage below 60% (soft gate)"; exit 1
+          fi
