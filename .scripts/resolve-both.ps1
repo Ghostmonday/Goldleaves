@@ -13,7 +13,7 @@ if (-not $lsu -or $lsu.Count -eq 0) {
 $byPath = @{}
 foreach ($line in $lsu) {
   # Format: <mode> <sha> <stage>\t<path>
-  if ($line -match '^(\d+)\s+([0-9a-f]{40})\s+(\d)\t(.+)$') {
+  if ($line -match '^(\d+)\s+([0-9a-f]{40,64})\s+(\d)\t(.+)$') {
     $sha = $Matches[2]
     $stage = [int]$Matches[3]
     $path = $Matches[4]
