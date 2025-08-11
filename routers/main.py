@@ -16,6 +16,8 @@ from .contract import get_all_routers, ROUTER_REGISTRY, RouterTags, ErrorRespons
 from .middleware import get_middleware_stack, MIDDLEWARE_REGISTRY
 from .schemas import HealthCheckSchema
 from .services import SystemService
+from .health import router as health_router
+from core.telemetry import setup_telemetry
 
 # Lifespan event handler
 @asynccontextmanager
@@ -91,7 +93,7 @@ def create_app(config: Dict[str, Any] = None) -> FastAPI:
     
     if middleware_config.get("authentication", {}).get("enabled", True):
         auth_config = middleware_config.get("authentication", {})
-        public_paths = auth_config.get("public_paths", ["/health", "/metrics", "/metrics/prometheus", "/docs", "/openapi.json", "/auth/login", "/auth/register"])
+        public_paths = auth_config.get("public_paths", ["/__health__", "/__version__", "/health", "/metrics", "/metrics/prometheus", "/docs", "/openapi.json", "/auth/login", "/auth/register"])
         app.add_middleware(AuthenticationMiddleware, public_paths=public_paths)
     
     if middleware_config.get("rate_limit", {}).get("enabled", True):
@@ -104,6 +106,13 @@ def create_app(config: Dict[str, Any] = None) -> FastAPI:
     
     app.add_middleware(RequestContextMiddleware)
     
+    # Setup telemetry (Sentry and OpenTelemetry)
+    telemetry_status = setup_telemetry(app, "goldleaves-api")
+    print(f"📊 Telemetry status: {telemetry_status}")
+    
+    # Add health router first (includes /__health__, /__version__, /metrics)
+    app.include_router(health_router, tags=[RouterTags.HEALTH])
+    
     # Add routers
     routers = get_all_routers()
     for router_contract in ROUTER_REGISTRY.values():
@@ -112,57 +121,6 @@ def create_app(config: Dict[str, Any] = None) -> FastAPI:
             prefix=router_contract.prefix,
             tags=router_contract.tags
         )
-    
-    # Add health check endpoint
-    @app.get(
-        "/health",
-        response_model=HealthCheckSchema,
-        tags=[RouterTags.HEALTH],
-        summary="Health check",
-        description="Get application health status"
-    )
-    async def health_check() -> HealthCheckSchema:
-        """Application health check."""
-        health_data = await SystemService.get_health_status()
-        return HealthCheckSchema(**health_data)
-    
-    # Add system stats endpoint
-    @app.get(
-        "/stats",
-        response_model=Dict[str, Any],
-        tags=[RouterTags.HEALTH],
-        summary="System statistics",
-        description="Get system statistics and metrics"
-    )
-    async def system_stats() -> Dict[str, Any]:
-        """Get system statistics."""
-        return await SystemService.get_system_stats()
-    
-    # Add metrics endpoint
-    @app.get(
-        "/metrics",
-        response_model=Dict[str, Any],
-        tags=[RouterTags.HEALTH],
-        summary="Application metrics",
-        description="Get business metrics and performance statistics"
-    )
-    async def get_metrics() -> Dict[str, Any]:
-        """Get application metrics."""
-        from observability.metrics import metrics_collector
-        return metrics_collector.export_json_format()
-    
-    # Add Prometheus metrics endpoint
-    @app.get(
-        "/metrics/prometheus",
-        response_class=PlainTextResponse,
-        tags=[RouterTags.HEALTH],
-        summary="Prometheus metrics",
-        description="Get metrics in Prometheus format"
-    )
-    async def get_prometheus_metrics() -> str:
-        """Get metrics in Prometheus format."""
-        from observability.metrics import metrics_collector
-        return metrics_collector.export_prometheus_format()
     
     # Global exception handler
     @app.exception_handler(Exception)
@@ -192,7 +150,7 @@ def create_development_app() -> FastAPI:
             "audit": {"enabled": True},
             "authentication": {
                 "enabled": True,
-                "public_paths": ["/health", "/stats", "/metrics", "/metrics/prometheus", "/docs", "/openapi.json", "/auth/login", "/auth/register"]
+                "public_paths": ["/__health__", "/__version__", "/metrics", "/metrics/prometheus", "/health", "/stats", "/docs", "/openapi.json", "/auth/login", "/auth/register"]
             },
             "organization": {"enabled": True},
             "cors": {"enabled": True}
