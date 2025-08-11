@@ -18,6 +18,11 @@ class Settings(BaseSettings):
     verification_token_expire_hours: int = 24
     reset_token_expire_hours: int = 1
 
+    # Stripe configuration
+    stripe_secret_key: SecretStr = SecretStr("")
+    stripe_publishable_key: str = ""
+    stripe_webhook_secret: SecretStr = SecretStr("")
+
     @property
     def is_development(self):
         return self.environment == "development"
