@@ -1,12 +1,15 @@
 name: Coverage
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - '**/*.py'
+      - '.github/workflows/coverage.yml'
   pull_request:
     paths:
       - '**/*.py'
+      - '.github/workflows/coverage.yml'
 
 jobs:
   coverage:
