@@ -5,9 +5,9 @@ Set-Location -LiteralPath (Split-Path -Parent $PSScriptRoot)
 # Get all tracked files
 $files = git ls-files
 if (-not $files) { exit 0 }
-# Find files containing each marker
-$ours = Select-String -Path $files -SimpleMatch '<<<<<<<' -List -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Path -Unique
-$theirs = Select-String -Path $files -SimpleMatch '>>>>>>>' -List -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Path -Unique
+# Find files containing each marker using git grep for better performance
+$ours = git grep -l '<<<<<<<' | Sort-Object -Unique
+$theirs = git grep -l '>>>>>>>' | Sort-Object -Unique
 if (-not $ours -or -not $theirs) { exit 0 }
 # Intersect
 $set = [System.Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
