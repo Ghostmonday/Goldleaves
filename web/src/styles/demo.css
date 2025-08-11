@@ -1,0 +1,168 @@
+/* Demo Mode Styles */
+
+/* Body classes for demo mode */
+.demo-mode {
+  /* Demo mode is active */
+}
+
+.demo-cursor {
+  cursor: help !important;
+}
+
+/* High contrast cursor for better visibility */
+.demo-mode * {
+  cursor: inherit;
+}
+
+/* Hotspot styles */
+.demo-hotspot {
+  /* Base styles handled inline for dynamic positioning */
+}
+
+/* Reduced motion fallbacks */
+[data-reduce-motion] .demo-hotspot {
+  animation: none !important;
+  transition: opacity 0.2s ease !important;
+}
+
+[data-reduce-motion] .demo-callout {
+  animation: none !important;
+  transition: opacity 0.2s ease !important;
+}
+
+/* Callout styles */
+.demo-callout {
+  /* Base styles handled inline for dynamic positioning */
+}
+
+.demo-callout:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.demo-callout button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.demo-callout button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+[data-reduce-motion] .demo-callout button:hover {
+  transform: none;
+  transition: none;
+}
+
+/* Z-index layers */
+.demo-overlay {
+  z-index: 9997;
+}
+
+.demo-hotspot {
+  z-index: 9998;
+}
+
+.demo-callout {
+  z-index: 9999;
+}
+
+/* Accessibility improvements */
+.demo-callout[role="dialog"] {
+  /* Ensure dialog is announced properly */
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .demo-hotspot {
+    border-width: 3px !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  .demo-callout {
+    border-width: 2px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+  }
+}
+
+/* Print styles - hide demo elements */
+@media print {
+  .demo-hotspot,
+  .demo-callout,
+  .demo-overlay {
+    display: none !important;
+  }
+}
+
+/* Demo step target classes for convenience */
+.demo-step-1,
+.demo-step-2,
+.demo-step-3,
+.demo-step-4,
+.demo-step-5 {
+  /* Placeholder for demo targets */
+}
+
+/* Pulse animation for hotspots when motion is allowed */
+@keyframes demo-pulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* Only apply animation when reduced motion is not preferred */
+@media (prefers-reduced-motion: no-preference) {
+  .demo-hotspot {
+    animation: demo-pulse 2s ease-in-out infinite;
+  }
+}
+
+/* Ensure proper stacking context */
+.demo-mode {
+  position: relative;
+  z-index: 0;
+}
+
+/* Focus trap styles */
+.demo-callout-content button:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .demo-callout {
+    max-width: calc(100vw - 32px) !important;
+    min-width: auto !important;
+  }
+}
+
+/* Dark mode support (if needed) */
+@media (prefers-color-scheme: dark) {
+  .demo-callout {
+    background: #1f2937 !important;
+    border-color: #374151 !important;
+    color: #f9fafb !important;
+  }
+  
+  .demo-callout h3 {
+    color: #f9fafb !important;
+  }
+  
+  .demo-callout p {
+    color: #d1d5db !important;
+  }
+  
+  .demo-hotspot {
+    border-color: #60a5fa !important;
+    background: rgba(96, 165, 250, 0.1) !important;
+  }
+}

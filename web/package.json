@@ -1,27 +1,2 @@
-{
-  "name": "goldleaves-web",
-  "version": "1.0.0",
-  "type": "module",
-  "description": "Goldleaves Web UI with hero animations and route transitions",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "lint": "tsc --noEmit"
-  },
-  "keywords": ["react", "framer-motion", "vite", "typescript"],
-  "author": "Ghostmonday",
-  "license": "MIT",
-  "dependencies": {
-    "@types/node": "^24.2.1",
-    "@types/react": "^19.1.9",
-    "@types/react-dom": "^19.1.7",
-    "@vitejs/plugin-react": "^5.0.0",
-    "framer-motion": "^12.23.12",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-router-dom": "^7.8.0",
-    "typescript": "^5.9.2",
-    "vite": "^7.1.1"
-  }
-}
+
+
