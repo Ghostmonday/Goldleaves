@@ -2,9 +2,10 @@
 """AI-predicted form field model with confidence scoring."""
 
 from datetime import datetime
-from typing import Optional, Dict, Any
 from enum import Enum
-from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Text, JSON, ForeignKey
+from typing import Any, Dict, Optional
+
+from sqlalchemy import JSON, Boolean, Column, DateTime, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 
 from .dependencies import Base

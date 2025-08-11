@@ -1,6 +1,7 @@
 import uuid
 from typing import Optional
 
+
 def generate_request_id() -> str:
     return str(uuid.uuid4())
 

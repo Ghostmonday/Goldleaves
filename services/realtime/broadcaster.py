@@ -5,15 +5,16 @@ Triggers updates when documents are edited or other events occur.
 Integrates with Redis Pub/Sub for distributed broadcasting.
 """
 
-import json
 import asyncio
+import json
 import logging
-from typing import Dict, Any, Optional, List, Callable
 from datetime import datetime
 from enum import Enum
+from typing import Any, Callable, Dict, List, Optional
+
 import redis.asyncio as redis
 
-from .connection_manager import connection_manager, MessageType
+from .connection_manager import MessageType, connection_manager
 
 logger = logging.getLogger(__name__)
 

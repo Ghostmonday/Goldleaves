@@ -7,11 +7,11 @@ from datetime import datetime
 from typing import Any, Dict, Optional
 from uuid import uuid4
 
-from sqlalchemy import Column, DateTime, Boolean, String, Integer, event
+from sqlalchemy import Boolean, Column, DateTime, Integer, String, event
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
-from sqlalchemy.dialects.postgresql import UUID
 
 from core.database import Base
 

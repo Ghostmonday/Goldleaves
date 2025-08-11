@@ -3,6 +3,7 @@
 import os
 from typing import List
 
+
 class Settings:
     """Application settings."""
     

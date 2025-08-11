@@ -1,21 +1,26 @@
 # routers/client.py
 
 from typing import List, Optional
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from core.db.session import get_db
 from core.dependencies import get_current_active_user, get_current_organization_id
+from core.exceptions import NotFoundError, ValidationError
 from models.user import User
-from services.client import ClientService
-from schemas.client.core import (
-    ClientCreate, ClientUpdate, ClientResponse, ClientFilter, 
-    ClientStats, ClientBulkAction, ClientBulkResult
-)
 from schemas.base.pagination import PaginatedResponse
 from schemas.base.responses import SuccessResponse
-from core.exceptions import NotFoundError, ValidationError
-
+from schemas.client.core import (
+    ClientBulkAction,
+    ClientBulkResult,
+    ClientCreate,
+    ClientFilter,
+    ClientResponse,
+    ClientStats,
+    ClientUpdate,
+)
+from services.client import ClientService
 
 router = APIRouter(
     prefix="/clients",
@@ -25,7 +30,7 @@ router = APIRouter(
 
 
 @router.post("/", response_model=ClientResponse, status_code=201)
-async def create_client(
+def create_client(
     client_data: ClientCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
@@ -46,8 +51,8 @@ async def create_client(
         raise HTTPException(status_code=500, detail="Failed to create client")
 
 
-@router.get("/", response_model=PaginatedResponse[ClientResponse])
-async def list_clients(
+@router.get("/", response_model=PaginatedResponse[ClientResponse], response_model_exclude_none=True)
+def list_clients(
     skip: int = Query(0, ge=0, description="Number of records to skip"),
     limit: int = Query(100, ge=1, le=1000, description="Number of records to return"),
     search: Optional[str] = Query(None, description="Search in client names, email, company"),
@@ -93,8 +98,8 @@ async def list_clients(
     )
 
 
-@router.get("/search", response_model=List[ClientResponse])
-async def search_clients(
+@router.get("/search", response_model=List[ClientResponse], response_model_exclude_none=True)
+def search_clients(
     q: str = Query(..., min_length=2, description="Search term"),
     limit: int = Query(10, ge=1, le=50, description="Number of results to return"),
     db: Session = Depends(get_db),
@@ -113,8 +118,8 @@ async def search_clients(
     return [ClientResponse.from_orm(client) for client in clients]
 
 
-@router.get("/stats", response_model=ClientStats)
-async def get_client_stats(
+@router.get("/stats", response_model=ClientStats, response_model_exclude_none=True)
+def get_client_stats(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
     organization_id: int = Depends(get_current_organization_id)
@@ -124,8 +129,8 @@ async def get_client_stats(
     return ClientService.get_client_stats(db=db, organization_id=organization_id)
 
 
-@router.get("/{client_id}", response_model=ClientResponse)
-async def get_client(
+@router.get("/{client_id}", response_model=ClientResponse, response_model_exclude_none=True)
+def get_client(
     client_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
@@ -140,8 +145,8 @@ async def get_client(
     return ClientResponse.from_orm(client)
 
 
-@router.get("/slug/{slug}", response_model=ClientResponse)
-async def get_client_by_slug(
+@router.get("/slug/{slug}", response_model=ClientResponse, response_model_exclude_none=True)
+def get_client_by_slug(
     slug: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
@@ -157,7 +162,7 @@ async def get_client_by_slug(
 
 
 @router.put("/{client_id}", response_model=ClientResponse)
-async def update_client(
+def update_client(
     client_id: int,
     client_update: ClientUpdate,
     db: Session = Depends(get_db),
@@ -184,7 +189,7 @@ async def update_client(
 
 
 @router.delete("/{client_id}", response_model=SuccessResponse)
-async def delete_client(
+def delete_client(
     client_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
@@ -211,7 +216,7 @@ async def delete_client(
 
 
 @router.post("/bulk", response_model=ClientBulkResult)
-async def bulk_update_clients(
+def bulk_update_clients(
     bulk_action: ClientBulkAction,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
@@ -232,7 +237,7 @@ async def bulk_update_clients(
 
 
 @router.get("/{client_id}/cases")
-async def get_client_cases(
+def get_client_cases(
     client_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),

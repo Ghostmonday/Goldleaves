@@ -1,17 +1,17 @@
 # main.py
 
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
-from models.core_db import engine
-from models.user import Base
 
 # ✅ Phase 3: Auth router import and inclusion - COMPLETED
 from models.auth_router import router as auth_router
+from models.core_db import engine
+from models.user import Base
+from routers.case import router as case_router
 
 # ✅ Phase 4: Client and Case router imports - NEW
 from routers.client import router as client_router
-from routers.case import router as case_router
 
 app = FastAPI(
     title="Goldleaves Backend API",

@@ -4,13 +4,23 @@ Test stubs for models - Phase 4 implementation
 Tests for User, Organization, RevokedToken, and APIKey models
 """
 
-import pytest
 from datetime import datetime, timedelta
+
+import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
+from .contract import get_test_coverage_targets, validate_model_contract
 from .dependencies import Base
-from .user import User, Organization, RevokedToken, APIKey, UserStatus, OrganizationPlan, APIKeyScope
-from .contract import validate_model_contract, get_test_coverage_targets
+from .user import (
+    APIKey,
+    APIKeyScope,
+    Organization,
+    OrganizationPlan,
+    RevokedToken,
+    User,
+    UserStatus,
+)
 
 # Test database setup
 TEST_DATABASE_URL = "sqlite:///./test_models.db"

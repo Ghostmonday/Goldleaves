@@ -14,9 +14,10 @@ Schemas Agent Entry - Complete implementation.
 Agent interface for schema validation and processing.
 """
 
-from pydantic import BaseModel, Field
-from typing import Dict, List, Any, Optional
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
+from pydantic import BaseModel, Field
 
 from .core_contracts import SchemaContract
 

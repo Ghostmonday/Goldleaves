@@ -4,22 +4,27 @@ Handles user registration, login, password reset, and email verification.
 """
 
 from datetime import timedelta
-from typing import Optional, Dict, Any
-from sqlalchemy.orm import Session
-from sqlalchemy.exc import IntegrityError
+from typing import Any, Dict, Optional
 
+from app.config import settings
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
+
+from core.exceptions import AuthenticationError, NotFoundError, ValidationError
 from core.security import (
-    verify_password, get_password_hash, create_access_token, 
-    create_refresh_token, verify_token, create_verification_token,
-    create_password_reset_token, verify_verification_token,
-    verify_password_reset_token, validate_password_strength
-)
-from core.exceptions import (
-    AuthenticationError, ValidationError, NotFoundError
+    create_access_token,
+    create_password_reset_token,
+    create_refresh_token,
+    create_verification_token,
+    get_password_hash,
+    validate_password_strength,
+    verify_password,
+    verify_password_reset_token,
+    verify_token,
+    verify_verification_token,
 )
 from models.user import User
-from schemas.auth import UserRegister, UserLogin, Token
-from app.config import settings
+from schemas.auth import Token, UserLogin, UserRegister
 
 
 class AuthService:

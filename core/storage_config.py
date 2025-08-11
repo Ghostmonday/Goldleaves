@@ -3,9 +3,10 @@
 """Phase 7: Storage configuration and setup for document management."""
 
 import os
-from pathlib import Path
-from typing import Dict, Any, Optional
 from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, Optional
+
 
 class StorageProvider(str, Enum):
     """Supported storage providers."""

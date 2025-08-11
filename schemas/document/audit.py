@@ -1,9 +1,10 @@
 # schemas/document/audit.py
 
-from typing import Dict, Any, Optional, List
-from pydantic import BaseModel, Field
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
+from pydantic import BaseModel, Field
 
 
 class AuditEventType(str, Enum):

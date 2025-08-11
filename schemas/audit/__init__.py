@@ -14,21 +14,8 @@ Audit module exports.
 Centralized exports for audit-related schemas.
 """
 
-from .logs import (
-    AuditAction,
-    AuditLevel,
-    AuditLogEntry,
-    AuditFilter,
-    AuditLogCreate
-)
-
-from .events import (
-    EventType,
-    EventSeverity,
-    AuditEvent,
-    EventFilter,
-    EventCreate
-)
+from .events import AuditEvent, EventCreate, EventFilter, EventSeverity, EventType
+from .logs import AuditAction, AuditFilter, AuditLevel, AuditLogCreate, AuditLogEntry
 
 __all__ = [
     # Logs
