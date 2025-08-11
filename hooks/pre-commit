@@ -4,21 +4,13 @@ set -euo pipefail
 # Collect staged files (Added, Copied, Modified, Renamed)
 mapfile -t files < <(git diff --cached --name-only --diff-filter=ACMR)
 
-# Filter to text files
-text_files=()
-for f in "${files[@]}"; do
-  [ -f "$f" ] || continue
-  if file -I "$f" | grep -q "text/"; then
-    text_files+=("$f")
-  fi
-done
-
-if [ ${#text_files[@]} -eq 0 ]; then
+# If nothing staged, nothing to scan
+if [ ${#files[@]} -eq 0 ]; then
   exit 0
 fi
 
-# Scan for exact conflict markers at line start
-if grep -I -n -E '^(<{7}|={7}|>{7})' -- "${text_files[@]}" ; then
+# Scan staged content only, ignore binaries (-I), and match markers at BOL
+if git grep --cached -I -n -E '^(<{7}|={7}|>{7})' -- "${files[@]}" ; then
   echo
   echo "ERROR: Git merge conflict markers detected in staged files above."
   echo "Please resolve them before committing."
