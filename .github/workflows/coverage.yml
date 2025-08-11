@@ -1,0 +1,57 @@
+name: Coverage
+
+on:
+  push:
+    paths:
+      - '**/*.py'
+  pull_request:
+    paths:
+      - '**/*.py'
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+      - name: Run tests with coverage
+        shell: bash
+        run: |
+          set -euxo pipefail
+          pytest --cov=. --cov-report=xml
+      - name: Report and gate on coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          COV=$(python - <<'PY'
+import xml.etree.ElementTree as ET
+try:
+    r = ET.parse('coverage.xml').getroot().get('line-rate', '0')
+    print(float(r) * 100)
+except Exception:
+    print('0')
+PY
+)
+          echo "coverage=${COV}"
+          echo "Coverage: ${COV}%" >> "$GITHUB_STEP_SUMMARY" || true
+          if [ "${COVERAGE_ENFORCE:-0}" = "1" ] && [ "$(printf '%.0f' "$COV")" -lt 60 ]; then
+            echo "Coverage below threshold and enforcement enabled"
+            exit 1
+          fi
+      - name: Upload coverage.xml
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
+          if-no-files-found: error
