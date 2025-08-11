@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Collect staged files (Added, Copied, Modified, Renamed)
+mapfile -t files < <(git diff --cached --name-only --diff-filter=ACMR)
+
+# If nothing staged, nothing to scan
+if [ ${#files[@]} -eq 0 ]; then
+  exit 0
+fi
+
+# Scan staged content only, ignore binaries (-I), and match markers at BOL
+if git grep --cached -I -n -E '^(<{7}|={7}|>{7})' -- "${files[@]}" ; then
+  echo
+  echo "ERROR: Git merge conflict markers detected in staged files above."
+  echo "Please resolve them before committing."
+  exit 1
+fi
