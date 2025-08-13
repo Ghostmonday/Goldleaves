@@ -8,3 +8,9 @@ state.json
 /artifacts/
 /cleanup_report_*.md
 /cleanup_ledger_*.csv
+
+# Caches and vendored deps
+**/__pycache__/
+*.pyc
+.venv/
+node_modules/

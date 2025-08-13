@@ -80,18 +80,26 @@ TEXT_EXTS = {
     ".ps1",
 }
 
-# Exclude walking into these directory names at the root of traversal
-EXCLUDE_DIRS = {".git", ".quarantine", "artifacts", ".github"}
+# Exclude these directory names anywhere in the tree (vendored/generated)
+EXCLUDE_DIRS = {
+    ".git",
+    ".github",
+    ".quarantine",
+    "artifacts",
+    "node_modules",
+    "vendor",
+    ".venv",
+    ".tox",
+}
 
 
 def is_excluded(path: Path, root: Path) -> bool:
-    """Return True if a path is under an excluded top-level directory."""
+    """Return True if a path is under an excluded directory name anywhere in the tree."""
     try:
         rel = path.relative_to(root)
     except ValueError:
         return True
-    parts = rel.parts
-    return bool(parts) and parts[0] in EXCLUDE_DIRS
+    return any(part in EXCLUDE_DIRS for part in rel.parts)
 
 
 def norm(p: str) -> str:
@@ -172,10 +180,37 @@ def git_tracked_files() -> set[str]:
 
 def list_all_files(root: Path) -> Iterable[Path]:
     for dirpath, dirnames, filenames in os.walk(root):
-        # prune excluded dirs
+        # prune excluded dirs by name anywhere
         dirnames[:] = [d for d in dirnames if d not in EXCLUDE_DIRS]
         for name in filenames:
-            yield Path(dirpath) / name
+            p = Path(dirpath) / name
+            if is_excluded(p, root):
+                continue
+            yield p
+
+
+def _should_skip_normalize(p: Path, data: Optional[bytes] = None) -> bool:
+    # Skip excluded directories
+    if is_excluded(p, ROOT):
+        return True
+    # Size guard: skip > 512 KiB
+    try:
+        if p.stat().st_size > 512 * 1024:
+            return True
+    except Exception:
+        return True
+    # Skip minified and lockfiles
+    name = p.name.lower()
+    if (
+        name.endswith(".min.js")
+        or name.endswith(".min.css")
+        or name in {"package-lock.json", "yarn.lock", "poetry.lock", "pipfile.lock"}
+    ):
+        return True
+    # If data provided, treat NUL as binary
+    if data is not None and b"\x00" in data:
+        return True
+    return False
 
 
 def detect_text_mod_needed(p: Path) -> bool:
@@ -184,6 +219,8 @@ def detect_text_mod_needed(p: Path) -> bool:
     try:
         data = p.read_bytes()
     except Exception:
+        return False
+    if _should_skip_normalize(p, data):
         return False
     # Detect BOM (UTF-8)
     had_bom = data.startswith(b"\xef\xbb\xbf")
@@ -201,6 +238,8 @@ def normalize_text_file(p: Path) -> bool:
     try:
         data = p.read_bytes()
     except Exception:
+        return False
+    if _should_skip_normalize(p, data):
         return False
     had_bom = data.startswith(b"\xef\xbb\xbf")
     if had_bom:
@@ -364,7 +403,7 @@ def prune_empty_dirs(root: Path, max_passes: int = 3, verbose: bool = False) -> 
     removed = 0
     for _ in range(max_passes):
         pass_removed = 0
-        for d in sorted([p for p in root.rglob("*") if p.is_dir() and not is_excluded(p, root)], key=lambda x: len(x.parts), reverse=True):
+    for d in sorted([p for p in root.rglob("*") if p.is_dir() and not is_excluded(p, root)], key=lambda x: len(x.parts), reverse=True):
             try:
                 if not any(d.iterdir()):
                     _clear_attrs(d)
@@ -476,7 +515,8 @@ def create_zip(ts: str, dest_dir: Path) -> Path:
     zip_path = dest_dir / f"Goldleaves_cleaned_{ts}.zip"
     with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for p in list_all_files(ROOT):
-            if any(seg in norm(p.as_posix()) for seg in ["/.quarantine/", "/artifacts/", "/.git/"]):
+            # Skip excluded directories entirely
+            if is_excluded(p, ROOT):
                 continue
             rel = p.relative_to(ROOT)
             zf.write(p, rel.as_posix())
