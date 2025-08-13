@@ -2,3 +2,9 @@
 
 \n.merge_queue/
 state.json
+
+# Hygiene artifacts
+/.quarantine/
+/artifacts/
+/cleanup_report_*.md
+/cleanup_ledger_*.csv
