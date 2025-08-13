@@ -4,6 +4,11 @@ on:
     paths-ignore:
       - 'artifacts/**'
       - '.quarantine/**'
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
 jobs:
   dryrun:
     runs-on: ubuntu-latest
