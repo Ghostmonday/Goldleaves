@@ -55,28 +55,28 @@ def process_data(
     db: Session = Depends(get_db)
 ):
     """Process data with plan-based limits."""
-    
+
     # Check API request limit
     monthly_limit = EntitlementService.get_feature_limit(
         user, "api_requests_per_month", default_limit=1000, db=db
     )
-    
+
     # Here you would check current usage against the limit
     # For example, by querying a usage tracking table
     current_usage = get_current_monthly_usage(user.id)  # Your implementation
-    
+
     if current_usage >= monthly_limit:
         raise HTTPException(
             status_code=429,
             detail=f"Monthly API limit of {monthly_limit} requests exceeded"
         )
-    
+
     # Process the data
     result = process_user_data(data)  # Your implementation
-    
+
     # Increment usage counter
     increment_usage_counter(user.id)  # Your implementation
-    
+
     return {
         "result": result,
         "usage": {
@@ -95,23 +95,23 @@ def get_team_dashboard(
     db: Session = Depends(get_db)
 ):
     """Team dashboard - requires team plan for the organization."""
-    
+
     # Check if organization has team features
     has_team_features = EntitlementService.check_feature_access(
         user, "team_members", tenant_id=org_id, db=db
     )
-    
+
     if not has_team_features:
         raise HTTPException(
             status_code=403,
             detail="Team dashboard requires Team plan for organization"
         )
-    
+
     # Get team member limit
     team_limit = EntitlementService.get_feature_limit(
         user, "team_members", tenant_id=org_id, db=db
     )
-    
+
     return {
         "dashboard": "team_metrics",
         "team_limit": team_limit,
@@ -126,11 +126,11 @@ def get_plan_info(
     db: Session = Depends(get_db)
 ):
     """Get current user's plan information and feature access."""
-    
+
     entitlement = EntitlementService.get_current_entitlement(
         user, tenant_id=user.organization_id, db=db
     )
-    
+
     if not entitlement:
         return {
             "plan": "free",
@@ -145,7 +145,7 @@ def get_plan_info(
             "active": True,
             "upgrade_available": True
         }
-    
+
     return {
         "plan": entitlement.plan.value,
         "features": entitlement.features,

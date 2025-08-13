@@ -8,7 +8,7 @@ This document summarizes the complete implementation of usage logging and metere
 
 ### ✅ Core Requirements
 - [x] **UsageEvent model** - SQLAlchemy model with idempotency via request_id
-- [x] **Usage middleware** - Captures billable routes with X-Request-ID and UTC timestamps  
+- [x] **Usage middleware** - Captures billable routes with X-Request-ID and UTC timestamps
 - [x] **Usage helpers** - Start/finalize events with cost calculation
 - [x] **Billing router** - Stub endpoint for Stripe usage reporting
 - [x] **Comprehensive tests** - Middleware behavior, idempotency, auth-failure skip
@@ -155,7 +155,7 @@ BILLABLE_ROUTES=/api/v1/documents,/api/v1/cases,/api/v1/clients,/api/v1/forms,/a
 
 ### Monitoring Points
 - Usage event creation rate
-- Request ID deduplication effectiveness  
+- Request ID deduplication effectiveness
 - Middleware error rates
 - Billable vs non-billable request ratios
 - Cost calculation accuracy

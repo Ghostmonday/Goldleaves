@@ -9,7 +9,23 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 from .contract import RouterTags, HTTPStatus
-from .dependencies import get_current_user, get_tenant_context
+from . import dependencies as _deps
+
+# Expose functions with names tests will patch
+def get_current_user():
+    return _deps.get_current_user()
+
+def get_tenant_context():
+    return _deps.get_tenant_context()
+
+# Wrapper callables used by FastAPI Depends so tests can patch the names above.
+def _dep_current_user():
+    # Resolve the current name at call time so monkeypatching works
+    return get_current_user()
+
+def _dep_tenant_context():
+    # Resolve the current name at call time so monkeypatching works
+    return get_tenant_context()
 
 router = APIRouter()
 
@@ -38,8 +54,8 @@ class DailyUsageResponse(BaseModel):
     description="Get total API calls and estimated cost for the current billing window"
 )
 async def get_usage_summary(
-    user_context: Dict[str, Any] = Depends(get_current_user),
-    tenant_context: Dict[str, Any] = Depends(get_tenant_context)
+    user_context: Dict[str, Any] = Depends(_dep_current_user),
+    tenant_context: Dict[str, Any] = Depends(_dep_tenant_context)
 ) -> UsageSummaryResponse:
     """Get usage summary for the current user/tenant."""
     try:
@@ -47,23 +63,23 @@ async def get_usage_summary(
         # Scoped by tenant_id/user_id from context
         tenant_id = tenant_context.get("tenant_id")
         user_id = user_context.get("user_id")
-        
+
         # Calculate current billing window (e.g., monthly)
         now = datetime.utcnow()
         window_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-        
+
         # Mock data - in production this would be from a metering service
         total_calls = 1250
         rate_cents_per_call = 2  # 2 cents per call
         est_cost_cents = total_calls * rate_cents_per_call
-        
+
         return UsageSummaryResponse(
             total_calls=total_calls,
             est_cost_cents=est_cost_cents,
             window_start=window_start,
             window_end=now
         )
-        
+
     except Exception as e:
         raise HTTPException(
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR,
@@ -79,8 +95,8 @@ async def get_usage_summary(
 )
 async def get_daily_usage(
     days: int = 7,
-    user_context: Dict[str, Any] = Depends(get_current_user),
-    tenant_context: Dict[str, Any] = Depends(get_tenant_context)
+    user_context: Dict[str, Any] = Depends(_dep_current_user),
+    tenant_context: Dict[str, Any] = Depends(_dep_tenant_context)
 ) -> DailyUsageResponse:
     """Get daily usage data for the specified number of days."""
     try:
@@ -90,27 +106,27 @@ async def get_daily_usage(
                 status_code=HTTPStatus.BAD_REQUEST,
                 detail="Days parameter must be between 1 and 90"
             )
-        
+
         # Scoped by tenant_id/user_id from context
         tenant_id = tenant_context.get("tenant_id")
         user_id = user_context.get("user_id")
-        
+
         # Generate mock daily data - in production this would be from a metering service
         now = datetime.utcnow()
         usage_data = []
-        
+
         for i in range(days):
             date = now - timedelta(days=i)
             date_str = date.strftime("%Y-%m-%d")
             # Mock varying call counts
             calls = max(0, 100 + (i * 15) - (i * i // 2))
             usage_data.append(DailyUsageItem(date=date_str, calls=calls))
-        
+
         # Reverse to get chronological order (oldest first)
         usage_data.reverse()
-        
+
         return DailyUsageResponse(usage=usage_data)
-        
+
     except HTTPException:
         raise
     except Exception as e:

@@ -68,7 +68,7 @@ def list_clients(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """List clients with filtering and pagination."""
-    
+
     # Build filters
     filters = ClientFilter(
         search=search,
@@ -78,7 +78,7 @@ def list_clients(
         assigned_to_id=assigned_to_id,
         tags=tags
     )
-    
+
     clients, total = ClientService.list_clients(
         db=db,
         organization_id=organization_id,
@@ -88,7 +88,7 @@ def list_clients(
         order_by=order_by,
         order_direction=order_direction
     )
-    
+
     return PaginatedResponse(
         items=[ClientResponse.from_orm(client) for client in clients],
         total=total,
@@ -107,14 +107,14 @@ def search_clients(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Quick search for clients (for autocomplete/typeahead)."""
-    
+
     clients = ClientService.search_clients(
         db=db,
         organization_id=organization_id,
         search_term=q,
         limit=limit
     )
-    
+
     return [ClientResponse.from_orm(client) for client in clients]
 
 
@@ -125,7 +125,7 @@ def get_client_stats(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Get client statistics for the organization."""
-    
+
     return ClientService.get_client_stats(db=db, organization_id=organization_id)
 
 
@@ -137,11 +137,11 @@ def get_client(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Get a specific client by ID."""
-    
+
     client = ClientService.get_client(db=db, client_id=client_id, organization_id=organization_id)
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
-    
+
     return ClientResponse.from_orm(client)
 
 
@@ -153,11 +153,11 @@ def get_client_by_slug(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Get a specific client by slug."""
-    
+
     client = ClientService.get_client_by_slug(db=db, slug=slug, organization_id=organization_id)
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
-    
+
     return ClientResponse.from_orm(client)
 
 
@@ -170,7 +170,7 @@ def update_client(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Update a specific client."""
-    
+
     try:
         client = ClientService.update_client(
             db=db,
@@ -196,7 +196,7 @@ def delete_client(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Delete a specific client (soft delete)."""
-    
+
     try:
         success = ClientService.delete_client(
             db=db,
@@ -223,7 +223,7 @@ def bulk_update_clients(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Perform bulk operations on clients."""
-    
+
     try:
         result = ClientService.bulk_update_clients(
             db=db,
@@ -244,18 +244,18 @@ def get_client_cases(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Get all cases for a specific client."""
-    
+
     try:
         cases = ClientService.get_cases_for_client(
             db=db,
             client_id=client_id,
             organization_id=organization_id
         )
-        
+
         # Import here to avoid circular imports
         from schemas.case.core import CaseResponse
         return [CaseResponse.from_orm(case) for case in cases]
-        
+
     except NotFoundError:
         raise HTTPException(status_code=404, detail="Client not found")
     except Exception:

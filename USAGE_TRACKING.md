@@ -7,7 +7,7 @@ This implementation adds usage event tracking with feature, jurisdiction, plan, 
 The usage tracking system consists of:
 
 1. **models/usage_event.py** - Database model for storing usage events
-2. **core/usage.py** - Core usage tracking functionality  
+2. **core/usage.py** - Core usage tracking functionality
 3. **app/usage/middleware.py** - Middleware that reads tags from request.state
 4. **Integration** - Added to existing middleware system
 
@@ -58,7 +58,7 @@ event_id = await record_usage()
 event_id = await record_usage(
     feature="document_analysis",
     jurisdiction="us",
-    plan="pro", 
+    plan="pro",
     ai=True,
     user_id="user123",
     request_id="req456"
@@ -71,7 +71,7 @@ The `usage_events` table includes:
 
 - `id` (UUID) - Primary key
 - `feature` (str) - Feature being used (default: "unknown")
-- `jurisdiction` (str) - Jurisdiction context (default: "unknown")  
+- `jurisdiction` (str) - Jurisdiction context (default: "unknown")
 - `plan` (str) - Plan context (default: "unknown")
 - `ai` (bool) - AI feature flag (default: False)
 - `event_type` (str) - Type of usage event
@@ -103,7 +103,7 @@ When tags are not set in `request.state`:
 The middleware integrates with existing systems:
 
 - **Authentication middleware** can set user context and plan information
-- **Organization middleware** can set jurisdiction and feature context  
+- **Organization middleware** can set jurisdiction and feature context
 - **Rate limiting** and **audit** middleware work alongside usage tracking
 - **Request context** middleware provides request IDs and timing
 
@@ -136,7 +136,7 @@ config = {
 config = {
     "middleware": {
         "rate_limit": {"enabled": True},
-        "security": {"enabled": True}, 
+        "security": {"enabled": True},
         "audit": {"enabled": True},
         "usage_tracking": {"enabled": True}  # Explicitly enabled
     }

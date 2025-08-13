@@ -11,16 +11,16 @@ class MockSession:
     def __init__(self):
         self.added_objects = []
         self.committed = False
-        
+
     def query(self, model):
         return MockQuery()
-    
+
     def add(self, obj):
         self.added_objects.append(obj)
-    
+
     def commit(self):
         self.committed = True
-    
+
     def refresh(self, obj):
         pass
 
@@ -28,14 +28,14 @@ class MockQuery:
     """Mock SQLAlchemy query for testing."""
     def filter(self, *args):
         return self
-    
+
     def first(self):
         return None
 
 # Mock the models and handlers
 class MockPlanType:
     FREE = "free"
-    PRO = "pro" 
+    PRO = "pro"
     TEAM = "team"
 
 class MockEntitlement:
@@ -49,7 +49,7 @@ class MockEntitlement:
         self.cycle_end = kwargs.get('cycle_end')
         self.created_at = kwargs.get('created_at', datetime.utcnow())
         self.updated_at = kwargs.get('updated_at', datetime.utcnow())
-    
+
     def get_plan_limits(self):
         if self.plan == MockPlanType.FREE:
             return {
@@ -72,13 +72,13 @@ class MockEntitlement:
                 "storage_gb": 100,
                 "features": ["basic_templates", "advanced_templates", "ai_assistance", "team_management"]
             }
-    
+
     @property
     def is_active(self):
         if not self.cycle_end:
             return self.plan != MockPlanType.FREE
         return datetime.utcnow() <= self.cycle_end.replace(tzinfo=None)
-    
+
     @property
     def is_expired(self):
         if not self.cycle_end:
@@ -88,11 +88,11 @@ class MockEntitlement:
 
 class TestBillingIntegration:
     """Integration tests for the billing system."""
-    
+
     def setup_method(self):
         """Set up test fixtures."""
         self.mock_db = MockSession()
-    
+
     def test_checkout_session_completed_flow(self):
         """Test complete checkout session flow."""
         # Mock environment variables
@@ -103,9 +103,9 @@ class TestBillingIntegration:
             # Import and create handler with mocked dependencies
             with patch('billing.stripe_handler.PlanType', MockPlanType):
                 from billing.stripe_handler import StripeWebhookHandler
-                
+
                 handler = StripeWebhookHandler()
-                
+
                 # Mock event data
                 event = {
                     "id": "evt_test_123",
@@ -120,40 +120,40 @@ class TestBillingIntegration:
                         }
                     }
                 }
-                
+
                 # Test signature verification
                 assert handler.verify_webhook_signature(b"test", "test_signature") == True
-                
+
                 print("✅ Signature verification working")
-    
+
     def test_plan_limits_and_capabilities(self):
         """Test plan limits and capability checking."""
         # Test Free plan
         free_entitlement = MockEntitlement(plan=MockPlanType.FREE)
         free_limits = free_entitlement.get_plan_limits()
-        
+
         assert free_limits["max_documents"] == 5
         assert free_limits["max_collaborators"] == 1
         assert "basic_templates" in free_limits["features"]
-        
-        # Test Pro plan  
+
+        # Test Pro plan
         pro_entitlement = MockEntitlement(plan=MockPlanType.PRO)
         pro_limits = pro_entitlement.get_plan_limits()
-        
+
         assert pro_limits["max_documents"] == 100
         assert pro_limits["max_collaborators"] == 5
         assert "ai_assistance" in pro_limits["features"]
-        
+
         # Test Team plan
         team_entitlement = MockEntitlement(plan=MockPlanType.TEAM)
         team_limits = team_entitlement.get_plan_limits()
-        
+
         assert team_limits["max_documents"] == 1000
         assert team_limits["max_collaborators"] == 25
         assert "team_management" in team_limits["features"]
-        
+
         print("✅ Plan limits working correctly")
-    
+
     def test_entitlement_status_checking(self):
         """Test entitlement active/expired status."""
         # Test active entitlement
@@ -162,22 +162,22 @@ class TestBillingIntegration:
             cycle_start=datetime.utcnow() - timedelta(days=5),
             cycle_end=datetime.utcnow() + timedelta(days=25)
         )
-        
+
         assert active_entitlement.is_active == True
         assert active_entitlement.is_expired == False
-        
+
         # Test expired entitlement
         expired_entitlement = MockEntitlement(
             plan=MockPlanType.PRO,
             cycle_start=datetime.utcnow() - timedelta(days=35),
             cycle_end=datetime.utcnow() - timedelta(days=5)
         )
-        
+
         assert expired_entitlement.is_active == False
         assert expired_entitlement.is_expired == True
-        
+
         print("✅ Entitlement status checking working")
-    
+
     def test_webhook_event_structure(self):
         """Test webhook event processing structure."""
         # Sample checkout.session.completed event
@@ -196,7 +196,7 @@ class TestBillingIntegration:
                 }
             }
         }
-        
+
         # Sample subscription.updated event
         subscription_event = {
             "id": "evt_test_subscription",
@@ -220,18 +220,18 @@ class TestBillingIntegration:
                 }
             }
         }
-        
+
         # Verify event structure
         assert checkout_event["type"] == "checkout.session.completed"
         assert "metadata" in checkout_event["data"]["object"]
         assert "tenant_id" in checkout_event["data"]["object"]["metadata"]
-        
+
         assert subscription_event["type"] == "customer.subscription.updated"
         assert "current_period_start" in subscription_event["data"]["object"]
         assert "current_period_end" in subscription_event["data"]["object"]
-        
+
         print("✅ Webhook event structures valid")
-    
+
     def test_api_response_formats(self):
         """Test API response format compliance."""
         # Test billing summary response
@@ -251,12 +251,12 @@ class TestBillingIntegration:
             "customer_id": "cus_stripe_customer_id",
             "subscription_id": "sub_stripe_subscription_id"
         }
-        
+
         # Verify required fields
         required_fields = ["tenant_id", "plan", "is_active", "is_expired", "limits"]
         for field in required_fields:
             assert field in summary_response, f"Missing required field: {field}"
-        
+
         # Test success response
         success_response = {
             "success": True,
@@ -271,35 +271,35 @@ class TestBillingIntegration:
                 "cycle_end": "2024-02-01T00:00:00Z"
             }
         }
-        
+
         assert success_response["success"] == True
         assert "message" in success_response
         assert "plan" in success_response
-        
+
         print("✅ API response formats valid")
 
 
 def test_run_integration_tests():
     """Run all integration tests."""
     test_suite = TestBillingIntegration()
-    
+
     print("Running billing integration tests...")
     print()
-    
+
     try:
         test_suite.setup_method()
-        
+
         # Run individual tests
         test_suite.test_checkout_session_completed_flow()
         test_suite.test_plan_limits_and_capabilities()
         test_suite.test_entitlement_status_checking()
         test_suite.test_webhook_event_structure()
         test_suite.test_api_response_formats()
-        
+
         print()
         print("🎉 All integration tests passed!")
         return True
-        
+
     except Exception as e:
         print(f"❌ Test failed: {e}")
         import traceback

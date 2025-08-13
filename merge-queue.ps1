@@ -1,4 +1,4 @@
-<# 
+<#
 .SYNOPSIS
   Queue-merges branches into a target with: auto-discovery, resume, dry-run, and auto-push.
   PowerShell port of merge-queue.sh

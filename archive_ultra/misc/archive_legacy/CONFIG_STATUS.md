@@ -37,7 +37,7 @@
 
 ### Ready for AI-Assisted Refactoring
 - **Phase 1**: Quick wins (unused imports, deprecated calls) - 710 errors
-- **Phase 2**: Core type foundation - 2,380 errors  
+- **Phase 2**: Core type foundation - 2,380 errors
 - **Phase 3**: Advanced type issues - 2,293 errors
 
 ## Next Actions

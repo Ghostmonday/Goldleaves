@@ -10,19 +10,19 @@ class UserLoginRequest(BaseModel):
     """Request payload for user authentication."""
 class TokenResponse(BaseModel):
     """Response with access and refresh tokens.
-    
+
     Contains JWT tokens for authentication and session management.
     """
     access_token: str = Field(..., description="JWT access token")
     refresh_token: str = Field(..., description="Refresh token for obtaining new access tokens")
     token_type: str = Field(default="bearer", description="Type of token issued")
     expires_in: int = Field(
-        default=3600, 
+        default=3600,
         description="Token expiration time in seconds",
         gt=0
     )
     user: UserResponse = Field(..., description="User information")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -49,13 +49,13 @@ class PasswordResetRequest(BaseModel):
     """Request to initiate password reset process."""
 class EmailVerificationToken(BaseModel):
     """Schema for email verification token data.
-    
+
     This represents the token payload used for email verification.
     """
     user_id: int = Field(..., description="User ID for verification", gt=0)
     expires_at: datetime = Field(..., description="Token expiration timestamp")
     token_type: str = Field(default="email_verification", description="Type of verification token")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -71,7 +71,7 @@ class EmailVerificationToken(BaseModel):
 class RefreshTokenRequest(BaseModel):
     """Request to refresh an expired access token."""
     refresh_token: str = Field(..., description="Refresh token provided during authentication")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -86,7 +86,7 @@ class MFASetupResponse(BaseModel):
     secret: str = Field(..., description="TOTP secret key for authenticator app")
     qr_code_url: str = Field(..., description="URL for QR code to scan with authenticator app")
     backup_codes: List[str] = Field(..., description="One-time backup codes for recovery")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -99,31 +99,31 @@ class MFASetupResponse(BaseModel):
 class MFAVerifyRequest(BaseModel):
     """Request to verify a TOTP code during MFA setup or login."""
     code: str = Field(
-        ..., 
-        min_length=6, 
-        max_length=6, 
+        ...,
+        min_length=6,
+        max_length=6,
         description="6-digit TOTP code from authenticator app"
     )
     backup_code: Optional[str] = Field(None, description="Alternative backup code if TOTP is unavailable")
-    
+
     @validator('code')
     def validate_totp_code(cls, v):
         """Validate TOTP code format."""
         if not v.isdigit():
             raise ValueError('TOTP code must contain only digits')
         return v
-    
+
     @root_validator
     def validate_code_or_backup(cls, values):
         """Ensure either code or backup_code is provided."""
         code = values.get('code')
         backup_code = values.get('backup_code')
-        
+
         if not code and not backup_code:
             raise ValueError('Either TOTP code or backup code must be provided')
-        
+
         return values
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -137,7 +137,7 @@ class MFAVerifyRequest(BaseModel):
 
 class AdminUserCreateRequest(BaseModel):
     """Request payload for admin to create a new user account.
-    
+
     This schema provides administrators with comprehensive options for creating
     user accounts, including role assignment, status control, and optional
     password generation.
@@ -147,7 +147,7 @@ class AdminUserCreateRequest(BaseModel):
     last_name: str = Field(..., description="User last name")
     role: str = Field(default="user", description="User role")
     is_active: bool = Field(default=True, description="Whether user account is active")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -163,29 +163,29 @@ class AdminUserCreateRequest(BaseModel):
 # Module exports
 __all__ = [
     # Authentication
-    "UserLoginRequest", 
+    "UserLoginRequest",
     "UserResponse",
     "TokenResponse",
     "UserProfileUpdate",
     "UserPasswordUpdate",
     "UserListParams",
-    
+
     # Password Management
     "PasswordResetRequest",
     "PasswordResetVerify",
-    
+
     "EmailVerificationToken",
     "RefreshTokenRequest",
     "MFASetupResponse",
     "MFAVerifyRequest",
-    
+
     # Admin Operations
     "AdminUserCreateRequest",
     "AdminUserResponse",
     "AdminUserUpdateRequest",
     "BulkUserActionRequest",
     "UserSearchRequest",
-    
+
     # Supporting Types
     "UserSecurityInfo",
     "UserSessionInfo"

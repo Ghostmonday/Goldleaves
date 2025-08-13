@@ -28,7 +28,7 @@ class DocumentVersion(BaseModel):
     id: int
     document_id: int
     version_number: int
-    
+
     # Version snapshot
     title: str
     content: Optional[str]
@@ -37,16 +37,16 @@ class DocumentVersion(BaseModel):
     corrections: Dict[str, Any]
     prediction_status: str
     prediction_score: Optional[float]
-    
+
     # Version metadata
     change_summary: Optional[str]
     change_reason: Optional[str]
     changed_by_id: int
     changed_by_name: Optional[str] = Field(None, description="Name of user who made the change")
-    
+
     # Timestamps
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
         schema_extra = {
@@ -72,22 +72,22 @@ class AuditEvent(BaseModel):
     document_id: int
     event_type: AuditEventType
     event_description: str
-    
+
     # Event details
     details: Dict[str, Any] = Field(default_factory=dict, description="Event-specific details")
     old_values: Optional[Dict[str, Any]] = Field(None, description="Values before change")
     new_values: Optional[Dict[str, Any]] = Field(None, description="Values after change")
-    
+
     # User and system information
     user_id: Optional[int] = Field(None, description="User who triggered the event")
     user_name: Optional[str] = Field(None, description="Name of user")
     system_triggered: bool = Field(False, description="Whether event was system-triggered")
     ip_address: Optional[str] = Field(None, description="IP address of user")
     user_agent: Optional[str] = Field(None, description="User agent string")
-    
+
     # Timestamps
     timestamp: datetime
-    
+
     class Config:
         from_attributes = True
         schema_extra = {
@@ -118,31 +118,31 @@ class DocumentAudit(BaseModel):
     total_versions: int
     total_corrections: int
     total_events: int
-    
+
     # Latest activity
     last_modified: Optional[datetime]
     last_modified_by: Optional[str]
     last_correction: Optional[datetime]
     last_correction_by: Optional[str]
-    
+
     # Version history (limited)
     recent_versions: List[DocumentVersion] = Field(default_factory=list, description="Last 5 versions")
-    
+
     # Audit events (limited)
     recent_events: List[AuditEvent] = Field(default_factory=list, description="Last 10 events")
-    
+
     # Correction summary
     correction_summary: Dict[str, Any] = Field(
-        default_factory=dict, 
+        default_factory=dict,
         description="Summary of corrections by field"
     )
-    
+
     # Prediction accuracy tracking
     prediction_accuracy: Optional[Dict[str, Any]] = Field(
-        None, 
+        None,
         description="Accuracy metrics for AI predictions"
     )
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -178,12 +178,12 @@ class VersionHistory(BaseModel):
     document_id: int
     versions: List[DocumentVersion] = Field(default_factory=list)
     total_versions: int
-    
+
     # Version comparison capabilities
     has_content_changes: bool = Field(False, description="Whether content has changed between versions")
     has_metadata_changes: bool = Field(False, description="Whether metadata has changed")
     has_prediction_changes: bool = Field(False, description="Whether predictions have changed")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -213,15 +213,15 @@ class AuditTrail(BaseModel):
     document_id: int
     events: List[AuditEvent] = Field(default_factory=list)
     total_events: int
-    
+
     # Event filtering and pagination
     event_types_present: List[str] = Field(default_factory=list, description="Types of events in trail")
     date_range: Optional[Dict[str, datetime]] = Field(None, description="Date range of events")
-    
+
     # Summary statistics
     events_by_type: Dict[str, int] = Field(default_factory=dict, description="Count of events by type")
     events_by_user: Dict[str, int] = Field(default_factory=dict, description="Count of events by user")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -253,7 +253,7 @@ class AuditFilter(BaseModel):
     date_from: Optional[datetime] = Field(None, description="Filter events from date")
     date_to: Optional[datetime] = Field(None, description="Filter events to date")
     system_events: Optional[bool] = Field(None, description="Include/exclude system events")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -273,29 +273,29 @@ class ComplianceReport(BaseModel):
     report_period: Dict[str, datetime]
     generated_at: datetime
     generated_by_id: int
-    
+
     # Document statistics
     total_documents: int
     documents_with_predictions: int
     documents_with_corrections: int
     documents_under_legal_hold: int
-    
+
     # Prediction accuracy metrics
     overall_prediction_accuracy: float
     accuracy_by_document_type: Dict[str, float]
     accuracy_trends: List[Dict[str, Any]]
-    
+
     # Correction metrics
     total_corrections: int
     corrections_by_type: Dict[str, int]
     correction_response_times: Dict[str, float]  # Average time to correct by type
-    
+
     # Compliance indicators
     documents_requiring_review: int
     overdue_reviews: int
     retention_compliance: Dict[str, Any]
     access_log_summary: Dict[str, Any]
-    
+
     class Config:
         schema_extra = {
             "example": {

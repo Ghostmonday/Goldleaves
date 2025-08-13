@@ -9,7 +9,7 @@ from .prediction import *
 __all__ = [
     # Core document schemas
     "DocumentCreate",
-    "DocumentUpdate", 
+    "DocumentUpdate",
     "DocumentResponse",
     "DocumentFilter",
     "DocumentStats",
@@ -17,7 +17,7 @@ __all__ = [
     "DocumentBulkResult",
     "DocumentSearchResponse",
     "DocumentPermissionCheck",
-    
+
     # Prediction schemas
     "DocumentPrediction",
     "PredictionField",
@@ -27,10 +27,10 @@ __all__ = [
     "PredictionBatch",
     "PredictionResult",
     "PredictionBatchResult",
-    
+
     # Correction schemas
     "DocumentCorrection",
-    "FieldCorrection", 
+    "FieldCorrection",
     "CorrectionCreate",
     "CorrectionUpdate",
     "CorrectionResponse",
@@ -39,7 +39,7 @@ __all__ = [
     "CorrectionBatch",
     "CorrectionBatchResult",
     "CorrectionType",
-    
+
     # Audit schemas
     "DocumentAudit",
     "DocumentVersion",
@@ -49,11 +49,11 @@ __all__ = [
     "AuditFilter",
     "ComplianceReport",
     "AuditEventType",
-    
+
     # Phase 6: Collaboration schemas
     "VersionComparisonRequest",
     "FieldDiff",
-    "ContentDiff", 
+    "ContentDiff",
     "VersionDiffResponse",
     "VersionHistoryEntry",
     "VersionHistoryResponse",
@@ -84,6 +84,9 @@ from .bulk import (
     BulkTagRequest,
     BulkUpdateMetadataRequest,
 )
+
+# Back-compat alias expected by some tests
+DocumentBulkAction = BulkAction
 
 # Comments schemas
 from .comments import (
@@ -143,7 +146,8 @@ from .versioning import (
 __all__ = [
     # Bulk operations
     "BulkAction",
-    "BulkOperationStatus", 
+    "DocumentBulkAction",
+    "BulkOperationStatus",
     "BulkDocumentRequest",
     "BulkMoveRequest",
     "BulkCopyRequest",
@@ -155,14 +159,14 @@ __all__ = [
     "BulkListParams",
     "BulkOperationStats",
     "BulkStatusCheck",
-    
+
     # Comments
     "CommentType",
     "CommentStatus",
     "CommentReaction",
     "CommentAnchor",
     "CommentCreate",
-    "CommentUpdate", 
+    "CommentUpdate",
     "CommentResponse",
     "CommentThread",
     "CommentListParams",
@@ -170,7 +174,7 @@ __all__ = [
     "CommentModerationRequest",
     "CommentStats",
     "BulkCommentAction",
-    
+
     # Sharing
     "ShareType",
     "AccessLevel",
@@ -185,7 +189,7 @@ __all__ = [
     "ShareListParams",
     "ShareStats",
     "BulkShareAction",
-    
+
     # Versioning
     "VersionType",
     "VersionStatus",

@@ -30,7 +30,7 @@ def upgrade() -> None:
         sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
         sa.PrimaryKeyConstraint('id')
     )
-    
+
     # Create indexes
     op.create_index(op.f('ix_refresh_tokens_id'), 'refresh_tokens', ['id'], unique=False)
     op.create_index(op.f('ix_refresh_tokens_user_id'), 'refresh_tokens', ['user_id'], unique=False)
@@ -42,6 +42,6 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_refresh_tokens_token'), table_name='refresh_tokens')
     op.drop_index(op.f('ix_refresh_tokens_user_id'), table_name='refresh_tokens')
     op.drop_index(op.f('ix_refresh_tokens_id'), table_name='refresh_tokens')
-    
+
     # Drop table
     op.drop_table('refresh_tokens')

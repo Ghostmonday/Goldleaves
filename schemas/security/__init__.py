@@ -70,7 +70,7 @@ __all__ = [
     "APIKeyListParams",
     "APIKeyUsageStats",
     "APIKeyRevoke",
-    
+
     # Permission schemas
     "ResourceType",
     "Action",
@@ -85,7 +85,7 @@ __all__ = [
     "PermissionSet",
     "BulkRoleAssignment",
     "BulkRoleAssignmentResponse",
-    
+
     # Two-factor authentication schemas
     "TwoFactorMethod",
     "TwoFactorStatus",

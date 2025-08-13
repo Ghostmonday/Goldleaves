@@ -13,9 +13,9 @@ from core.config import settings
 from core.database import get_db
 from apps.backend.models.user import User
 from apps.backend.services.auth_service import (
-    create_access_token, 
-    create_refresh_token, 
-    hash_password, 
+    create_access_token,
+    create_refresh_token,
+    hash_password,
     verify_password,
     decode_token
 )
@@ -59,14 +59,14 @@ class UserResponse(BaseModel):
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security), db: Session = Depends(get_db)) -> User:
     """
     Get current authenticated user from JWT token.
-    
+
     Args:
         credentials: HTTP Authorization credentials
         db: Database session
-        
+
     Returns:
         User object
-        
+
     Raises:
         HTTPException: 401 if token is invalid or user not found
     """
@@ -75,40 +75,40 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
         payload = decode_token(token)
         user_id_str = payload.get("sub")
         token_type = payload.get("type", "access")
-        
+
         if user_id_str is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid token payload",
                 headers={"WWW-Authenticate": "Bearer"}
             )
-        
+
         if token_type != "access":
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid token type",
                 headers={"WWW-Authenticate": "Bearer"}
             )
-        
+
         user_id = int(user_id_str)
         user = db.query(User).filter(User.id == user_id).first()
-        
+
         if user is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="User not found",
                 headers={"WWW-Authenticate": "Bearer"}
             )
-        
+
         if not user.is_active:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="User account is inactive",
                 headers={"WWW-Authenticate": "Bearer"}
             )
-        
+
         return user
-        
+
     except jwt.ExpiredSignatureError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -133,14 +133,14 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
 def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
     """
     Register a new user.
-    
+
     Args:
         user_data: User registration data
         db: Database session
-        
+
     Returns:
         UserResponse with user data and success message
-        
+
     Raises:
         HTTPException: 400 if user already exists
         HTTPException: 500 if registration fails
@@ -150,7 +150,7 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
         existing_user = db.query(User).filter(
             (User.email == user_data.email) | (User.username == user_data.username)
         ).first()
-        
+
         if existing_user:
             if existing_user.email == user_data.email:
                 raise HTTPException(
@@ -162,7 +162,7 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
                     status_code=status.HTTP_400_BAD_REQUEST,
                     detail="Username already taken"
                 )
-        
+
         # Create new user
         hashed_password = hash_password(user_data.password)
         db_user = User(
@@ -172,18 +172,18 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
             is_active=True,
             is_verified=False  # Email verification required
         )
-        
+
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
-        
+
         logger.info(f"New user registered: {db_user.email} (ID: {db_user.id})")
-        
+
         return UserResponse(
             user=UserRead.model_validate(db_user),
             message="User registered successfully. Please verify your email."
         )
-        
+
     except HTTPException:
         # Re-raise HTTP exceptions as-is
         db.rollback()
@@ -210,28 +210,28 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
 def login_user(login_data: UserLogin, db: Session = Depends(get_db)):
     """
     Authenticate user and return access token.
-    
+
     Args:
         login_data: User login credentials
         db: Database session
-        
+
     Returns:
         Token with access and refresh tokens
-        
+
     Raises:
         HTTPException: 401 if credentials are invalid
         HTTPException: 401 if user is not verified (optional enforcement)
     """
     # Find user by email
     user = db.query(User).filter(User.email == login_data.email).first()
-    
+
     if not user:
         logger.warning(f"Login attempt with non-existent email: {login_data.email}")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials"
         )
-    
+
     # Verify password
     if not verify_password(login_data.password, user.hashed_password):
         logger.warning(f"Login attempt with wrong password for user: {login_data.email}")
@@ -239,7 +239,7 @@ def login_user(login_data: UserLogin, db: Session = Depends(get_db)):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials"
         )
-    
+
     # Check if user is active
     if not user.is_active:
         logger.warning(f"Login attempt for inactive user: {login_data.email}")
@@ -247,7 +247,7 @@ def login_user(login_data: UserLogin, db: Session = Depends(get_db)):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Account is inactive"
         )
-    
+
     # Optional: Enforce email verification
     # Uncomment if you want to require email verification before login
     # if not user.is_verified:
@@ -255,11 +255,11 @@ def login_user(login_data: UserLogin, db: Session = Depends(get_db)):
     #         status_code=status.HTTP_401_UNAUTHORIZED,
     #         detail="Email verification required"
     #     )
-    
+
     # Create tokens
     access_token = create_access_token(user.id)
     refresh_token, refresh_expires_at = create_refresh_token(user.id)
-    
+
     # Store refresh token in database
     from apps.backend.models import RefreshToken
     db_refresh_token = RefreshToken(
@@ -270,9 +270,9 @@ def login_user(login_data: UserLogin, db: Session = Depends(get_db)):
     )
     db.add(db_refresh_token)
     db.commit()
-    
+
     logger.info(f"User logged in successfully: {user.email} (ID: {user.id})")
-    
+
     return Token(
         access_token=access_token,
         refresh_token=refresh_token,
@@ -284,10 +284,10 @@ def login_user(login_data: UserLogin, db: Session = Depends(get_db)):
 def get_current_user_info(current_user: User = Depends(get_current_user)):
     """
     Get current authenticated user information.
-    
+
     Args:
         current_user: Current authenticated user from token
-        
+
     Returns:
         UserRead with current user information
     """
@@ -297,11 +297,11 @@ def get_current_user_info(current_user: User = Depends(get_current_user)):
 def logout_user(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     """
     Logout user by revoking all refresh tokens.
-    
+
     Args:
         current_user: Current authenticated user
         db: Database session
-        
+
     Returns:
         Success message
     """
@@ -311,9 +311,9 @@ def logout_user(current_user: User = Depends(get_current_user), db: Session = De
         RefreshToken.user_id == current_user.id,
         RefreshToken.is_active == True
     ).update({"is_active": False})
-    
+
     db.commit()
-    
+
     logger.info(f"User logged out: {current_user.email} (ID: {current_user.id})")
-    
+
     return {"message": "Logged out successfully"}

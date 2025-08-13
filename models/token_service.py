@@ -15,7 +15,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 EMAIL_VERIFICATION_EXPIRE_HOURS = 24
 
 class TokenService:
-    
+
     @staticmethod
     def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta] = None):
         """Create JWT access token."""
@@ -24,7 +24,7 @@ class TokenService:
             expire = datetime.utcnow() + expires_delta
         else:
             expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-        
+
         to_encode.update({"exp": expire})
         encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
         return encoded_jwt

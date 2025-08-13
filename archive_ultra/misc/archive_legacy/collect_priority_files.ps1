@@ -6,14 +6,14 @@ $targetDir = "c:\Projects\Goldleaves_Final\extracted_files\priority_assessment"
 $priorityFiles = @(
     # Models (most critical)
     "models\user.py",
-    "models\client.py", 
+    "models\client.py",
     "models\case.py",
     "models\organization.py",
     "models\contract.py",
     "models\agent.py",
     "models\base.py",
     "models\auth_router.py",
-    
+
     # Service Layer
     "services\auth_service.py",
     "services\user_service.py",
@@ -21,22 +21,22 @@ $priorityFiles = @(
     "services\config.py",
     "services\schemas.py",
     "services\token_service.py",
-    
-    # Router Implementations  
+
+    # Router Implementations
     "routers\auth.py",
     "routers\client.py",
     "routers\case.py",
     "routers\agent.py",
     "routers\contract.py",
     "routers\main.py",
-    
+
     # Package Configuration
     "requirements.txt",
     "pyproject.toml",
     ".env.example",
     "package.json",
     "alembic.ini",
-    
+
     # Additional core business files
     "core\config.py",
     "core\database.py",
@@ -59,12 +59,12 @@ $notFoundCount = 0
 
 foreach ($file in $priorityFiles) {
     $sourcePath = Join-Path $sourceDir $file
-    
+
     if (Test-Path $sourcePath) {
         # Create flattened filename
         $flattenedName = $file -replace "\\", "_"
         $targetPath = Join-Path $targetDir $flattenedName
-        
+
         Copy-Item $sourcePath $targetPath -Force
         Write-Host "✅ CRITICAL: $file -> $flattenedName"
         $foundCount++

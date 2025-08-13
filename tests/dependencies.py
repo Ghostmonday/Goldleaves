@@ -49,8 +49,8 @@ def get_test_db() -> Generator[Session, None, None]:
 # Mock User class for testing
 class MockUser:
     """Mock user for testing."""
-    def __init__(self, id: int = 1, email: str = "test@example.com", 
-                 is_active: bool = True, is_admin: bool = False, 
+    def __init__(self, id: int = 1, email: str = "test@example.com",
+                 is_active: bool = True, is_admin: bool = False,
                  email_verified: bool = False, hashed_password: str = "hashed"):
         self.id = id
         self.email = email
@@ -136,12 +136,12 @@ class MockEmailService:
     """Mock email service for testing."""
     def __init__(self):
         self.sent_emails = []
-    
+
     def send_verification_email(self, email: str, token: str) -> bool:
         """Mock send verification email."""
         self.sent_emails.append({"email": email, "token": token, "type": "verification"})
         return True
-    
+
     def clear(self):
         """Clear sent emails."""
         self.sent_emails.clear()
@@ -150,7 +150,7 @@ class MockEmailService:
 
 class MockOrganization:
     """Mock organization for multi-tenant testing."""
-    def __init__(self, id: int = 1, name: str = "Test Org", 
+    def __init__(self, id: int = 1, name: str = "Test Org",
                  is_active: bool = True):
         self.id = id
         self.name = name
@@ -159,7 +159,7 @@ class MockOrganization:
 
 class MockDocument:
     """Mock document for integration testing."""
-    def __init__(self, id: int = 1, title: str = "Test Doc", 
+    def __init__(self, id: int = 1, title: str = "Test Doc",
                  organization_id: int = 1, user_id: int = 1):
         self.id = id
         self.title = title
@@ -171,18 +171,18 @@ class PerformanceMonitor:
     """Performance monitoring for benchmarks."""
     def __init__(self):
         self.metrics = {}
-    
+
     def record_request_time(self, endpoint: str, duration: float):
         """Record request timing."""
         if endpoint not in self.metrics:
             self.metrics[endpoint] = []
         self.metrics[endpoint].append(duration)
-    
+
     def get_avg_time(self, endpoint: str) -> float:
         """Get average request time."""
         times = self.metrics.get(endpoint, [])
         return sum(times) / len(times) if times else 0.0
-    
+
     def assert_performance_threshold(self, endpoint: str, max_time: float):
         """Assert performance meets threshold."""
         avg_time = self.get_avg_time(endpoint)
@@ -190,30 +190,30 @@ class PerformanceMonitor:
 
 class ContractValidator:
     """Validate API contracts and response schemas."""
-    
+
     @staticmethod
     def validate_auth_response(response: Dict[str, Any]) -> None:
         """Validate authentication response contract."""
         required_fields = ["access_token", "token_type", "user_id", "email"]
         for field in required_fields:
             assert field in response, f"Missing required field: {field}"
-        
+
         assert isinstance(response["access_token"], str)
         assert isinstance(response["token_type"], str)
         assert response["token_type"] == "bearer"
-    
+
     @staticmethod
     def validate_user_response(response: Dict[str, Any]) -> None:
         """Validate user response contract."""
         required_fields = ["id", "email", "is_active", "email_verified"]
         for field in required_fields:
             assert field in response, f"Missing required field: {field}"
-        
+
         assert isinstance(response["id"], (int, str))
         assert isinstance(response["email"], str)
         assert isinstance(response["is_active"], bool)
         assert isinstance(response["email_verified"], bool)
-    
+
     @staticmethod
     def validate_organization_response(response: Dict[str, Any]) -> None:
         """Validate organization response contract."""
@@ -223,9 +223,9 @@ class ContractValidator:
 
 class SecurityTester:
     """Security and permission testing utilities."""
-    
+
     @staticmethod
-    def test_cross_tenant_access(client: TestClient, org1_token: str, 
+    def test_cross_tenant_access(client: TestClient, org1_token: str,
                                org2_id: int, endpoint_template: str):
         """Test cross-tenant access prevention."""
         endpoint = endpoint_template.format(org_id=org2_id)
@@ -235,9 +235,9 @@ class SecurityTester:
         )
         assert response.status_code in [403, 404], \
             f"Cross-tenant access allowed for {endpoint}"
-    
+
     @staticmethod
-    def test_admin_only_access(client: TestClient, regular_token: str, 
+    def test_admin_only_access(client: TestClient, regular_token: str,
                              admin_endpoint: str):
         """Test admin-only endpoint access."""
         response = client.get(
@@ -252,15 +252,15 @@ class CoverageTracker:
     def __init__(self):
         self.endpoints_tested = set()
         self.scenarios_tested = set()
-    
+
     def mark_endpoint_tested(self, endpoint: str):
         """Mark an endpoint as tested."""
         self.endpoints_tested.add(endpoint)
-    
+
     def mark_scenario_tested(self, scenario: str):
         """Mark a test scenario as covered."""
         self.scenarios_tested.add(scenario)
-    
+
     def get_coverage_report(self) -> Dict[str, int]:
         """Get coverage statistics."""
         return {
@@ -299,19 +299,19 @@ def mock_multi_tenant_setup():
 # Database state assertion utilities
 class DatabaseStateValidator:
     """Validate database state changes."""
-    
+
     @staticmethod
     def assert_user_created(mock_session, email: str):
         """Assert user was created in database."""
         mock_session.add.assert_called()
         mock_session.commit.assert_called()
         # Additional assertions would depend on actual model structure
-    
+
     @staticmethod
     def assert_user_updated(mock_session, user_id: int):
         """Assert user was updated in database."""
         mock_session.commit.assert_called()
-    
+
     @staticmethod
     def assert_organization_created(mock_session, org_name: str):
         """Assert organization was created."""
@@ -326,7 +326,7 @@ INTEGRATION_TEST_DATA = {
         "organization_name": "Test Organization"
     },
     "org_member": {
-        "email": "member@testorg.com", 
+        "email": "member@testorg.com",
         "password": "SecureMemberPassword123!"
     },
     "documents": [

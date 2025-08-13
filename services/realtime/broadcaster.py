@@ -25,30 +25,30 @@ class BroadcastEvent(str, Enum):
     DOCUMENT_UPDATED = "document.updated"
     DOCUMENT_DELETED = "document.deleted"
     DOCUMENT_SHARED = "document.shared"
-    
+
     USER_JOINED = "user.joined"
     USER_LEFT = "user.left"
     USER_UPDATED = "user.updated"
-    
+
     COMMENT_ADDED = "comment.added"
     COMMENT_UPDATED = "comment.updated"
     COMMENT_DELETED = "comment.deleted"
-    
+
     NOTIFICATION_SENT = "notification.sent"
-    
+
     CASE_UPDATED = "case.updated"
     CLIENT_UPDATED = "client.updated"
 
 
 class RealtimeBroadcaster:
     """Handles real-time event broadcasting across the application."""
-    
+
     def __init__(self, redis_url: str = "redis://localhost:6379"):
         self.redis_url = redis_url
         self.redis_client: Optional[redis.Redis] = None
         self._event_handlers: Dict[str, List[Callable]] = {}
         self._subscription_task: Optional[asyncio.Task] = None
-    
+
     async def start(self):
         """Initialize Redis connection and start listening."""
         try:
@@ -57,35 +57,35 @@ class RealtimeBroadcaster:
                 encoding="utf-8",
                 decode_responses=True
             )
-            
+
             # Start Redis subscription handler
             self._subscription_task = asyncio.create_task(self._subscription_handler())
-            
+
             logger.info("RealtimeBroadcaster started")
-            
+
         except Exception as e:
             logger.error(f"Failed to start RealtimeBroadcaster: {e}")
             # Continue without Redis - use in-memory only
-    
+
     async def stop(self):
         """Stop the broadcaster and clean up resources."""
         if self._subscription_task:
             self._subscription_task.cancel()
-        
+
         if self.redis_client:
             await self.redis_client.close()
-        
+
         logger.info("RealtimeBroadcaster stopped")
-    
+
     async def _subscription_handler(self):
         """Handle incoming Redis pub/sub messages."""
         if not self.redis_client:
             return
-        
+
         try:
             pubsub = self.redis_client.pubsub()
             await pubsub.subscribe("realtime_events")
-            
+
             async for message in pubsub.listen():
                 if message["type"] == "message":
                     try:
@@ -93,20 +93,20 @@ class RealtimeBroadcaster:
                         await self._handle_redis_message(data)
                     except Exception as e:
                         logger.error(f"Error processing Redis message: {e}")
-                        
+
         except asyncio.CancelledError:
             pass
         except Exception as e:
             logger.error(f"Error in subscription handler: {e}")
-    
+
     async def _handle_redis_message(self, message: Dict[str, Any]):
         """Process a message from Redis pub/sub."""
         event_type = message.get("event_type")
         data = message.get("data", {})
-        
+
         if event_type:
             await self._trigger_handlers(event_type, data)
-            
+
             # Also broadcast via WebSocket
             await connection_manager.broadcast_to_all(
                 MessageType.SYSTEM_MESSAGE,
@@ -115,11 +115,11 @@ class RealtimeBroadcaster:
                     "data": data
                 }
             )
-    
+
     async def _trigger_handlers(self, event_type: str, data: Dict[str, Any]):
         """Trigger registered event handlers."""
         handlers = self._event_handlers.get(event_type, [])
-        
+
         for handler in handlers:
             try:
                 if asyncio.iscoroutinefunction(handler):
@@ -128,7 +128,7 @@ class RealtimeBroadcaster:
                     handler(data)
             except Exception as e:
                 logger.error(f"Error in event handler for {event_type}: {e}")
-    
+
     def on_event(self, event_type: str):
         """Decorator to register event handlers."""
         def decorator(func: Callable):
@@ -137,7 +137,7 @@ class RealtimeBroadcaster:
             self._event_handlers[event_type].append(func)
             return func
         return decorator
-    
+
     async def broadcast(
         self,
         event_type: BroadcastEvent,
@@ -147,7 +147,7 @@ class RealtimeBroadcaster:
     ):
         """
         Broadcast an event to WebSocket connections and Redis.
-        
+
         Args:
             event_type: Type of event to broadcast
             data: Event data
@@ -159,7 +159,7 @@ class RealtimeBroadcaster:
             "data": data,
             "timestamp": datetime.utcnow().isoformat()
         }
-        
+
         # Broadcast via WebSocket
         if user_ids:
             # Send to specific users
@@ -182,7 +182,7 @@ class RealtimeBroadcaster:
                 MessageType.SYSTEM_MESSAGE,
                 message_data
             )
-        
+
         # Broadcast via Redis for distributed systems
         if self.redis_client:
             try:
@@ -192,12 +192,12 @@ class RealtimeBroadcaster:
                 )
             except Exception as e:
                 logger.error(f"Error publishing to Redis: {e}")
-        
+
         # Trigger local handlers
         await self._trigger_handlers(event_type.value, data)
-    
+
     # Convenience methods for common broadcasts
-    
+
     async def broadcast_document_update(
         self,
         document_id: str,
@@ -216,7 +216,7 @@ class RealtimeBroadcaster:
             },
             room_id=f"document:{document_id}"
         )
-    
+
     async def broadcast_user_update(
         self,
         user_id: str,
@@ -233,7 +233,7 @@ class RealtimeBroadcaster:
             },
             user_ids=[user_id]
         )
-    
+
     async def broadcast_comment(
         self,
         document_id: str,
@@ -254,7 +254,7 @@ class RealtimeBroadcaster:
             },
             room_id=f"document:{document_id}"
         )
-    
+
     async def broadcast_notification(
         self,
         user_id: str,
@@ -269,7 +269,7 @@ class RealtimeBroadcaster:
             },
             user_ids=[user_id]
         )
-    
+
     async def broadcast_user_presence(
         self,
         user_id: str,
@@ -278,13 +278,13 @@ class RealtimeBroadcaster:
     ):
         """Broadcast user presence update."""
         event = BroadcastEvent.USER_JOINED if status == "online" else BroadcastEvent.USER_LEFT
-        
+
         data = {
             "user_id": user_id,
             "status": status,
             "room_id": room_id
         }
-        
+
         if room_id:
             await self.broadcast(event, data, room_id=room_id)
         else:
@@ -314,7 +314,7 @@ async def handle_notification(data: Dict[str, Any]):
     """Handle notification events."""
     user_id = data.get("user_id")
     notification_data = data.get("notification", {})
-    
+
     if user_id:
         await connection_manager.send_to_user(
             user_id,

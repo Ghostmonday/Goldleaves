@@ -39,7 +39,7 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info(f"Starting {settings.PROJECT_NAME} v{settings.VERSION}")
     logger.info(f"Environment: {settings.ENVIRONMENT}")
-    
+
     # Initialize database
     try:
         init_db()
@@ -47,22 +47,22 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"Failed to initialize database: {e}")
         raise
-    
+
     # Check database health
     if check_db_health():
         logger.info("Database health check passed")
     else:
         logger.error("Database health check failed")
-    
+
     yield
-    
+
     # Shutdown
     logger.info("Shutting down application")
 
 
 def create_application() -> FastAPI:
     """Create and configure the FastAPI application."""
-    
+
     app = FastAPI(
         title=settings.PROJECT_NAME,
         description=settings.DESCRIPTION,
@@ -72,22 +72,22 @@ def create_application() -> FastAPI:
         redoc_url="/redoc" if not settings.is_production else None,
         lifespan=lifespan
     )
-    
+
     # Set up middleware
     setup_middleware(app)
-    
+
     # Set up routes
     setup_routes(app)
-    
+
     # Set up exception handlers
     setup_exception_handlers(app)
-    
+
     return app
 
 
 def setup_middleware(app: FastAPI) -> None:
     """Configure application middleware."""
-    
+
     # Add CORS middleware
     if settings.BACKEND_CORS_ORIGINS:
         app.add_middleware(
@@ -98,13 +98,13 @@ def setup_middleware(app: FastAPI) -> None:
             allow_headers=["*"],
             expose_headers=["X-Request-ID", "X-RateLimit-Limit", "X-RateLimit-Remaining"]
         )
-    
+
     # Add security headers
     app.add_middleware(SecurityHeadersMiddleware)
-    
+
     # Add request ID middleware
     app.add_middleware(RequestIDMiddleware)
-    
+
     # Add rate limiting (if enabled)
     if settings.RATE_LIMIT_ENABLED:
         app.add_middleware(
@@ -112,10 +112,10 @@ def setup_middleware(app: FastAPI) -> None:
             requests_per_minute=settings.RATE_LIMIT_REQUESTS_PER_MINUTE,
             requests_per_hour=settings.RATE_LIMIT_REQUESTS_PER_HOUR
         )
-    
+
     # Add GZip compression
     app.add_middleware(GZipMiddleware, minimum_size=1000)
-    
+
     # Add trusted host middleware in production
     if settings.is_production:
         app.add_middleware(
@@ -126,7 +126,7 @@ def setup_middleware(app: FastAPI) -> None:
 
 def setup_routes(app: FastAPI) -> None:
     """Configure application routes."""
-    
+
     # Health check endpoint
     @app.get("/health")
     async def health_check():
@@ -138,16 +138,16 @@ def setup_routes(app: FastAPI) -> None:
             "version": settings.VERSION,
             "environment": settings.ENVIRONMENT
         }
-    
+
     # Metrics endpoint for Prometheus
     @app.get("/metrics")
     async def metrics_endpoint():
         """Prometheus metrics endpoint."""
         return Response(
-            content=metrics.get_prometheus_metrics(), 
+            content=metrics.get_prometheus_metrics(),
             media_type=CONTENT_TYPE_LATEST
         )
-    
+
     # Root endpoint
     @app.get("/")
     async def root():
@@ -157,14 +157,14 @@ def setup_routes(app: FastAPI) -> None:
             "version": settings.VERSION,
             "docs_url": "/docs" if not settings.is_production else None
         }
-    
+
     # Include API routers
     app.include_router(api_v1_router)
 
 
 def setup_exception_handlers(app: FastAPI) -> None:
     """Configure application exception handlers."""
-    
+
     @app.exception_handler(StarletteHTTPException)
     async def http_exception_handler(request: Request, exc: StarletteHTTPException):
         """Handle HTTP exceptions."""
@@ -176,7 +176,7 @@ def setup_exception_handlers(app: FastAPI) -> None:
                 "request_id": getattr(request.state, "request_id", "N/A")
             }
         )
-    
+
     @app.exception_handler(RequestValidationError)
     async def validation_exception_handler(request: Request, exc: RequestValidationError):
         """Handle validation errors."""
@@ -188,12 +188,12 @@ def setup_exception_handlers(app: FastAPI) -> None:
                 "request_id": getattr(request.state, "request_id", "N/A")
             }
         )
-    
+
     @app.exception_handler(Exception)
     async def general_exception_handler(request: Request, exc: Exception):
         """Handle general exceptions."""
         logger.error(f"Unhandled exception: {exc}", exc_info=True)
-        
+
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             content={

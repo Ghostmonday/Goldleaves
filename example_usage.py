@@ -24,18 +24,18 @@ async def read_item(item_id: int):
 async def get_usage_stats():
     """Get current usage statistics (for development/debugging only)."""
     events = core.usage.get_events()
-    
+
     # Basic statistics
     total_requests = len(events)
     successful_requests = len([e for e in events if e["result"] == "success"])
     error_requests = len([e for e in events if e["result"] == "error"])
-    
+
     if events:
         avg_latency = sum(e["latency_ms"] for e in events) / len(events)
         max_latency = max(e["latency_ms"] for e in events)
     else:
         avg_latency = max_latency = 0
-    
+
     return {
         "total_requests": total_requests,
         "successful_requests": successful_requests,

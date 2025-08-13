@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field
 
 class BaseSchema(BaseModel):
     """Base schema with common configuration."""
-    
+
     class Config:
         """Pydantic configuration."""
         from_attributes = True
@@ -23,7 +23,7 @@ class BaseSchema(BaseModel):
 
 class SuccessResponse(BaseSchema):
     """Standard success response schema."""
-    
+
     success: bool = Field(True, description="Indicates successful operation")
     message: str = Field(..., description="Success message")
     data: Optional[Dict[str, Any]] = Field(None, description="Optional response data")
@@ -31,7 +31,7 @@ class SuccessResponse(BaseSchema):
 
 class ErrorResponse(BaseSchema):
     """Standard error response schema."""
-    
+
     success: bool = Field(False, description="Indicates failed operation")
     error: str = Field(..., description="Error message")
     details: Optional[Dict[str, Any]] = Field(None, description="Error details")
@@ -40,7 +40,7 @@ class ErrorResponse(BaseSchema):
 
 class PaginationSchema(BaseSchema):
     """Pagination metadata schema."""
-    
+
     page: int = Field(..., description="Current page number")
     size: int = Field(..., description="Items per page")
     total: int = Field(..., description="Total number of items")
@@ -51,14 +51,14 @@ class PaginationSchema(BaseSchema):
 
 class PaginatedResponse(BaseSchema):
     """Paginated response schema."""
-    
+
     items: List[Any] = Field(..., description="List of items")
     pagination: PaginationSchema = Field(..., description="Pagination metadata")
 
 
 class HealthCheck(BaseSchema):
     """Health check response schema."""
-    
+
     status: str = Field(..., description="Service status")
     version: str = Field(..., description="Application version")
     timestamp: datetime = Field(default_factory=datetime.utcnow, description="Check timestamp")

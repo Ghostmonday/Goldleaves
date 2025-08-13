@@ -1,4 +1,4 @@
-﻿# MERGE INPUT for GPT-5
+# MERGE INPUT for GPT-5
 Below are conflicted files with both sides.
 
 Follow the instructions at the top of my prompt:

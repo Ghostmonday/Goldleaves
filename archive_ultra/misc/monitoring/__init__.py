@@ -17,7 +17,7 @@ from .metrics import (
 
 __all__ = [
     "metrics",
-    "MetricsCollector", 
+    "MetricsCollector",
     "record_request_metric",
     "record_notification_metric",
     "record_webhook_metric",

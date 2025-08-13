@@ -16,10 +16,10 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def create_access_token(user_id: int) -> str:
     """
     Create a new JWT access token for the given user ID.
-    
+
     Args:
         user_id: The user's database ID
-        
+
     Returns:
         JWT access token string
     """
@@ -35,19 +35,19 @@ def create_access_token(user_id: int) -> str:
 def create_refresh_token(user_id: int) -> Tuple[str, datetime]:
     """
     Create a new JWT refresh token for the given user ID.
-    
+
     Args:
         user_id: The user's database ID
-        
+
     Returns:
         Tuple of (refresh_token, expires_at_datetime)
     """
     # Refresh tokens last 30 days
     expire = datetime.utcnow() + timedelta(days=30)
-    
+
     # Create a secure random token ID for revocation purposes
     token_id = secrets.token_urlsafe(32)
-    
+
     payload = {
         "sub": str(user_id),
         "exp": expire,
@@ -55,18 +55,18 @@ def create_refresh_token(user_id: int) -> Tuple[str, datetime]:
         "type": "refresh",
         "jti": token_id  # JWT ID for token revocation
     }
-    
+
     token = jwt.encode(payload, settings.jwt_secret.get_secret_value(), algorithm=settings.jwt_algorithm)
     return token, expire
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """
     Verify a plain password against a hashed password.
-    
+
     Args:
         plain_password: The plain text password
         hashed_password: The bcrypt hashed password
-        
+
     Returns:
         True if password matches, False otherwise
     """
@@ -75,10 +75,10 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 def hash_password(password: str) -> str:
     """
     Hash a plain password using bcrypt.
-    
+
     Args:
         password: The plain text password
-        
+
     Returns:
         Bcrypt hashed password string
     """
@@ -87,27 +87,27 @@ def hash_password(password: str) -> str:
 def decode_token(token: str) -> dict:
     """
     Decode and validate a JWT token.
-    
+
     Args:
         token: The JWT token string
-        
+
     Returns:
         Decoded token payload
-        
+
     Raises:
         jwt.ExpiredSignatureError: If token is expired
         jwt.InvalidTokenError: If token is invalid
     """
     return jwt.decode(
-        token, 
-        settings.jwt_secret.get_secret_value(), 
+        token,
+        settings.jwt_secret.get_secret_value(),
         algorithms=[settings.jwt_algorithm]
     )
 
 def generate_verification_token() -> str:
     """
     Generate a secure random token for email verification.
-    
+
     Returns:
         URL-safe token string
     """
@@ -116,10 +116,10 @@ def generate_verification_token() -> str:
 def create_password_reset_token(user_id: int) -> str:
     """
     Create a JWT token for password reset.
-    
+
     Args:
         user_id: The user's database ID
-        
+
     Returns:
         JWT password reset token
     """

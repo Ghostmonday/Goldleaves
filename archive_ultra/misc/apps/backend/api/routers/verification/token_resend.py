@@ -9,7 +9,7 @@ import logging
 
 from core.database import get_db
 from apps.backend.schemas.verification import (
-    ResendVerificationRequest, 
+    ResendVerificationRequest,
     VerificationResponse,
     VerificationErrorResponse
 )
@@ -34,21 +34,21 @@ def resend_verification_email(
 ):
     """
     Resend verification email to user.
-    
+
     This endpoint:
     1. Validates the email address exists in the system
     2. Checks that the user is not already verified
     3. Generates a new verification token (invalidating any previous one)
     4. Updates the user record with new token and expiration
     5. Simulates sending the verification email
-    
+
     Args:
         request: ResendVerificationRequest containing the email
         db: Database session dependency
-        
+
     Returns:
         VerificationResponse with success status and token info
-        
+
     Raises:
         HTTPException: 400 if user not found or already verified
         HTTPException: 500 for unexpected errors
@@ -58,16 +58,16 @@ def resend_verification_email(
             db=db,
             email=request.email
         )
-        
+
         logger.info(f"Verification email resent successfully to {request.email}")
-        
+
         return VerificationResponse(
             success=result["success"],
             message=result["message"],
             expires_at=result["expires_at"],
             token=result.get("token")  # Only included in development
         )
-        
+
     except ValueError as e:
         logger.warning(f"Verification email resend failed for {request.email}: {str(e)}")
         raise HTTPException(

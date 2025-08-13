@@ -37,49 +37,49 @@ def refresh_token(
 ):
     """
     Refresh an access token using a valid refresh token.
-    
+
     This endpoint:
     1. Validates the refresh token JWT
     2. Checks if the token exists and is active in the database
     3. Revokes the old refresh token
     4. Creates new access and refresh tokens
     5. Returns the new token pair
-    
+
     Args:
         request: RefreshTokenRequest containing the refresh token
         db: Database session dependency
-        
+
     Returns:
         TokenResponse with new access and refresh tokens
-        
+
     Raises:
         HTTPException: 401 if token is invalid, expired, or user not found
     """
     token = request.refresh_token
-    
+
     try:
         # Decode JWT
         payload = jwt.decode(
-            token, 
-            settings.jwt_secret.get_secret_value(), 
+            token,
+            settings.jwt_secret.get_secret_value(),
             algorithms=[settings.jwt_algorithm]
         )
-        
+
         user_id_str: str = payload.get("sub")
         token_type: str = payload.get("type")
-        
+
         if user_id_str is None:
             raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, 
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid token payload"
             )
-            
+
         if token_type != "refresh":
             raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, 
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid token type"
             )
-        
+
         user_id = int(user_id_str)
 
         # Check token in DB
@@ -88,21 +88,21 @@ def refresh_token(
             RefreshToken.is_active == True,
             RefreshToken.user_id == user_id
         ).first()
-        
+
         if not db_token:
             logger.warning(f"Refresh token not found in database for user {user_id}")
             raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, 
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Token not found or revoked"
             )
-            
+
         if db_token.expires_at < datetime.utcnow():
             logger.warning(f"Expired refresh token used for user {user_id}")
             # Mark as inactive
             db_token.is_active = False
             db.commit()
             raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, 
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Token expired"
             )
 
@@ -111,17 +111,17 @@ def refresh_token(
             User.id == user_id,
             User.is_active == True
         ).first()
-        
+
         if not user:
             logger.warning(f"User {user_id} not found or inactive during token refresh")
             raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, 
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="User not found or inactive"
             )
 
         # Revoke old token and create new ones
         db_token.is_active = False
-        
+
         new_refresh_token, refresh_expires_at = create_refresh_token(user_id)
         new_access_token = create_access_token(user_id)
 
@@ -146,19 +146,19 @@ def refresh_token(
     except jwt.ExpiredSignatureError:
         logger.warning("Expired refresh token signature")
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, 
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token expired"
         )
     except jwt.InvalidTokenError as e:
         logger.warning(f"Invalid refresh token: {str(e)}")
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, 
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token"
         )
     except ValueError:
         logger.warning("Invalid user ID in token")
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, 
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token payload"
         )
     except HTTPException:

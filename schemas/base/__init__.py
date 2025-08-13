@@ -71,7 +71,7 @@ __all__ = [
     "SuccessResponse",
     "ErrorResponse",
     "ValidationErrorResponse",
-    "NotFoundResponse", 
+    "NotFoundResponse",
     "UnauthorizedResponse",
     "ForbiddenResponse",
     "ConflictResponse",
@@ -81,7 +81,7 @@ __all__ = [
     "create_error_response",
     "create_validation_error_response",
     "create_not_found_response",
-    
+
     # Pagination schemas
     "PaginationParams",
     "SearchParams",
@@ -93,7 +93,7 @@ __all__ = [
     "calculate_offset",
     "validate_pagination_params",
     "create_pagination_links",
-    
+
     # Error schemas
     "ErrorCode",
     "ErrorSeverity",

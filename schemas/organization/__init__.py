@@ -91,7 +91,7 @@ __all__ = [
     "OrganizationStats",
     "OrganizationListParams",
     "OrganizationTransfer",
-    
+
     # Member schemas
     "MemberRole",
     "MemberStatus",
@@ -105,7 +105,7 @@ __all__ = [
     "BulkMemberActionResponse",
     "MemberActivity",
     "MemberExport",
-    
+
     # Team schemas
     "TeamRole",
     "TeamVisibility",
@@ -120,7 +120,7 @@ __all__ = [
     "TeamListParams",
     "TeamStats",
     "BulkTeamMemberAction",
-    
+
     # Invitation schemas
     "InviteStatus",
     "InviteType",

@@ -20,15 +20,15 @@ from .logs import AuditAction, AuditFilter, AuditLevel, AuditLogCreate, AuditLog
 __all__ = [
     # Logs
     "AuditAction",
-    "AuditLevel", 
+    "AuditLevel",
     "AuditLogEntry",
     "AuditFilter",
     "AuditLogCreate",
-    
+
     # Events
     "EventType",
     "EventSeverity",
-    "AuditEvent", 
+    "AuditEvent",
     "EventFilter",
     "EventCreate"
 ]

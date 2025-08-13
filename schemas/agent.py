@@ -32,19 +32,19 @@ class AgentStatus(str, Enum):
 
 class AgentRequest(BaseModel):
     """Agent processing request schema."""
-    
+
     task_id: str = Field(
         title="Task ID", description="Unique task identifier"
     )
-    
+
     schema_name: str = Field(
         title="Schema Name", description="Target schema name"
     )
-    
+
     data: Dict[str, Any] = Field(
         title="Data", description="Data to process"
     )
-    
+
     options: Optional[Dict[str, Any]] = Field(
         default=None,
         title="Options", description="Processing options"
@@ -53,20 +53,20 @@ class AgentRequest(BaseModel):
 
 class AgentResponse(BaseModel):
     """Agent processing response schema."""
-    
+
     task_id: str = Field(
         title="Task ID", description="Task identifier"
     )
-    
+
     status: AgentStatus = Field(
         title="Status", description="Processing status"
     )
-    
+
     result: Optional[Dict[str, Any]] = Field(
         default=None,
         title="Result", description="Processing result"
     )
-    
+
     errors: Optional[List[str]] = Field(
         default=None,
         title="Errors", description="Processing errors"
@@ -75,22 +75,22 @@ class AgentResponse(BaseModel):
 
 class AgentInfo(BaseModel):
     """Agent information schema."""
-    
+
     agent_id: str = Field(
         default="schemas-agent-v4",
         title="Agent ID", description="Agent identifier"
     )
-    
+
     version: str = Field(
         default="4.0.0",
         title="Version", description="Agent version"
     )
-    
+
     contract: SchemaContract = Field(
         default_factory=SchemaContract,
         title="Contract", description="Schema contract"
     )
-    
+
     capabilities: List[str] = Field(
         default_factory=lambda: [
             "schema_validation",

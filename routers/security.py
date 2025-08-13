@@ -24,13 +24,13 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> Dict[str, Any]:
     """
     Validates the JWT token and returns the current user.
-    
+
     Args:
         token: The JWT token from the Authorization header.
-        
+
     Returns:
         The user data from the token.
-        
+
     Raises:
         HTTPException: If the token is invalid or expired.
     """
@@ -39,17 +39,17 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> Dict[str, Any
         detail=ErrorMessages.INVALID_TOKEN,
         headers={"WWW-Authenticate": "Bearer"},
     )
-    
+
     payload = verify_token(token, "access")
     if payload is None:
         logger.warning("Invalid or expired token")
         raise credentials_exception
-        
+
     user_id: str = payload.get("sub")
     if user_id is None:
         logger.warning("Token missing 'sub' claim")
         raise credentials_exception
-        
+
     # In a real application, you would validate the user exists in your database
     # For this example, we'll just return the payload
     return payload
@@ -65,7 +65,7 @@ from core.security import (
 
 __all__ = [
     "get_current_user",
-    "oauth2_scheme", 
+    "oauth2_scheme",
     "create_access_token",
     "create_refresh_token",
     "verify_password",

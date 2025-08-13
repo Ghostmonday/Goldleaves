@@ -15,7 +15,7 @@ from core.database import get_db
 from core.security import create_access_token, create_refresh_token, verify_token
 from services.auth_service import AuthService
 from schemas.auth import (
-    Token, UserCreate, UserLogin, UserRegister, 
+    Token, UserCreate, UserLogin, UserRegister,
     PasswordReset, PasswordResetConfirm, EmailVerification
 )
 from schemas.base import SuccessResponse

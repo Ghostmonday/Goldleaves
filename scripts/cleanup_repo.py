@@ -403,7 +403,7 @@ def prune_empty_dirs(root: Path, max_passes: int = 3, verbose: bool = False) -> 
     removed = 0
     for _ in range(max_passes):
         pass_removed = 0
-    for d in sorted([p for p in root.rglob("*") if p.is_dir() and not is_excluded(p, root)], key=lambda x: len(x.parts), reverse=True):
+        for d in sorted([p for p in root.rglob("*") if p.is_dir() and not is_excluded(p, root)], key=lambda x: len(x.parts), reverse=True):
             try:
                 if not any(d.iterdir()):
                     _clear_attrs(d)

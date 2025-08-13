@@ -9,37 +9,37 @@ $destinationFolder = "c:\Projects\Goldleaves_Final\phase11_dependencies"
 $criticalFiles = @(
     # 1. Core RBAC Service (Essential permission checking logic)
     "services\rbac_service.py",
-    
+
     # 2-4. Core Authentication & Security Infrastructure
     "core\security.py",
-    "core\dependencies.py", 
+    "core\dependencies.py",
     "models\auth_router.py",
-    
+
     # 5-7. RBAC & Permission Management
     "schemas\auth\permissions.py",
     "schemas\security\permissions.py",
     "schemas\security\api_keys.py",
-    
+
     # 8-10. Middleware & Request Processing (Critical for Frontend APIs)
     "routers\middleware.py",
     "routers\rate_limiter.py",
     "routers\main.py",
-    
+
     # 11-13. User & Session Management
     "models\user.py",
     "models\user_schemas.py",
     "services\token_service.py",
-    
+
     # 14-16. Base Schema Patterns (Templates for new frontend schemas)
     "schemas\base\responses.py",
     "schemas\base\pagination.py",
     "schemas\base\errors.py",
-    
+
     # 17-19. Database & Configuration Foundation
     "core\db\session.py",
     "core\config.py",
     "core\exceptions.py",
-    
+
     # 20. Document Services (For frontend document endpoints)
     "models\contract.py"
 )
@@ -123,11 +123,11 @@ Write-Host ""
 
 foreach ($file in $criticalFiles) {
     $sourcePath = Join-Path $sourceRoot $file
-    
+
     # Create flattened filename (replace path separators with underscores)
     $flattenedName = $file -replace '\\', '_' -replace '/', '_'
     $destinationPath = Join-Path $destinationFolder $flattenedName
-    
+
     if (Test-Path $sourcePath) {
         try {
             Copy-Item $sourcePath $destinationPath -Force

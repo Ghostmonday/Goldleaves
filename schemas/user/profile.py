@@ -12,7 +12,7 @@
 
 """Pydantic schemas for User operations (registration, login, profile, password reset).
 
-This module contains all Pydantic schema models related to user authentication, 
+This module contains all Pydantic schema models related to user authentication,
 registration, profile management, and password operations with comprehensive
 validation, type safety, and auto-documentation support.
 """

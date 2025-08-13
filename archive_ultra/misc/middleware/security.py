@@ -11,7 +11,7 @@ from starlette.responses import Response
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     """Middleware to add security headers to responses."""
-    
+
     def __init__(
         self,
         app,
@@ -27,7 +27,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     ):
         """
         Initialize security headers middleware.
-        
+
         Args:
             app: The ASGI application
             force_https: Whether to force HTTPS redirects
@@ -50,15 +50,15 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         self.xss_protection = xss_protection
         self.referrer_policy = referrer_policy
         self.permissions_policy = permissions_policy
-    
+
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
         """
         Process the request and add security headers.
-        
+
         Args:
             request: The incoming request
             call_next: The next middleware or endpoint
-            
+
         Returns:
             Response with security headers
         """
@@ -70,38 +70,38 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
                 status_code=301,
                 headers={"Location": str(https_url)}
             )
-        
+
         # Process the request
         response = await call_next(request)
-        
+
         # Add security headers
         self._add_security_headers(response, request)
-        
+
         return response
-    
+
     def _add_security_headers(self, response: Response, request: Request) -> None:
         """Add security headers to the response."""
-        
+
         # X-Content-Type-Options
         if self.content_type_nosniff:
             response.headers["X-Content-Type-Options"] = "nosniff"
-        
+
         # X-Frame-Options
         if self.xframe_options:
             response.headers["X-Frame-Options"] = self.xframe_options
-        
+
         # X-XSS-Protection (legacy, but still useful for older browsers)
         if self.xss_protection:
             response.headers["X-XSS-Protection"] = "1; mode=block"
-        
+
         # Referrer-Policy
         if self.referrer_policy:
             response.headers["Referrer-Policy"] = self.referrer_policy
-        
+
         # Permissions-Policy
         if self.permissions_policy:
             response.headers["Permissions-Policy"] = self.permissions_policy
-        
+
         # Content-Security-Policy (basic policy)
         csp_directives = [
             "default-src 'self'",
@@ -115,7 +115,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
             "form-action 'self'"
         ]
         response.headers["Content-Security-Policy"] = "; ".join(csp_directives)
-        
+
         # HSTS (only for HTTPS)
         if request.url.scheme == "https":
             hsts_value = f"max-age={self.hsts_max_age}"
@@ -124,9 +124,9 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
             if self.hsts_preload:
                 hsts_value += "; preload"
             response.headers["Strict-Transport-Security"] = hsts_value
-        
+
         # Server header removal (don't reveal server information)
         response.headers.pop("Server", None)
-        
+
         # X-Powered-By header removal
         response.headers.pop("X-Powered-By", None)
