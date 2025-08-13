@@ -22,3 +22,25 @@ jobs:
         with:
           name: cleanup-dryrun
           path: artifacts/
+      - name: Comment planned actions on PR
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const dir = 'artifacts';
+            const files = fs.readdirSync(dir).filter(f => f.startsWith('cleanup_report_') && f.endsWith('.md'));
+            if (!files.length) {
+              core.info('No cleanup report found to comment');
+            } else {
+              files.sort((a,b)=> fs.statSync(path.join(dir,b)).mtime - fs.statSync(path.join(dir,a)).mtime);
+              const latest = files[0];
+              const body = fs.readFileSync(path.join(dir, latest), 'utf8');
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                body: `🧹 **Cleanup Dry-Run**\n\n${body}`
+              });
+            }
