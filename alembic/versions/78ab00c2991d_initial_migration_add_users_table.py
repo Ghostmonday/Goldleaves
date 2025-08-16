@@ -1,7 +1,7 @@
 """Initial migration: add users table
 
 Revision ID: 78ab00c2991d
-Revises: 
+Revises:
 Create Date: 2025-08-01 04:44:57.046731
 
 """
@@ -31,7 +31,7 @@ def upgrade() -> None:
         sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
         sa.PrimaryKeyConstraint('id')
     )
-    
+
     # Create indexes
     op.create_index(op.f('ix_users_id'), 'users', ['id'], unique=False)
     op.create_index(op.f('ix_users_username'), 'users', ['username'], unique=True)
@@ -45,6 +45,6 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_users_email'), table_name='users')
     op.drop_index(op.f('ix_users_username'), table_name='users')
     op.drop_index(op.f('ix_users_id'), table_name='users')
-    
+
     # Drop table
     op.drop_table('users')

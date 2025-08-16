@@ -10,6 +10,6 @@ class RefreshToken(Base, TimestampMixin):
     token = Column(String(500), nullable=False, unique=True, index=True)
     expires_at = Column(DateTime(timezone=True), nullable=False)
     is_active = Column(Boolean, default=True, nullable=False)
-    
+
     # Relationship
     user = relationship("User", back_populates="refresh_tokens")

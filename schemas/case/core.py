@@ -90,12 +90,12 @@ class CaseBase(BaseModel):
     status: CaseStatus = Field(CaseStatus.DRAFT, description="Case status")
     priority: CasePriority = Field(CasePriority.MEDIUM, description="Priority level")
     stage: CaseStage = Field(CaseStage.INTAKE, description="Current stage")
-    
+
     # Dates
     deadline_date: Optional[datetime] = Field(None, description="Case deadline")
     statute_of_limitations: Optional[datetime] = Field(None, description="Statute of limitations")
     next_court_date: Optional[datetime] = Field(None, description="Next court date")
-    
+
     # Court information
     court_name: Optional[str] = Field(None, max_length=200, description="Court name")
     judge_name: Optional[str] = Field(None, max_length=200, description="Judge name")
@@ -103,7 +103,7 @@ class CaseBase(BaseModel):
     case_number_court: Optional[str] = Field(None, max_length=100, description="Court case number")
     opposing_party: Optional[str] = Field(None, max_length=255, description="Opposing party")
     opposing_counsel: Optional[str] = Field(None, max_length=255, description="Opposing counsel")
-    
+
     # Financial information
     billing_type: BillingType = Field(BillingType.HOURLY, description="Billing type")
     hourly_rate: Optional[Decimal] = Field(None, ge=0, description="Hourly rate")
@@ -112,7 +112,7 @@ class CaseBase(BaseModel):
     retainer_amount: Optional[Decimal] = Field(None, ge=0, description="Retainer amount")
     estimated_value: Optional[Decimal] = Field(None, description="Estimated case value")
     estimated_hours: Optional[Decimal] = Field(None, ge=0, description="Estimated hours")
-    
+
     # Metadata
     notes: Optional[str] = Field(None, description="Case notes")
     external_case_id: Optional[str] = Field(None, max_length=100, description="External case ID")
@@ -127,7 +127,7 @@ class CaseCreate(CaseBase):
     assigned_to_id: Optional[int] = Field(None, description="Assigned attorney ID")
     supervising_attorney_id: Optional[int] = Field(None, description="Supervising attorney ID")
     tags: Optional[List[str]] = Field(default_factory=list, description="Case tags")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -200,13 +200,13 @@ class CaseResponse(CaseBase):
     closed_date: Optional[datetime]
     created_at: datetime
     updated_at: datetime
-    
+
     # Financial computed fields
     actual_hours: Decimal = Field(default=Decimal('0.00'))
     billable_hours: Decimal = Field(default=Decimal('0.00'))
     actual_settlement: Optional[Decimal] = None
     billable_amount: Optional[Decimal] = Field(None, description="Calculated billable amount")
-    
+
     # Additional fields
     tags: List[str] = Field(default_factory=list)
     internal_notes: Optional[str] = None
@@ -214,7 +214,7 @@ class CaseResponse(CaseBase):
     lessons_learned: Optional[str] = None
     share_slug: Optional[str] = None
     share_expires_at: Optional[datetime] = None
-    
+
     # Computed fields
     is_overdue: Optional[bool] = False
     days_until_deadline: Optional[int] = None
@@ -222,10 +222,10 @@ class CaseResponse(CaseBase):
     document_count: Optional[int] = 0
     task_count: Optional[int] = 0
     event_count: Optional[int] = 0
-    
+
     # Related data
     client: Optional[ClientSummary] = None
-    
+
     class Config:
         from_attributes = True
         schema_extra = {
@@ -270,7 +270,7 @@ class CaseSummary(BaseModel):
     billable_amount: Optional[Decimal] = None
     deadline_date: Optional[datetime] = None
     is_overdue: bool = False
-    
+
     class Config:
         from_attributes = True
 
@@ -278,7 +278,7 @@ class CaseSummary(BaseModel):
 class CaseListResponse(PaginatedResponse):
     """Paginated list of cases."""
     items: List[CaseResponse]
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -320,7 +320,7 @@ class CaseFilter(BaseModel):
     deadline_after: Optional[datetime] = None
     deadline_before: Optional[datetime] = None
     overdue_only: Optional[bool] = False
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -348,7 +348,7 @@ class CaseStats(BaseModel):
     total_billable_amount: Decimal = Field(default=Decimal('0.00'))
     average_case_value: Decimal = Field(default=Decimal('0.00'))
     recent_cases: int = 0  # Last 30 days
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -382,7 +382,7 @@ class CaseCloseRequest(BaseModel):
     outcome_summary: Optional[str] = Field(None, description="Summary of case outcome")
     actual_settlement: Optional[Decimal] = Field(None, ge=0, description="Final settlement amount")
     lessons_learned: Optional[str] = Field(None, description="Lessons learned from case")
-    
+
     @validator('status')
     def validate_closing_status(cls, v):
         """Ensure status is a valid closing status."""
@@ -394,7 +394,7 @@ class CaseCloseRequest(BaseModel):
         if v not in valid_closing_statuses:
             raise ValueError(f"Status must be one of: {[s.value for s in valid_closing_statuses]}")
         return v
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -409,7 +409,7 @@ class CaseCloseRequest(BaseModel):
 class CaseShareRequest(BaseModel):
     """Schema for creating a case share link."""
     expires_in_days: Optional[int] = Field(30, ge=1, le=365, description="Days until link expires")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -424,7 +424,7 @@ class CaseShareResponse(BaseModel):
     share_url: str
     expires_at: datetime
     is_valid: bool = True
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -441,7 +441,7 @@ class CaseBulkAction(BaseModel):
     case_ids: List[int] = Field(..., description="List of case IDs to update")
     action: str = Field(..., description="Action to perform: update_status, update_priority, assign_to, add_tags, remove_tags")
     parameters: Dict[str, Any] = Field(default_factory=dict, description="Action-specific parameters")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -458,7 +458,7 @@ class CaseBulkResult(BaseModel):
     error_count: int = Field(default=0, description="Number of cases that failed to update")
     updated_cases: List[int] = Field(default_factory=list, description="List of successfully updated case IDs")
     errors: List[Dict[str, Any]] = Field(default_factory=list, description="List of errors encountered")
-    
+
     class Config:
         schema_extra = {
             "example": {

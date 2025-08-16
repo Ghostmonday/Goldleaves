@@ -8,32 +8,32 @@ actions:
     category: informational
     risk_level: low
     description: "Provide general legal information without application"
-    
+
   - id: DefineTerms
     category: informational
     risk_level: low
     description: "Define legal terminology"
-    
+
   - id: OutlineOptions
     category: informational
     risk_level: medium
     description: "Present available legal pathways without recommendation"
-    
+
   - id: SelectForm
     category: guidance
     risk_level: high
     description: "Recommend specific legal form or document"
-    
+
   - id: GiveFilingSteps
     category: procedural
     risk_level: medium
     description: "Provide court filing procedures"
-    
+
   - id: InterpretStatute
     category: analysis
     risk_level: critical
     description: "Apply law to specific facts"
-    
+
   - id: RecommendStrategy
     category: advice
     risk_level: critical
@@ -44,12 +44,12 @@ allow_matrix:
     default: allowed
     rationale: "General information is First Amendment protected"
     conditions: []
-    
+
   DefineTerms:
     default: allowed
     rationale: "Dictionary definitions are public knowledge"
     conditions: []
-    
+
   OutlineOptions:
     default: conditional
     rationale: "Must present all options neutrally"
@@ -58,7 +58,7 @@ allow_matrix:
         text: "This is general information only. Consult an attorney for advice about your specific situation."
       - type: neutrality_check
         validator: verify_no_recommendation
-        
+
   SelectForm:
     default: deny
     rationale: "Form selection constitutes legal advice"
@@ -67,7 +67,7 @@ allow_matrix:
       - Consult with a licensed attorney in {jurisdiction}
       - Visit your local law library for self-help resources
       - Contact the {jurisdiction} Bar Association referral service
-      
+
   GiveFilingSteps:
     default: conditional
     rationale: "Procedural information allowed if jurisdiction-specific"
@@ -76,14 +76,14 @@ allow_matrix:
         fallback: deny
       - type: disclaimer_required
         text: "Court procedures vary. Verify current requirements with the clerk's office."
-        
+
   InterpretStatute:
     default: deny
     rationale: "Legal interpretation requires bar admission"
     mitigation_template: |
-      I cannot interpret how laws apply to specific situations. 
+      I cannot interpret how laws apply to specific situations.
       For legal interpretation, please consult a licensed attorney.
-      
+
   RecommendStrategy:
     default: deny
     rationale: "Strategic advice is core legal practice"
@@ -96,20 +96,20 @@ triggers:
     - pattern: '\b(should\s+I|what\s+should|ought\s+to|must\s+I)\b'
       weight: 0.8
       intent: advice_seeking
-      
+
     - pattern: '\b(file|serve|plead|argue|claim|sue|defend)\b'
       weight: 0.7
       intent: action_planning
-      
+
     - pattern: '\b(my\s+case|my\s+situation|my\s+landlord|my\s+employer)\b'
       weight: 0.6
       intent: specific_application
-      
+
   safer_patterns:
     - pattern: '\b(what\s+is|definition\s+of|explain|how\s+does.*work)\b'
       weight: -0.5
       intent: informational
-      
+
     - pattern: '\b(generally|typically|usually|commonly)\b'
       weight: -0.3
       intent: general_information
@@ -122,13 +122,13 @@ mitigations:
       - {bar_referral_url}
       - {legal_aid_url}
       - {court_self_help_url}
-      
+
   form_assistance:
     template: |
       While I cannot select forms for you, {court_name} provides
       self-help resources at {self_help_url}. Court clerks can provide
       procedural information but cannot give legal advice.
-      
+
   emergency_referral:
     template: |
       If this is an emergency or involves immediate harm:

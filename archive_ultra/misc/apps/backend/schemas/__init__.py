@@ -6,7 +6,7 @@ from apps.backend.schemas.verification import *
 
 __all__ = [
     "SendVerificationRequest",
-    "ConfirmVerificationRequest", 
+    "ConfirmVerificationRequest",
     "ResendVerificationRequest",
     "VerificationResponse",
     "ConfirmVerificationResponse",

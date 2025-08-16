@@ -24,7 +24,7 @@ from schemas.document import (
 
 class TestDocumentPredictionModels:
     """Test document prediction data models."""
-    
+
     def test_document_creation_with_predictions(self, db_session: Session, test_organization: Organization, test_user: User):
         """Test creating a document with AI predictions."""
         prediction_data = {
@@ -40,7 +40,7 @@ class TestDocumentPredictionModels:
                 }
             ]
         }
-        
+
         document = Document(
             title="Test Contract",
             document_type=DocumentType.CONTRACT,
@@ -52,17 +52,17 @@ class TestDocumentPredictionModels:
             organization_id=test_organization.id,
             created_by_id=test_user.id
         )
-        
+
         db_session.add(document)
         db_session.commit()
         db_session.refresh(document)
-        
+
         assert document.id is not None
         assert document.ai_predictions == prediction_data
         assert document.prediction_score == 0.87
         assert document.prediction_status == PredictionStatus.PENDING
         assert document.get_prediction_confidence() == 0.87
-    
+
     def test_document_version_tracking(self, db_session: Session, test_organization: Organization, test_user: User):
         """Test document version tracking for predictions."""
         document = Document(
@@ -74,10 +74,10 @@ class TestDocumentPredictionModels:
             created_by_id=test_user.id,
             version=1
         )
-        
+
         db_session.add(document)
         db_session.commit()
-        
+
         # Create version snapshot
         version = DocumentVersion(
             document_id=document.id,
@@ -91,14 +91,14 @@ class TestDocumentPredictionModels:
             change_reason="Document creation",
             changed_by_id=test_user.id
         )
-        
+
         db_session.add(version)
         db_session.commit()
-        
+
         assert version.id is not None
         assert version.prediction_status == PredictionStatus.PENDING
         assert version.prediction_score == 0.75
-    
+
     def test_document_correction_tracking(self, db_session: Session, test_organization: Organization, test_user: User):
         """Test document correction tracking."""
         document = Document(
@@ -109,10 +109,10 @@ class TestDocumentPredictionModels:
             organization_id=test_organization.id,
             created_by_id=test_user.id
         )
-        
+
         db_session.add(document)
         db_session.commit()
-        
+
         # Create correction
         correction = DocumentCorrection(
             document_id=document.id,
@@ -126,10 +126,10 @@ class TestDocumentPredictionModels:
             corrected_by_id=test_user.id,
             review_status="approved"
         )
-        
+
         db_session.add(correction)
         db_session.commit()
-        
+
         assert correction.id is not None
         assert correction.field_path == "contract.parties.0.name"
         assert correction.confidence_after == 1.0
@@ -138,7 +138,7 @@ class TestDocumentPredictionModels:
 
 class TestDocumentService:
     """Test document service layer with prediction functionality."""
-    
+
     def test_create_document_with_case_client(self, db_session: Session, test_organization: Organization, test_user: User):
         """Test creating document with case and client relationships."""
         # Create test case and client
@@ -150,7 +150,7 @@ class TestDocumentService:
         )
         db_session.add(client)
         db_session.commit()
-        
+
         case = Case(
             title="Test Legal Case",
             description="A test case for document management",
@@ -161,7 +161,7 @@ class TestDocumentService:
         )
         db_session.add(case)
         db_session.commit()
-        
+
         # Create document
         document_data = DocumentCreate(
             title="Case Document",
@@ -172,19 +172,19 @@ class TestDocumentService:
             client_id=client.id,
             content="Test document content for the case"
         )
-        
+
         document = DocumentService.create_document(
             db=db_session,
             document_data=document_data,
             organization_id=test_organization.id,
             created_by_id=test_user.id
         )
-        
+
         assert document.id is not None
         assert document.case_id == case.id
         assert document.client_id == client.id
         assert document.version == 1
-    
+
     def test_ingest_prediction_data(self, db_session: Session, test_organization: Organization, test_user: User):
         """Test ingesting AI prediction data."""
         # Create document
@@ -195,14 +195,14 @@ class TestDocumentService:
             confidentiality=DocumentConfidentiality.INTERNAL,
             content="This is a test contract for AI analysis"
         )
-        
+
         document = DocumentService.create_document(
             db=db_session,
             document_data=document_data,
             organization_id=test_organization.id,
             created_by_id=test_user.id
         )
-        
+
         # Create prediction data
         prediction_fields = [
             PredictionField(
@@ -220,7 +220,7 @@ class TestDocumentService:
                 original_text="ACME Corp"
             )
         ]
-        
+
         document_prediction = DocumentPrediction(
             model_name="legal-analyzer-v3",
             model_version="3.2.1",
@@ -232,13 +232,13 @@ class TestDocumentService:
             key_phrases=["payment terms", "termination clause"],
             risk_indicators=["auto-renewal clause", "liability limitation"]
         )
-        
+
         prediction_ingest = PredictionIngest(
             prediction_data=document_prediction,
             auto_apply_high_confidence=False,
             validation_required=True
         )
-        
+
         # Ingest predictions
         updated_document = DocumentService.ingest_prediction(
             db=db_session,
@@ -247,13 +247,13 @@ class TestDocumentService:
             organization_id=test_organization.id,
             ingested_by_id=test_user.id
         )
-        
+
         assert updated_document.prediction_score == 0.92
         assert updated_document.prediction_status == PredictionStatus.PENDING
         assert updated_document.ai_predictions is not None
         assert updated_document.ai_predictions["model_name"] == "legal-analyzer-v3"
         assert updated_document.version == 2  # Version incremented
-    
+
     def test_apply_corrections(self, db_session: Session, test_organization: Organization, test_user: User):
         """Test applying human corrections to predictions."""
         # Create document with predictions
@@ -266,14 +266,14 @@ class TestDocumentService:
             prediction_score=0.75,
             prediction_status=PredictionStatus.PENDING
         )
-        
+
         document = DocumentService.create_document(
             db=db_session,
             document_data=document_data,
             organization_id=test_organization.id,
             created_by_id=test_user.id
         )
-        
+
         # Create corrections
         field_corrections = [
             FieldCorrection(
@@ -293,13 +293,13 @@ class TestDocumentService:
                 correction_type=CorrectionType.CONFIRM
             )
         ]
-        
+
         correction_data = CorrectionSchema(
             corrections=field_corrections,
             correction_reason="Human review and verification",
             requires_review=False
         )
-        
+
         # Apply corrections
         corrected_document = DocumentService.apply_correction(
             db=db_session,
@@ -308,17 +308,17 @@ class TestDocumentService:
             organization_id=test_organization.id,
             corrected_by_id=test_user.id
         )
-        
+
         assert corrected_document.prediction_status == PredictionStatus.PARTIALLY_CONFIRMED
         assert corrected_document.corrections is not None
         assert corrected_document.version == 2  # Version incremented
-        
+
         # Check correction records were created
         corrections = db_session.query(DocumentCorrection).filter(
             DocumentCorrection.document_id == document.id
         ).all()
         assert len(corrections) == 2
-    
+
     def test_document_filtering(self, db_session: Session, test_organization: Organization, test_user: User):
         """Test document filtering functionality."""
         # Create multiple documents with different properties
@@ -351,7 +351,7 @@ class TestDocumentService:
                 tags=["standard", "agreement"]
             )
         ]
-        
+
         created_docs = []
         for doc_data in documents_data:
             doc = DocumentService.create_document(
@@ -361,7 +361,7 @@ class TestDocumentService:
                 created_by_id=test_user.id
             )
             created_docs.append(doc)
-        
+
         # Test filtering by prediction score
         high_confidence_filter = DocumentFilter(
             min_prediction_score=0.9
@@ -373,7 +373,7 @@ class TestDocumentService:
         )
         assert total == 1
         assert docs[0].title == "High Confidence Contract"
-        
+
         # Test filtering by prediction status
         pending_filter = DocumentFilter(
             prediction_status=PredictionStatus.PENDING
@@ -385,7 +385,7 @@ class TestDocumentService:
         )
         assert total == 1
         assert docs[0].title == "Low Confidence Brief"
-        
+
         # Test filtering by tags
         contract_filter = DocumentFilter(
             tags=["contract"]
@@ -397,7 +397,7 @@ class TestDocumentService:
         )
         assert total == 1
         assert docs[0].title == "High Confidence Contract"
-    
+
     def test_audit_trail(self, db_session: Session, test_organization: Organization, test_user: User):
         """Test audit trail functionality."""
         # Create document
@@ -407,20 +407,20 @@ class TestDocumentService:
             status=DocumentStatus.DRAFT,
             confidentiality=DocumentConfidentiality.INTERNAL
         )
-        
+
         document = DocumentService.create_document(
             db=db_session,
             document_data=document_data,
             organization_id=test_organization.id,
             created_by_id=test_user.id
         )
-        
+
         # Update document
         update_data = DocumentUpdate(
             title="Updated Audit Trail Test",
             status=DocumentStatus.REVIEW
         )
-        
+
         DocumentService.update_document(
             db=db_session,
             document_id=document.id,
@@ -428,18 +428,18 @@ class TestDocumentService:
             organization_id=test_organization.id,
             updated_by_id=test_user.id
         )
-        
+
         # Get audit trail
         audit_trail = DocumentService.get_audit_trail(
             db=db_session,
             document_id=document.id,
             organization_id=test_organization.id
         )
-        
+
         assert audit_trail["document_id"] == document.id
         assert audit_trail["current_version"] == 2
         assert len(audit_trail["recent_versions"]) >= 1
-    
+
     def test_bulk_operations(self, db_session: Session, test_organization: Organization, test_user: User):
         """Test bulk document operations."""
         # Create multiple documents
@@ -451,7 +451,7 @@ class TestDocumentService:
                 status=DocumentStatus.DRAFT,
                 confidentiality=DocumentConfidentiality.INTERNAL
             )
-            
+
             document = DocumentService.create_document(
                 db=db_session,
                 document_data=document_data,
@@ -459,25 +459,25 @@ class TestDocumentService:
                 created_by_id=test_user.id
             )
             document_ids.append(document.id)
-        
+
         # Perform bulk status update
         bulk_action = DocumentBulkAction(
             document_ids=document_ids,
             action="update_status",
             parameters={"status": "review"}
         )
-        
+
         result = DocumentService.bulk_update_documents(
             db=db_session,
             bulk_action=bulk_action,
             organization_id=test_organization.id,
             updated_by_id=test_user.id
         )
-        
+
         assert result.success_count == 3
         assert result.error_count == 0
         assert len(result.updated_documents) == 3
-        
+
         # Verify documents were updated
         for doc_id in document_ids:
             document = DocumentService.get_document(db_session, doc_id, test_organization.id)
@@ -486,7 +486,7 @@ class TestDocumentService:
 
 class TestDocumentAPI:
     """Test document prediction API endpoints."""
-    
+
     def test_create_document_endpoint(self, client: TestClient, test_user_token: str, test_organization: Organization):
         """Test document creation endpoint."""
         document_data = {
@@ -496,18 +496,18 @@ class TestDocumentAPI:
             "confidentiality": "internal",
             "content": "Test document content"
         }
-        
+
         response = client.post(
             "/documents/",
             json=document_data,
             headers={"Authorization": f"Bearer {test_user_token}"}
         )
-        
+
         assert response.status_code == 201
         data = response.json()
         assert data["title"] == "API Test Document"
         assert data["document_type"] == "contract"
-    
+
     def test_ingest_prediction_endpoint(self, client: TestClient, test_user_token: str, test_document_id: int):
         """Test prediction ingestion endpoint."""
         prediction_data = {
@@ -533,18 +533,18 @@ class TestDocumentAPI:
             "auto_apply_high_confidence": False,
             "validation_required": True
         }
-        
+
         response = client.post(
             f"/documents/{test_document_id}/predict",
             json=prediction_data,
             headers={"Authorization": f"Bearer {test_user_token}"}
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["prediction_score"] == 0.89
         assert data["prediction_status"] == "pending"
-    
+
     def test_apply_correction_endpoint(self, client: TestClient, test_user_token: str, test_document_id: int):
         """Test correction application endpoint."""
         correction_data = {
@@ -561,24 +561,24 @@ class TestDocumentAPI:
             "correction_reason": "Human verification",
             "requires_review": False
         }
-        
+
         response = client.post(
             f"/documents/{test_document_id}/correct",
             json=correction_data,
             headers={"Authorization": f"Bearer {test_user_token}"}
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert "corrections" in data
-    
+
     def test_document_permissions(self, client: TestClient, test_user_token: str, test_document_id: int):
         """Test document permission checking."""
         response = client.get(
             f"/documents/{test_document_id}/permissions",
             headers={"Authorization": f"Bearer {test_user_token}"}
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert "can_read" in data
@@ -589,10 +589,10 @@ class TestDocumentAPI:
 
 class TestDocumentIntegration:
     """Integration tests for the complete document prediction workflow."""
-    
+
     def test_complete_prediction_workflow(self, db_session: Session, test_organization: Organization, test_user: User):
         """Test the complete workflow from document creation to correction."""
-        
+
         # Step 1: Create document
         document_data = DocumentCreate(
             title="Integration Test Contract",
@@ -601,17 +601,17 @@ class TestDocumentIntegration:
             confidentiality=DocumentConfidentiality.CONFIDENTIAL,
             content="This is a service agreement between parties..."
         )
-        
+
         document = DocumentService.create_document(
             db=db_session,
             document_data=document_data,
             organization_id=test_organization.id,
             created_by_id=test_user.id
         )
-        
+
         assert document.version == 1
         initial_version = document.version
-        
+
         # Step 2: Ingest AI predictions
         prediction_fields = [
             PredictionField(
@@ -627,7 +627,7 @@ class TestDocumentIntegration:
                 field_type="date_extraction"
             )
         ]
-        
+
         document_prediction = DocumentPrediction(
             model_name="legal-analyzer-v3",
             model_version="3.2.1",
@@ -636,12 +636,12 @@ class TestDocumentIntegration:
             predictions=prediction_fields,
             document_classification="contract"
         )
-        
+
         prediction_ingest = PredictionIngest(
             prediction_data=document_prediction,
             auto_apply_high_confidence=False
         )
-        
+
         predicted_document = DocumentService.ingest_prediction(
             db=db_session,
             document_id=document.id,
@@ -649,11 +649,11 @@ class TestDocumentIntegration:
             organization_id=test_organization.id,
             ingested_by_id=test_user.id
         )
-        
+
         assert predicted_document.prediction_status == PredictionStatus.PENDING
         assert predicted_document.prediction_score == 0.895
         assert predicted_document.version == initial_version + 1
-        
+
         # Step 3: Apply human corrections
         field_corrections = [
             FieldCorrection(
@@ -673,12 +673,12 @@ class TestDocumentIntegration:
                 correction_type=CorrectionType.CONFIRM
             )
         ]
-        
+
         correction_data = CorrectionSchema(
             corrections=field_corrections,
             correction_reason="Human review completed"
         )
-        
+
         corrected_document = DocumentService.apply_correction(
             db=db_session,
             document_id=document.id,
@@ -686,26 +686,26 @@ class TestDocumentIntegration:
             organization_id=test_organization.id,
             corrected_by_id=test_user.id
         )
-        
+
         assert corrected_document.prediction_status == PredictionStatus.PARTIALLY_CONFIRMED
         assert corrected_document.version == initial_version + 2
-        
+
         # Step 4: Verify audit trail
         audit_trail = DocumentService.get_audit_trail(
             db=db_session,
             document_id=document.id,
             organization_id=test_organization.id
         )
-        
+
         assert audit_trail["current_version"] == initial_version + 2
         assert len(audit_trail["recent_versions"]) >= 2
         assert len(audit_trail["recent_corrections"]) >= 2
-        
+
         # Step 5: Verify correction records
         corrections = db_session.query(DocumentCorrection).filter(
             DocumentCorrection.document_id == document.id
         ).all()
-        
+
         assert len(corrections) == 2
         assert any(c.correction_type == "edit" for c in corrections)
         assert any(c.correction_type == "confirm" for c in corrections)
@@ -721,12 +721,12 @@ def test_document_id(db_session: Session, test_organization: Organization, test_
         status=DocumentStatus.DRAFT,
         confidentiality=DocumentConfidentiality.INTERNAL
     )
-    
+
     document = DocumentService.create_document(
         db=db_session,
         document_data=document_data,
         organization_id=test_organization.id,
         created_by_id=test_user.id
     )
-    
+
     return document.id

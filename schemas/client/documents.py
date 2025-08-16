@@ -20,7 +20,7 @@ class ClientDocumentCreate(ClientDocumentBase):
     file_path: Optional[str] = Field(None, description="File path")
     file_size: Optional[int] = Field(None, ge=0, description="File size in bytes")
     mime_type: Optional[str] = Field(None, description="MIME type")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -50,12 +50,12 @@ class ClientDocumentResponse(ClientDocumentBase):
     uploaded_by_id: Optional[int]
     created_at: datetime
     updated_at: datetime
-    
+
     # Computed fields
     file_size_mb: Optional[float] = Field(None, description="File size in MB")
     upload_url: Optional[str] = Field(None, description="URL for file upload")
     download_url: Optional[str] = Field(None, description="URL for file download")
-    
+
     class Config:
         from_attributes = True
         schema_extra = {
@@ -89,7 +89,7 @@ class ClientDocumentFilter(BaseModel):
     uploaded_after: Optional[datetime] = None
     uploaded_before: Optional[datetime] = None
     uploaded_by_id: Optional[int] = None
-    
+
     class Config:
         schema_extra = {
             "example": {

@@ -86,11 +86,11 @@ class NotificationService:
     """
     Unified notification service for coordinating all notification channels.
     """
-    
+
     def __init__(self):
         self.email_service = email_service
         self.webhook_service = webhook_service
-        
+
         # Notification templates mapping
         self.notification_templates = {
             NotificationType.SYSTEM_ALERT: "system_alert",
@@ -102,7 +102,7 @@ class NotificationService:
             NotificationType.REMINDER: "reminder",
             NotificationType.REPORT: "report"
         }
-        
+
         # Priority mapping
         self.priority_map = {
             NotificationPriority.LOW: EmailPriority.LOW,
@@ -110,7 +110,7 @@ class NotificationService:
             NotificationPriority.HIGH: EmailPriority.HIGH,
             NotificationPriority.URGENT: EmailPriority.URGENT
         }
-    
+
     async def send_notification(
         self,
         request: NotificationRequest
@@ -121,43 +121,43 @@ class NotificationService:
         request_id = f"notif_{datetime.utcnow().timestamp()}"
         channel_results = {}
         errors = []
-        
+
         # Process each channel
         tasks = []
-        
+
         if NotificationChannel.EMAIL in request.channels:
             email_task = self._send_email_notifications(request)
             tasks.append(("email", email_task))
-        
+
         if NotificationChannel.WEBHOOK in request.channels:
             webhook_task = self._send_webhook_notifications(request)
             tasks.append(("webhook", webhook_task))
-        
+
         # Execute all channel tasks concurrently
         if tasks:
             results = await asyncio.gather(
                 *[task for _, task in tasks],
                 return_exceptions=True
             )
-            
+
             for idx, (channel, _) in enumerate(tasks):
                 if isinstance(results[idx], Exception):
                     errors.append(f"{channel}: {str(results[idx])}")
                     channel_results[channel] = []
                 else:
                     channel_results[channel] = results[idx]
-        
+
         # Determine overall status
         total_sent = sum(len(results) for results in channel_results.values())
         total_failed = len(errors)
-        
+
         if total_sent > 0 and total_failed == 0:
             status = "success"
         elif total_sent > 0 and total_failed > 0:
             status = "partial_success"
         else:
             status = "failed"
-        
+
         result = NotificationResult(
             request_id=request_id,
             status=status,
@@ -166,27 +166,27 @@ class NotificationService:
             errors=errors,
             metadata=request.metadata
         )
-        
+
         logger.info(f"Notification sent: {request_id} - {status}")
-        
+
         return result
-    
+
     async def _send_email_notifications(
         self,
         request: NotificationRequest
     ) -> List[EmailDeliveryResult]:
         """Send email notifications."""
         from notifications.email_service import EmailMessage
-        
+
         results = []
-        
+
         email_recipients = request.recipients.get("email", [])
         if not email_recipients:
             return results
-        
+
         # Use template if specified
         template_name = request.template_name or self.notification_templates.get(request.type)
-        
+
         # Prepare template data
         template_data = {
             "subject": request.subject,
@@ -197,7 +197,7 @@ class NotificationService:
             **(request.template_data or {}),
             **(request.data or {})
         }
-        
+
         # Create email messages
         messages = []
         for recipient in email_recipients:
@@ -215,13 +215,13 @@ class NotificationService:
                 }
             )
             messages.append(email_message)
-        
+
         # Send emails in batches
         if messages:
             results = await self.email_service.send_bulk(messages)
-        
+
         return results
-    
+
     async def _send_webhook_notifications(
         self,
         request: NotificationRequest
@@ -229,7 +229,7 @@ class NotificationService:
         """Send webhook notifications."""
         # Map notification type to webhook event
         webhook_event = request.webhook_event or self._map_to_webhook_event(request.type)
-        
+
         # Prepare webhook data
         webhook_data = {
             "notification_type": request.type.value,
@@ -238,16 +238,16 @@ class NotificationService:
             "priority": request.priority.value,
             **(request.data or {})
         }
-        
+
         # Broadcast to all registered webhooks
         results = await self.webhook_service.broadcast_event(
             event_type=webhook_event,
             data=webhook_data,
             metadata=request.metadata
         )
-        
+
         return results
-    
+
     def _map_to_webhook_event(self, notification_type: NotificationType) -> WebhookEvent:
         """Map notification type to webhook event."""
         mapping = {
@@ -261,7 +261,7 @@ class NotificationService:
             NotificationType.REPORT: WebhookEvent.CUSTOM
         }
         return mapping.get(notification_type, WebhookEvent.CUSTOM)
-    
+
     async def notify_document_created(
         self,
         document_id: int,
@@ -288,7 +288,7 @@ class NotificationService:
                 }
             )
         )
-    
+
     async def notify_prediction_complete(
         self,
         document_id: int,
@@ -302,7 +302,7 @@ class NotificationService:
             NotificationPriority.HIGH if confidence_score < 0.7
             else NotificationPriority.NORMAL
         )
-        
+
         return await self.send_notification(
             NotificationRequest(
                 type=NotificationType.PREDICTION_COMPLETE,
@@ -323,7 +323,7 @@ class NotificationService:
                 }
             )
         )
-    
+
     async def notify_system_alert(
         self,
         alert_type: str,
@@ -338,10 +338,10 @@ class NotificationService:
             "error": NotificationPriority.HIGH,
             "critical": NotificationPriority.URGENT
         }
-        
+
         # Get admin emails from settings
         admin_emails = getattr(settings, 'ADMIN_EMAILS', [getattr(settings, 'FROM_EMAIL', 'admin@goldleaves.com')])
-        
+
         return await self.send_notification(
             NotificationRequest(
                 type=NotificationType.SYSTEM_ALERT,
@@ -358,7 +358,7 @@ class NotificationService:
                 }
             )
         )
-    
+
     async def send_bulk_notifications(
         self,
         requests: List[NotificationRequest],
@@ -367,16 +367,16 @@ class NotificationService:
     ) -> List[NotificationResult]:
         """Send multiple notifications in batches."""
         results = []
-        
+
         for i in range(0, len(requests), batch_size):
             batch = requests[i:i + batch_size]
-            
+
             # Process batch concurrently
             batch_results = await asyncio.gather(
                 *[self.send_notification(req) for req in batch],
                 return_exceptions=True
             )
-            
+
             # Handle results
             for idx, result in enumerate(batch_results):
                 if isinstance(result, Exception):
@@ -391,13 +391,13 @@ class NotificationService:
                     results.append(error_result)
                 else:
                     results.append(result)
-            
+
             # Delay between batches
             if i + batch_size < len(requests):
                 await asyncio.sleep(delay_between_batches)
-        
+
         return results
-    
+
     def register_webhook_endpoint(
         self,
         webhook_id: str,
@@ -408,21 +408,21 @@ class NotificationService:
     ) -> None:
         """Register a webhook endpoint for notifications."""
         from notifications.webhook_service import WebhookAuthType
-        
+
         config = WebhookConfig(
             url=url,
             events=events,
             auth_type=WebhookAuthType(auth_type),
             auth_credentials=auth_credentials
         )
-        
+
         self.webhook_service.register_webhook(webhook_id, config)
         logger.info(f"Registered webhook endpoint: {webhook_id} -> {url}")
-    
+
     def get_notification_stats(self) -> Dict[str, Any]:
         """Get combined notification statistics."""
         webhook_stats = self.webhook_service.get_webhook_stats()
-        
+
         return {
             "webhooks": webhook_stats,
             "channels_available": [

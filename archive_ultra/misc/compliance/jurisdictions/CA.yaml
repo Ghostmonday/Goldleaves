@@ -11,29 +11,29 @@ overrides:
         validator: verify_jc_form_number
       - type: disclaimer_required
         text: "California Judicial Council forms are standardized. An attorney can help determine if this form fits your situation."
-        
+
   banned_phrases:
     - "legal advice"
     - "in your case"
     - "you should file"
     - "your best option"
-    
+
 required_disclaimers:
   general: |
     This information is based on California law as of {current_date}.
     Laws change frequently. Verify current law before taking action.
-    
+
   forms: |
     California courts require Judicial Council forms for most filings.
     Local rules may require additional forms.
-    
+
 referral_endpoints:
   bar_referral_url: "https://www.calbar.ca.gov/Public/Need-Legal-Help/Lawyer-Referral-Service"
   legal_aid_url: "https://www.lawhelpca.org/"
   court_self_help_url: "https://www.courts.ca.gov/selfhelp.htm"
   domestic_violence_hotline: "1-800-799-7233"
   legal_aid_emergency: "211"
-  
+
 court_info:
   name_pattern: "Superior Court of California, County of {county}"
   website_pattern: "https://www.{county}.courts.ca.gov"

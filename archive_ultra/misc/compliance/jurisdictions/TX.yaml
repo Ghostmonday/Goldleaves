@@ -7,22 +7,22 @@ overrides:
   GiveFilingSteps:
     status: deny  # TX more restrictive on procedural guidance
     mitigation: "Texas courts have varying local rules. Contact the clerk's office in {county} County for filing procedures."
-    
+
   banned_phrases:
     - "legal advice"
     - "file a petition"
     - "Texas requires"
     - "under Texas law you"
-    
+
 required_disclaimers:
   general: |
     This information is general in nature and may not reflect current Texas law.
     Texas law varies by county. Consult local resources.
-    
+
   unauthorized_practice: |
     Under Texas law, only licensed Texas attorneys may provide legal advice.
     Document preparation services must register with the state.
-    
+
 referral_endpoints:
   bar_referral_url: "https://www.texasbar.com/AM/Template.cfm?Section=Lawyer_Referral_Service"
   legal_aid_url: "https://www.texaslawhelp.org/"

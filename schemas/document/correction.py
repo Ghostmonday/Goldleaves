@@ -25,14 +25,14 @@ class FieldCorrection(BaseModel):
     confidence_before: Optional[float] = Field(None, ge=0.0, le=1.0, description="AI confidence before correction")
     confidence_after: float = Field(1.0, ge=0.0, le=1.0, description="Human confidence after correction")
     source_evidence: Optional[str] = Field(None, description="Evidence supporting the correction")
-    
+
     @validator('corrected_value')
     def validate_corrected_value_for_modify(cls, v, values):
         """Ensure corrected value is provided for modify corrections."""
         if values.get('correction_type') == CorrectionType.MODIFY and v is None:
             raise ValueError("Corrected value is required for modify corrections")
         return v
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -53,14 +53,14 @@ class DocumentCorrection(BaseModel):
     correction_reason: str = Field(..., description="Overall reason for corrections")
     reviewer_notes: Optional[str] = Field(None, description="Additional reviewer notes")
     requires_review: bool = Field(False, description="Whether correction requires additional review")
-    
+
     @validator('corrections')
     def validate_corrections_not_empty(cls, v):
         """Ensure at least one correction is provided."""
         if not v:
             raise ValueError("At least one correction is required")
         return v
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -94,7 +94,7 @@ class CorrectionCreate(BaseModel):
     confidence_after: float = Field(1.0, ge=0.0, le=1.0)
     correction_reason: str = Field(..., description="Reason for correction")
     correction_type: str = Field(..., description="Type of correction")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -115,7 +115,7 @@ class CorrectionUpdate(BaseModel):
     confidence_after: Optional[float] = Field(None, ge=0.0, le=1.0)
     correction_reason: Optional[str] = Field(None, description="Updated reason")
     review_status: Optional[str] = Field(None, description="Review status")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -138,7 +138,7 @@ class CorrectionResponse(BaseModel):
     confidence_after: float
     correction_reason: str
     correction_type: str
-    
+
     # User and review information
     corrected_by_id: int
     corrected_by_name: Optional[str] = Field(None, description="Name of user who made correction")
@@ -146,11 +146,11 @@ class CorrectionResponse(BaseModel):
     reviewed_by_name: Optional[str] = Field(None, description="Name of user who reviewed")
     reviewed_at: Optional[datetime]
     review_status: str
-    
+
     # Timestamps
     created_at: datetime
     updated_at: Optional[datetime]
-    
+
     class Config:
         from_attributes = True
         schema_extra = {
@@ -177,7 +177,7 @@ class CorrectionValidation(BaseModel):
     field_path: str
     proposed_value: Any
     validation_rules: List[str] = Field(default_factory=list, description="Validation rules to check")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -194,7 +194,7 @@ class CorrectionValidationResult(BaseModel):
     validation_errors: List[str] = Field(default_factory=list)
     validation_warnings: List[str] = Field(default_factory=list)
     suggested_value: Optional[Any] = Field(None, description="System-suggested value if applicable")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -212,7 +212,7 @@ class CorrectionBatch(BaseModel):
     corrections: List[FieldCorrection] = Field(..., description="Corrections to apply")
     apply_to_similar: bool = Field(False, description="Apply to similar documents")
     similarity_threshold: float = Field(0.8, ge=0.0, le=1.0, description="Similarity threshold for auto-apply")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -238,7 +238,7 @@ class CorrectionBatchResult(BaseModel):
     correction_results: List[Dict[str, Any]] = Field(default_factory=list)
     similar_documents_found: int = 0
     similar_documents_updated: int = 0
-    
+
     class Config:
         schema_extra = {
             "example": {

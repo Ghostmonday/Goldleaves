@@ -50,10 +50,10 @@ import { useUsage } from './usage';
 
 function UsageComponent() {
   const { summary, dailyUsage, loading, error, refetch } = useUsage(7);
-  
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  
+
   return (
     <div>
       <h2>Total Calls: {summary?.total_calls}</h2>
@@ -108,7 +108,7 @@ tests/usage/
 ## Implementation Notes
 
 - Router is automatically registered via contract system
-- Mock implementation with proper structure for production replacement  
+- Mock implementation with proper structure for production replacement
 - UTC timestamps throughout
 - Cost calculation from configurable rate
 - Request ID ignored as specified

@@ -21,7 +21,8 @@ from sqlalchemy.orm import relationship
 
 # Import from local dependencies
 from .dependencies import Base, utcnow
-from .user import SoftDeleteMixin, TimestampMixin
+from .base import SoftDeleteMixin, TimestampMixin
+from .document import Document  # ensure symbol present for relationship resolution
 
 
 class CaseType(PyEnum):
@@ -94,16 +95,20 @@ class BillingType(PyEnum):
     HYBRID = "hybrid"
     PRO_BONO = "pro_bono"
 
+# Backward-compat alias expected by some tests
+CaseBillingType = BillingType
+
 
 class Case(Base, TimestampMixin, SoftDeleteMixin):
     """Enhanced Case model with comprehensive legal case management."""
     __tablename__ = "cases"
+    __allow_unmapped__ = True
 
     # Core fields
     id = Column(Integer, primary_key=True, index=True)
     case_number = Column(String(100), unique=True, nullable=False, index=True)  # Auto-generated or manual
     slug = Column(String(150), unique=True, nullable=False, index=True)  # URL-friendly identifier
-    
+
     # Case identification
     title = Column(String(255), nullable=False, index=True)
     description = Column(Text, nullable=True)
@@ -111,14 +116,14 @@ class Case(Base, TimestampMixin, SoftDeleteMixin):
     status = Column(Enum(CaseStatus), default=CaseStatus.DRAFT, nullable=False, index=True)
     priority = Column(Enum(CasePriority), default=CasePriority.MEDIUM, nullable=False)
     stage = Column(Enum(CaseStage), default=CaseStage.INTAKE, nullable=False)
-    
+
     # Dates and timeline
     opened_date = Column(DateTime, default=utcnow, nullable=False)
     closed_date = Column(DateTime, nullable=True)
     deadline_date = Column(DateTime, nullable=True)
     statute_of_limitations = Column(DateTime, nullable=True)
     next_court_date = Column(DateTime, nullable=True)
-    
+
     # Court and jurisdiction information
     court_name = Column(String(200), nullable=True)
     judge_name = Column(String(200), nullable=True)
@@ -126,7 +131,7 @@ class Case(Base, TimestampMixin, SoftDeleteMixin):
     case_number_court = Column(String(100), nullable=True)  # Court-assigned case number
     opposing_party = Column(String(255), nullable=True)
     opposing_counsel = Column(String(255), nullable=True)
-    
+
     # Financial information
     billing_type = Column(Enum(BillingType), default=BillingType.HOURLY, nullable=False)
     hourly_rate = Column(Numeric(10, 2), nullable=True)
@@ -135,36 +140,36 @@ class Case(Base, TimestampMixin, SoftDeleteMixin):
     retainer_amount = Column(Numeric(10, 2), nullable=True)
     estimated_value = Column(Numeric(12, 2), nullable=True)
     actual_settlement = Column(Numeric(12, 2), nullable=True)
-    
+
     # Time tracking
     estimated_hours = Column(Numeric(8, 2), nullable=True)
     actual_hours = Column(Numeric(8, 2), default=0, nullable=False)
     billable_hours = Column(Numeric(8, 2), default=0, nullable=False)
-    
+
     # Case metadata
     tags = Column(JSON, nullable=True)  # Array of string tags
     notes = Column(Text, nullable=True)
     internal_notes = Column(Text, nullable=True)  # Private notes for staff
     outcome_summary = Column(Text, nullable=True)
     lessons_learned = Column(Text, nullable=True)
-    
+
     # External references
     external_case_id = Column(String(100), nullable=True, index=True)
     matter_number = Column(String(100), nullable=True, index=True)  # Client's internal reference
     practice_area = Column(String(100), nullable=True, index=True)
-    
+
     # Sharing and collaboration
     is_confidential = Column(Boolean, default=True, nullable=False)
     share_slug = Column(String(200), nullable=True, unique=True, index=True)  # For secure sharing
     share_expires_at = Column(DateTime, nullable=True)
-    
+
     # Multi-tenant isolation
     client_id = Column(Integer, ForeignKey("clients.id", ondelete="CASCADE"), nullable=False, index=True)
     organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
     created_by_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
     assigned_to_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)  # Primary attorney
     supervising_attorney_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
-    
+
     # Relationships
     client = relationship("Client", back_populates="cases")
     organization = relationship("Organization")
@@ -175,10 +180,10 @@ class Case(Base, TimestampMixin, SoftDeleteMixin):
     time_entries = relationship("TimeEntry", back_populates="case", cascade="all, delete-orphan")
     events = relationship("CaseEvent", back_populates="case", cascade="all, delete-orphan")
     tasks = relationship("CaseTask", back_populates="case", cascade="all, delete-orphan")
-    
+
     # Document relationships - NEW (using the new Document model)
     prediction_documents = relationship("Document", back_populates="case", cascade="all, delete-orphan")
-    
+
     # Composite indexes for performance and multi-tenant isolation
     __table_args__ = (
         Index('idx_case_org_status', 'organization_id', 'status'),
@@ -220,7 +225,7 @@ class Case(Base, TimestampMixin, SoftDeleteMixin):
 
     def close_case(self, status: CaseStatus, outcome_summary: str = None):
         """Close the case with a specific status."""
-        if status in [CaseStatus.CLOSED_WON, CaseStatus.CLOSED_LOST, 
+        if status in [CaseStatus.CLOSED_WON, CaseStatus.CLOSED_LOST,
                       CaseStatus.CLOSED_DISMISSED, CaseStatus.CLOSED_WITHDRAWN]:
             self.status = status
             self.closed_date = utcnow()
@@ -296,17 +301,17 @@ class CaseDocument(Base, TimestampMixin, SoftDeleteMixin):
     mime_type = Column(String(100), nullable=True)
     document_type = Column(String(100), nullable=True)  # pleading, evidence, contract, etc.
     version = Column(Integer, default=1, nullable=False)
-    
+
     # Multi-tenant isolation
     case_id = Column(Integer, ForeignKey("cases.id", ondelete="CASCADE"), nullable=False, index=True)
     organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
     uploaded_by_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
-    
+
     # Relationships
     case = relationship("Case", back_populates="documents")
     organization = relationship("Organization")
     uploaded_by = relationship("User")
-    
+
     __table_args__ = (
         Index('idx_case_doc_org', 'case_id', 'organization_id'),
         Index('idx_case_doc_type', 'case_id', 'document_type'),
@@ -326,17 +331,17 @@ class TimeEntry(Base, TimestampMixin, SoftDeleteMixin):
     description = Column(Text, nullable=False)
     task_type = Column(String(100), nullable=True)  # research, writing, meeting, etc.
     billable = Column(Boolean, default=True, nullable=False)
-    
+
     # Multi-tenant isolation
     case_id = Column(Integer, ForeignKey("cases.id", ondelete="CASCADE"), nullable=False, index=True)
     organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
-    
+
     # Relationships
     case = relationship("Case", back_populates="time_entries")
     organization = relationship("Organization")
     user = relationship("User")
-    
+
     __table_args__ = (
         Index('idx_time_case_org', 'case_id', 'organization_id'),
         Index('idx_time_user_date', 'user_id', 'date'),
@@ -358,17 +363,17 @@ class CaseEvent(Base, TimestampMixin, SoftDeleteMixin):
     event_type = Column(String(100), nullable=True)  # hearing, filing, meeting, etc.
     location = Column(String(255), nullable=True)
     is_milestone = Column(Boolean, default=False, nullable=False)
-    
+
     # Multi-tenant isolation
     case_id = Column(Integer, ForeignKey("cases.id", ondelete="CASCADE"), nullable=False, index=True)
     organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
     created_by_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
-    
+
     # Relationships
     case = relationship("Case", back_populates="events")
     organization = relationship("Organization")
     created_by = relationship("User")
-    
+
     __table_args__ = (
         Index('idx_event_case_org', 'case_id', 'organization_id'),
         Index('idx_event_date_org', 'event_date', 'organization_id'),
@@ -390,19 +395,19 @@ class CaseTask(Base, TimestampMixin, SoftDeleteMixin):
     completed = Column(Boolean, default=False, nullable=False, index=True)
     completed_at = Column(DateTime, nullable=True)
     priority = Column(Enum(CasePriority), default=CasePriority.MEDIUM, nullable=False)
-    
+
     # Multi-tenant isolation
     case_id = Column(Integer, ForeignKey("cases.id", ondelete="CASCADE"), nullable=False, index=True)
     organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
     assigned_to_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
     created_by_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
-    
+
     # Relationships
     case = relationship("Case", back_populates="tasks")
     organization = relationship("Organization")
     assigned_to = relationship("User", foreign_keys=[assigned_to_id])
     created_by = relationship("User", foreign_keys=[created_by_id])
-    
+
     __table_args__ = (
         Index('idx_task_case_org', 'case_id', 'organization_id'),
         Index('idx_task_assigned_org', 'assigned_to_id', 'organization_id'),

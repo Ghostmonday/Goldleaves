@@ -30,35 +30,35 @@ def check_tables():
     try:
         with engine.connect() as conn:
             result = conn.execute(text("""
-                SELECT table_name 
-                FROM information_schema.tables 
+                SELECT table_name
+                FROM information_schema.tables
                 WHERE table_schema = 'public'
             """))
             tables = [row[0] for row in result.fetchall()]
-            
+
             if tables:
                 print(f"📋 Existing tables: {', '.join(tables)}")
             else:
                 print("📋 No tables found in database")
-            
+
             if 'users' in tables:
                 print("✅ Users table exists!")
-                
+
                 # Check table structure
                 result = conn.execute(text("""
                     SELECT column_name, data_type, is_nullable
-                    FROM information_schema.columns 
+                    FROM information_schema.columns
                     WHERE table_name = 'users'
                     ORDER BY ordinal_position
                 """))
-                
+
                 print("🏗️  Users table structure:")
                 for column_name, data_type, is_nullable in result.fetchall():
                     nullable = "NULL" if is_nullable == "YES" else "NOT NULL"
                     print(f"   - {column_name}: {data_type} {nullable}")
             else:
                 print("⚠️  Users table not found")
-            
+
             return tables
     except Exception as e:
         print(f"❌ Error checking tables: {e}")
@@ -67,14 +67,14 @@ def check_tables():
 def main():
     print("🍃 Gold Leaves Database Setup")
     print("=" * 40)
-    
+
     # Validate configuration
     print("🔧 Checking configuration...")
     if not validate_config():
         print("❌ Configuration validation failed")
         return False
     print("✅ Configuration valid")
-    
+
     # Test connection
     print("\n🔗 Testing database connection...")
     if not test_connection():
@@ -84,25 +84,25 @@ def main():
 1. Install PostgreSQL on your system
 2. Create a database named 'goldleaves'
 3. Update the DATABASE_URL in your .env file if needed
-4. Current DATABASE_URL from config: 
+4. Current DATABASE_URL from config:
    postgresql://postgres:postgres@localhost:5432/goldleaves
 
 5. Run migrations:
    alembic upgrade head
         """)
         return False
-    
+
     # Check tables
     print("\n📋 Checking database tables...")
     tables = check_tables()
-    
+
     if 'users' not in tables:
         print("""
 🚀 Next steps:
 1. Run the migration to create tables:
    alembic upgrade head
         """)
-    
+
     return True
 
 if __name__ == "__main__":

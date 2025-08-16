@@ -8,7 +8,7 @@ from .prediction_logger import PredictionLogger
 
 __all__ = [
     "AICompletionService",
-    "ConfidenceRouter", 
+    "ConfidenceRouter",
     "FeedbackCollector",
     "PredictionLogger"
 ]

@@ -118,7 +118,7 @@ def test_user_registration_success(self, client: TestClient, db_session: Session
         "email": "test@example.com",
         "password": "securepassword123"
     })
-    
+
     assert response.status_code == 201
     data = response.json()
     assert data["username"] == "testuser"

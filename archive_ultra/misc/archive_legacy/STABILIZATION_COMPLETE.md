@@ -13,7 +13,7 @@
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
   "python.analysis.exclude": [
     "**/alembic/**",
-    "**/__pycache__/**", 
+    "**/__pycache__/**",
     "**/.venv/**",
     "**/tests/fixtures/**",
     "**/legacy/**"
@@ -39,7 +39,7 @@
   "exclude": [
     "**/alembic/**",
     "**/__pycache__/**",
-    "**/.venv/**", 
+    "**/.venv/**",
     "**/tests/fixtures/**",
     "**/legacy/**"
   ],

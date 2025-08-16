@@ -25,7 +25,7 @@
   "audit_framework": {
     "supported_languages": [
       "python",
-      "javascript", 
+      "javascript",
       "typescript",
       "java",
       "csharp",
@@ -35,19 +35,19 @@
     ],
     "audit_phases": [
       "project_discovery",
-      "import_analysis", 
+      "import_analysis",
       "error_detection",
       "architecture_assessment"
     ],
     "severity_levels": [
       "critical",
-      "medium", 
+      "medium",
       "low",
       "clean"
     ],
     "tools_required": [
       "file_search",
-      "grep_search", 
+      "grep_search",
       "get_errors",
       "semantic_search",
       "list_dir"
@@ -56,7 +56,7 @@
   "claude_opus_integration": {
     "quick_start_commands": [
       "file_search: **/*.py",
-      "list_dir: /", 
+      "list_dir: /",
       "get_errors: [key files]",
       "grep_search: ImportError|ModuleNotFoundError",
       "semantic_search: broken implementation"

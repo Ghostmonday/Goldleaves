@@ -1,7 +1,7 @@
 """Add entitlements table for billing
 
 Revision ID: 001_add_entitlements
-Revises: 
+Revises:
 Create Date: 2024-01-01 12:00:00.000000
 
 """
@@ -21,7 +21,7 @@ def upgrade():
     # Create enum type for plan
     plan_enum = postgresql.ENUM('free', 'pro', 'team', name='plantype')
     plan_enum.create(op.get_bind())
-    
+
     # Create entitlements table
     op.create_table(
         'entitlements',
@@ -36,7 +36,7 @@ def upgrade():
         sa.Column('updated_at', sa.DateTime(timezone=True), nullable=False, server_default=sa.text('NOW()')),
         sa.PrimaryKeyConstraint('id')
     )
-    
+
     # Create indexes
     op.create_index('idx_entitlement_tenant', 'entitlements', ['tenant_id'])
     op.create_index('idx_entitlement_customer', 'entitlements', ['customer_id'])
@@ -51,10 +51,10 @@ def downgrade():
     op.drop_index('idx_entitlement_subscription', table_name='entitlements')
     op.drop_index('idx_entitlement_customer', table_name='entitlements')
     op.drop_index('idx_entitlement_tenant', table_name='entitlements')
-    
+
     # Drop table
     op.drop_table('entitlements')
-    
+
     # Drop enum type
     plan_enum = postgresql.ENUM('free', 'pro', 'team', name='plantype')
     plan_enum.drop(op.get_bind())

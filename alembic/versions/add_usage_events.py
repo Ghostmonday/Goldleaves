@@ -1,7 +1,7 @@
 """Add usage_events table for metered billing
 
 Revision ID: add_usage_events
-Revises: 
+Revises:
 Create Date: 2024-08-09 12:18:00.000000
 
 """
@@ -18,7 +18,7 @@ depends_on = None
 
 def upgrade() -> None:
     """Add usage_events table for usage tracking and metered billing."""
-    
+
     # Create usage_events table
     op.create_table('usage_events',
         sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
@@ -36,7 +36,7 @@ def upgrade() -> None:
         sa.PrimaryKeyConstraint('id'),
         sa.UniqueConstraint('request_id', name='uq_usage_request_id')
     )
-    
+
     # Create performance indexes
     op.create_index('idx_usage_tenant_ts', 'usage_events', ['tenant_id', 'ts'])
     op.create_index('idx_usage_user_ts', 'usage_events', ['user_id', 'ts'])
@@ -47,13 +47,13 @@ def upgrade() -> None:
 
 def downgrade() -> None:
     """Remove usage_events table."""
-    
+
     # Drop indexes first
     op.drop_index('idx_usage_request_id', table_name='usage_events')
     op.drop_index('idx_usage_tenant_route', table_name='usage_events')
     op.drop_index('idx_usage_route_ts', table_name='usage_events')
     op.drop_index('idx_usage_user_ts', table_name='usage_events')
     op.drop_index('idx_usage_tenant_ts', table_name='usage_events')
-    
+
     # Drop table
     op.drop_table('usage_events')

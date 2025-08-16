@@ -10,7 +10,7 @@ from fastapi import HTTPException, status
 
 class GoldleavesException(Exception):
     """Base exception class for Goldleaves application."""
-    
+
     def __init__(self, message: str, details: Optional[Dict[str, Any]] = None):
         self.message = message
         self.details = details or {}

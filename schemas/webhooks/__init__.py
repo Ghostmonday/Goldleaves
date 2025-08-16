@@ -38,7 +38,7 @@ __all__ = [
     "WebhookCreate",
     "WebhookResponse",
     "WebhookUpdate",
-    
+
     # Payload schemas
     "WebhookPayload",
     "UserWebhookPayload",

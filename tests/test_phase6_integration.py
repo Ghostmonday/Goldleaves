@@ -24,7 +24,7 @@ client = TestClient(app)
 
 class TestPhase6Integration:
     """Integration tests for Phase 6 collaboration features."""
-    
+
     @pytest.fixture
     def test_organization(self, db: Session) -> Organization:
         """Create test organization."""
@@ -37,7 +37,7 @@ class TestPhase6Integration:
         db.commit()
         db.refresh(org)
         return org
-    
+
     @pytest.fixture
     def test_user(self, db: Session, test_organization: Organization) -> User:
         """Create test user."""
@@ -53,7 +53,7 @@ class TestPhase6Integration:
         db.commit()
         db.refresh(user)
         return user
-    
+
     @pytest.fixture
     def test_document_with_lineage(self, db: Session, test_user: User) -> Document:
         """Create test document with version lineage."""
@@ -70,7 +70,7 @@ class TestPhase6Integration:
         db.add(document)
         db.commit()
         db.refresh(document)
-        
+
         # Create version lineage
         versions = [
             {
@@ -110,7 +110,7 @@ class TestPhase6Integration:
                 "metadata": {"stage": "final", "reviewer": "senior_partner"}
             }
         ]
-        
+
         for version_data in versions:
             version = DocumentVersion(
                 document_id=document.id,
@@ -119,25 +119,25 @@ class TestPhase6Integration:
                 organization_id=test_user.organization_id
             )
             db.add(version)
-        
+
         db.commit()
         return document
-    
+
     @pytest.fixture
     def auth_headers(self, test_user: User) -> dict:
         """Create authentication headers."""
         # In a real test, generate valid JWT token
         return {"Authorization": "Bearer test_phase6_token"}
-    
+
     def test_complete_collaboration_workflow(
-        self, 
-        db: Session, 
-        test_document_with_lineage: Document, 
+        self,
+        db: Session,
+        test_document_with_lineage: Document,
         test_user: User,
         auth_headers: Dict[str, Any]
     ):
         """Test complete Phase 6 collaboration workflow."""
-        
+
         # Step 1: Get document version history
         with patch('core.dependencies.get_current_user', return_value=test_user):
             with patch('core.security.require_permission'):
@@ -150,14 +150,14 @@ class TestPhase6Integration:
                 assert version_data["total_versions"] == 4
                 assert version_data["current_version"] == 4
                 assert len(version_data["versions"]) == 4
-                
+
                 # Verify version ordering (newest first)
                 versions = version_data["versions"]
                 assert versions[0]["version_number"] == 4
                 assert versions[1]["version_number"] == 3
                 assert versions[2]["version_number"] == 2
                 assert versions[3]["version_number"] == 1
-        
+
         # Step 2: Compare versions to see document evolution
         comparison_data = {
             "from_version": 1,
@@ -166,7 +166,7 @@ class TestPhase6Integration:
             "include_metadata_diff": True,
             "diff_format": "unified"
         }
-        
+
         with patch('core.dependencies.get_current_user', return_value=test_user):
             with patch('core.security.require_permission'):
                 response = client.post(
@@ -181,7 +181,7 @@ class TestPhase6Integration:
                 assert diff_data["total_changes"] > 0
                 assert len(diff_data["field_diffs"]) > 0
                 assert diff_data["content_diff"] is not None
-        
+
         # Step 3: Create secure share for external collaboration
         share_data = {
             "recipient_email": "external@partner.com",
@@ -194,7 +194,7 @@ class TestPhase6Integration:
             "track_access": True,
             "share_reason": "Contract review with external partner"
         }
-        
+
         with patch('core.dependencies.get_current_user', return_value=test_user):
             with patch('core.security.require_permission'):
                 response = client.post(
@@ -209,9 +209,9 @@ class TestPhase6Integration:
                 assert share_response["permission_level"] == "view_only"
                 assert share_response["share_slug"] is not None
                 assert share_response["share_url"] is not None
-                
+
                 share_slug = share_response["share_slug"]
-        
+
         # Step 4: Access the secure share (simulating external partner)
         response = client.get(f"/documents/share/{share_slug}")
         assert response.status_code == 200
@@ -220,7 +220,7 @@ class TestPhase6Integration:
         assert access_data["document_title"] == "Phase 6 Test Document"
         assert access_data["permission_level"] == "view_only"
         assert access_data["remaining_views"] == 9  # One view consumed
-        
+
         # Step 5: Get comprehensive audit trail
         with patch('core.dependencies.get_current_user', return_value=test_user):
             with patch('core.security.require_permission'):
@@ -233,11 +233,11 @@ class TestPhase6Integration:
                 assert audit_data["document_id"] == test_document_with_lineage.id
                 assert audit_data["total_events"] > 0
                 assert len(audit_data["events"]) > 0
-                
+
                 # Verify audit events include our actions
                 event_types = {event["event_type"] for event in audit_data["events"]}
                 assert "shared" in event_types or "version_created" in event_types
-        
+
         # Step 6: Get organization collaboration statistics
         with patch('core.dependencies.get_current_user', return_value=test_user):
             response = client.get(
@@ -250,7 +250,7 @@ class TestPhase6Integration:
             assert stats_data["total_versions"] >= 4
             assert stats_data["total_secure_shares"] >= 1
             assert stats_data["active_shares"] >= 1
-    
+
     def test_secure_sharing_with_access_control(
         self,
         db: Session,
@@ -259,11 +259,11 @@ class TestPhase6Integration:
         auth_headers: Dict[str, Any]
     ):
         """Test secure sharing with access control features."""
-        
+
         # Create share with access code and IP restrictions
         share_data = {
             "recipient_email": "restricted@partner.com",
-            "permission_level": "download_allowed", 
+            "permission_level": "download_allowed",
             "requires_access_code": True,
             "ip_whitelist": ["192.168.1.100", "10.0.0.50"],
             "allowed_views": 3,
@@ -271,7 +271,7 @@ class TestPhase6Integration:
             "expires_at": (datetime.utcnow() + timedelta(hours=24)).isoformat(),
             "share_reason": "Restricted access for final review"
         }
-        
+
         with patch('core.dependencies.get_current_user', return_value=test_user):
             with patch('core.security.require_permission'):
                 response = client.post(
@@ -283,19 +283,19 @@ class TestPhase6Integration:
                 share_response = response.json()
                 assert share_response["access_code"] is not None
                 assert len(share_response["access_code"]) == 8
-                
+
                 share_slug = share_response["share_slug"]
                 access_code = share_response["access_code"]
-        
+
         # Try accessing without access code (should fail)
         response = client.get(f"/documents/share/{share_slug}")
         assert response.status_code == 400
         assert "access code" in response.json()["detail"].lower()
-        
+
         # Try accessing with wrong access code (should fail)
         response = client.get(f"/documents/share/{share_slug}?access_code=wrongcode")
         assert response.status_code == 400
-        
+
         # Access with correct code (should succeed)
         response = client.get(f"/documents/share/{share_slug}?access_code={access_code}")
         assert response.status_code == 200
@@ -304,7 +304,7 @@ class TestPhase6Integration:
         assert access_data["remaining_views"] == 2
         assert access_data["remaining_downloads"] == 1
         assert access_data["download_url"] is not None
-    
+
     def test_version_diffing_and_lineage_tracking(
         self,
         db: Session,
@@ -313,15 +313,15 @@ class TestPhase6Integration:
         auth_headers: Dict[str, Any]
     ):
         """Test version diffing and lineage tracking capabilities."""
-        
+
         # Compare different version pairs to track evolution
         version_pairs = [
             (1, 2),  # Draft to legal review
-            (2, 3),  # Legal review to client feedback  
+            (2, 3),  # Legal review to client feedback
             (3, 4),  # Client feedback to final
             (1, 4)   # Initial to final (full evolution)
         ]
-        
+
         for from_ver, to_ver in version_pairs:
             comparison_data = {
                 "from_version": from_ver,
@@ -330,7 +330,7 @@ class TestPhase6Integration:
                 "include_metadata_diff": True,
                 "diff_format": "unified"
             }
-            
+
             with patch('core.dependencies.get_current_user', return_value=test_user):
                 with patch('core.security.require_permission'):
                     response = client.post(
@@ -340,7 +340,7 @@ class TestPhase6Integration:
                     )
                     assert response.status_code == 200
                     diff_data = response.json()
-                    
+
                     # Verify diff structure
                     assert diff_data["from_version"] == from_ver
                     assert diff_data["to_version"] == to_ver
@@ -348,15 +348,15 @@ class TestPhase6Integration:
                     assert "content_diff" in diff_data
                     assert "metadata_changes" in diff_data
                     assert "diff_summary" in diff_data
-                    
+
                     # Verify field diffs capture changes
                     field_diffs = diff_data["field_diffs"]
                     assert len(field_diffs) > 0
-                    
+
                     # Check for specific field changes
                     field_paths = {diff["field_path"] for diff in field_diffs}
                     assert "title" in field_paths or "content" in field_paths
-                    
+
                     # Verify metadata changes tracking
                     if diff_data["metadata_changes"]:
                         metadata_changes = diff_data["metadata_changes"]
@@ -365,7 +365,7 @@ class TestPhase6Integration:
                             assert "old" in stage_change
                             assert "new" in stage_change
                             assert stage_change["change_type"] == "modified"
-    
+
     def test_audit_trail_compliance(
         self,
         db: Session,
@@ -374,7 +374,7 @@ class TestPhase6Integration:
         auth_headers: Dict[str, Any]
     ):
         """Test audit trail for compliance requirements."""
-        
+
         # Create comprehensive audit events by performing various actions
         actions = [
             # Version comparison
@@ -390,7 +390,7 @@ class TestPhase6Integration:
             # Secure share creation
             {
                 "endpoint": f"/documents/{test_document_with_lineage.id}/share",
-                "method": "POST", 
+                "method": "POST",
                 "data": {
                     "recipient_email": "audit@compliance.com",
                     "permission_level": "view_only",
@@ -398,7 +398,7 @@ class TestPhase6Integration:
                 }
             }
         ]
-        
+
         # Perform actions to generate audit events
         with patch('core.dependencies.get_current_user', return_value=test_user):
             with patch('core.security.require_permission'):
@@ -410,7 +410,7 @@ class TestPhase6Integration:
                             headers=auth_headers
                         )
                         assert response.status_code == 200
-        
+
         # Get audit trail and verify compliance data
         with patch('core.dependencies.get_current_user', return_value=test_user):
             with patch('core.security.require_permission'):
@@ -420,14 +420,14 @@ class TestPhase6Integration:
                 )
                 assert response.status_code == 200
                 audit_data = response.json()
-                
+
                 # Verify audit trail structure
                 assert "document_id" in audit_data
                 assert "total_events" in audit_data
                 assert "events" in audit_data
                 assert "event_types_summary" in audit_data
                 assert "user_activity_summary" in audit_data
-                
+
                 # Verify audit events have required compliance fields
                 for event in audit_data["events"]:
                     assert "id" in event
@@ -436,7 +436,7 @@ class TestPhase6Integration:
                     assert "user_name" in event
                     assert "created_at" in event
                     assert "metadata" in event
-                
+
                 # Verify event type filtering works
                 if audit_data["total_events"] > 0:
                     # Test filtering by specific event types
@@ -445,7 +445,7 @@ class TestPhase6Integration:
                         headers=auth_headers
                     )
                     assert response.status_code == 200 or response.status_code == 422  # Might fail if enum parsing not implemented
-    
+
     def test_collaboration_statistics_accuracy(
         self,
         db: Session,
@@ -454,14 +454,14 @@ class TestPhase6Integration:
         auth_headers: Dict[str, Any]
     ):
         """Test accuracy of collaboration statistics."""
-        
+
         # Create additional collaboration data
         share_data = {
             "recipient_email": "stats@test.com",
             "permission_level": "view_only",
             "share_reason": "Statistics testing"
         }
-        
+
         with patch('core.dependencies.get_current_user', return_value=test_user):
             with patch('core.security.require_permission'):
                 # Create a secure share
@@ -471,7 +471,7 @@ class TestPhase6Integration:
                     headers=auth_headers
                 )
                 assert response.status_code == 200
-                
+
                 # Get collaboration statistics
                 response = client.get(
                     "/documents/collaboration/stats",
@@ -479,20 +479,20 @@ class TestPhase6Integration:
                 )
                 assert response.status_code == 200
                 stats_data = response.json()
-                
+
                 # Verify statistics structure and minimum values
                 assert stats_data["total_documents"] >= 1
                 assert stats_data["total_versions"] >= 4
                 assert stats_data["total_secure_shares"] >= 1
                 assert stats_data["active_shares"] >= 1
                 assert stats_data["expired_shares"] >= 0
-                
+
                 # Verify derived statistics
                 assert "recent_collaborations" in stats_data
                 assert "recent_shares_created" in stats_data
                 assert "most_collaborated_documents" in stats_data
                 assert "average_share_duration_days" in stats_data
-                
+
                 # Verify most collaborated documents structure
                 if stats_data["most_collaborated_documents"]:
                     for doc_stat in stats_data["most_collaborated_documents"]:
@@ -503,17 +503,17 @@ class TestPhase6Integration:
 
 class TestPhase6ErrorHandling:
     """Test error handling for Phase 6 features."""
-    
+
     def test_version_comparison_errors(self, auth_headers: Dict[str, Any]):
         """Test error handling in version comparison."""
-        
+
         # Test with non-existent document
         comparison_data = {
             "from_version": 1,
             "to_version": 2,
             "include_content_diff": True
         }
-        
+
         with patch('core.dependencies.get_current_user'):
             with patch('core.security.require_permission'):
                 response = client.post(
@@ -522,14 +522,14 @@ class TestPhase6ErrorHandling:
                     headers=auth_headers
                 )
                 assert response.status_code == 404
-    
+
     def test_secure_share_access_errors(self):
         """Test error handling in secure share access."""
-        
+
         # Test with non-existent share slug
         response = client.get("/documents/share/nonexistent_slug_123456")
         assert response.status_code == 404
-        
+
         # Test with malformed share slug
         response = client.get("/documents/share/invalid")
         assert response.status_code == 404

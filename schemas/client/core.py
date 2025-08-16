@@ -65,30 +65,30 @@ class ClientBase(BaseModel):
     email: Optional[EmailStr] = Field(None, description="Email address")
     phone: Optional[str] = Field(None, max_length=50, description="Phone number")
     date_of_birth: Optional[datetime] = Field(None, description="Date of birth")
-    
+
     # Organization/Business information
     company_name: Optional[str] = Field(None, max_length=200, description="Company name")
     job_title: Optional[str] = Field(None, max_length=100, description="Job title")
-    
+
     # Client metadata
     client_type: ClientType = Field(ClientType.INDIVIDUAL, description="Type of client")
     status: ClientStatus = Field(ClientStatus.PROSPECT, description="Client status")
     priority: ClientPriority = Field(ClientPriority.MEDIUM, description="Priority level")
     preferred_language: Language = Field(Language.ENGLISH, description="Preferred language")
-    
+
     # Notes and external references
     notes: Optional[str] = Field(None, description="General notes")
     external_id: Optional[str] = Field(None, max_length=100, description="External system ID")
     source: Optional[str] = Field(None, max_length=100, description="How client was acquired")
     referral_source: Optional[str] = Field(None, max_length=200, description="Referral source")
-    
+
     @validator('phone')
     def validate_phone(cls, v):
         """Validate phone number format."""
         if v and len(v.strip()) == 0:
             return None
         return v
-    
+
     @validator('email')
     def validate_email_not_empty(cls, v):
         """Ensure email is not empty string."""
@@ -102,7 +102,7 @@ class ClientCreate(ClientBase):
     address: Optional[AddressBase] = Field(None, description="Client address")
     tags: Optional[List[str]] = Field(default_factory=list, description="Client tags")
     assigned_to_id: Optional[int] = Field(None, description="ID of assigned user")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -170,19 +170,19 @@ class ClientResponse(ClientBase):
     assigned_to_id: Optional[int]
     created_at: datetime
     updated_at: datetime
-    
+
     # Address information
     address: Optional[AddressBase] = None
-    
+
     # Additional fields
     tags: List[str] = Field(default_factory=list)
     internal_notes: Optional[str] = None
-    
+
     # Computed fields
     display_name: Optional[str] = None
     contact_info: Optional[ClientContactInfo] = None
     case_count: Optional[int] = 0
-    
+
     class Config:
         from_attributes = True
         schema_extra = {
@@ -219,7 +219,7 @@ class ClientSummary(BaseModel):
     status: ClientStatus
     priority: ClientPriority
     case_count: int = 0
-    
+
     class Config:
         from_attributes = True
 
@@ -227,7 +227,7 @@ class ClientSummary(BaseModel):
 class ClientListResponse(PaginatedResponse):
     """Paginated list of clients."""
     items: List[ClientResponse]
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -262,7 +262,7 @@ class ClientFilter(BaseModel):
     tags: Optional[List[str]] = None
     created_after: Optional[datetime] = None
     created_before: Optional[datetime] = None
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -284,7 +284,7 @@ class ClientStats(BaseModel):
     by_status: Dict[str, int] = Field(default_factory=dict)
     by_priority: Dict[str, int] = Field(default_factory=dict)
     recent_clients: int = 0  # Last 30 days
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -316,7 +316,7 @@ class ClientBulkAction(BaseModel):
     client_ids: List[int] = Field(..., min_items=1, description="List of client IDs")
     action: str = Field(..., description="Action to perform")
     parameters: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Action parameters")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -335,7 +335,7 @@ class ClientBulkResult(BaseModel):
     error_count: int = 0
     errors: List[Dict[str, Any]] = Field(default_factory=list)
     updated_clients: List[int] = Field(default_factory=list)
-    
+
     class Config:
         schema_extra = {
             "example": {

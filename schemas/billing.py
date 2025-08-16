@@ -17,7 +17,7 @@ class PlanType(str, Enum):
 class CheckoutRequestSchema(BaseModel):
     """Schema for checkout request."""
     plan: PlanType = Field(..., description="Subscription plan to checkout")
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -29,7 +29,7 @@ class CheckoutRequestSchema(BaseModel):
 class CheckoutResponseSchema(BaseModel):
     """Schema for checkout response."""
     url: str = Field(..., description="Checkout session URL")
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -42,7 +42,7 @@ class BillingSuccessSchema(BaseModel):
     """Schema for billing success page."""
     message: str = Field(default="Payment successful! Your subscription has been activated.")
     plan: str = Field(..., description="Activated subscription plan")
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -55,7 +55,7 @@ class BillingSuccessSchema(BaseModel):
 class BillingCancelSchema(BaseModel):
     """Schema for billing cancel page."""
     message: str = Field(default="Payment cancelled. You can try again at any time.")
-    
+
     class Config:
         json_schema_extra = {
             "example": {

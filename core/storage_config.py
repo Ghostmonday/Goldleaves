@@ -23,11 +23,11 @@ class EncryptionProvider(str, Enum):
 
 class StorageConfig:
     """Central storage configuration."""
-    
+
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         self.config = config or {}
         self._setup_default_config()
-    
+
     def _setup_default_config(self):
         """Setup default storage configuration."""
         defaults = {
@@ -64,7 +64,7 @@ class StorageConfig:
                 "retention_days": 365
             }
         }
-        
+
         # Merge with provided config
         for key, value in defaults.items():
             if key not in self.config:
@@ -74,57 +74,57 @@ class StorageConfig:
                 merged = value.copy()
                 merged.update(self.config[key])
                 self.config[key] = merged
-    
+
     def _get_storage_root(self) -> str:
         """Get storage root directory."""
         # Try environment variable first
         storage_root = os.getenv("GOLDLEAVES_STORAGE_ROOT")
         if storage_root:
             return storage_root
-        
+
         # Default to project storage directory
         project_root = Path(__file__).parent.parent
         storage_dir = project_root / "storage"
         storage_dir.mkdir(exist_ok=True)
-        
+
         return str(storage_dir)
-    
+
     def get_provider(self) -> StorageProvider:
         """Get configured storage provider."""
         return StorageProvider(self.config["provider"])
-    
+
     def get_storage_root(self) -> str:
         """Get storage root directory."""
         return self.config["local"]["storage_root"]
-    
+
     def get_max_file_size_mb(self) -> int:
         """Get maximum file size in MB."""
         return self.config["local"]["max_file_size_mb"]
-    
+
     def is_encryption_enabled(self) -> bool:
         """Check if encryption at rest is enabled."""
         return self.config["encryption"]["encrypt_at_rest"]
-    
+
     def get_encryption_provider(self) -> EncryptionProvider:
         """Get encryption provider."""
         return EncryptionProvider(self.config["encryption"]["provider"])
-    
+
     def is_virus_scanning_enabled(self) -> bool:
         """Check if virus scanning is enabled."""
         return self.config["virus_scanning"]["enabled"]
-    
+
     def get_export_retention_hours(self) -> int:
         """Get export file retention in hours."""
         return self.config["exports"]["retention_hours"]
-    
+
     def get_court_package_retention_days(self) -> int:
         """Get court package retention in days."""
         return self.config["court_packages"]["retention_days"]
-    
+
     def is_audit_logging_enabled(self) -> bool:
         """Check if audit logging is enabled."""
         return self.config["audit"]["log_file_access"]
-    
+
     def get_full_config(self) -> Dict[str, Any]:
         """Get complete configuration."""
         return self.config.copy()
@@ -148,19 +148,19 @@ def setup_storage_directories() -> None:
     """Setup required storage directories."""
     config = get_storage_config()
     storage_root = Path(config.get_storage_root())
-    
+
     # Create directory structure
     directories = [
         storage_root / "documents",
-        storage_root / "exports", 
+        storage_root / "exports",
         storage_root / "packages",
         storage_root / "temp",
         storage_root / "quarantine"
     ]
-    
+
     for directory in directories:
         directory.mkdir(parents=True, exist_ok=True)
-        
+
         # Create .gitkeep for empty directories
         gitkeep = directory / ".gitkeep"
         if not gitkeep.exists():

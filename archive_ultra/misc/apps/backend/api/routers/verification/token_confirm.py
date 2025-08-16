@@ -9,7 +9,7 @@ import logging
 
 from core.database import get_db
 from apps.backend.schemas.verification import (
-    ConfirmVerificationRequest, 
+    ConfirmVerificationRequest,
     ConfirmVerificationResponse,
     VerificationErrorResponse
 )
@@ -35,21 +35,21 @@ def confirm_email_verification(
 ):
     """
     Confirm email verification using token.
-    
+
     This endpoint:
     1. Validates and decodes the verification token
     2. Finds the user associated with the token
     3. Checks token matches and hasn't expired
     4. Marks the user as verified
     5. Clears verification token fields
-    
+
     Args:
         request: ConfirmVerificationRequest containing the token
         db: Database session dependency
-        
+
     Returns:
         ConfirmVerificationResponse with success status and user info
-        
+
     Raises:
         HTTPException: 401 if token is invalid or expired
         HTTPException: 404 if user not found
@@ -60,19 +60,19 @@ def confirm_email_verification(
             db=db,
             token=request.token
         )
-        
+
         logger.info(f"Email verification confirmed successfully for user {result.get('user_id')}")
-        
+
         return ConfirmVerificationResponse(
             success=result["success"],
             message=result["message"],
             user_id=result.get("user_id")
         )
-        
+
     except ValueError as e:
         error_message = str(e)
         logger.warning(f"Email verification failed: {error_message}")
-        
+
         # Map specific errors to appropriate HTTP status codes
         if "expired" in error_message.lower():
             status_code = status.HTTP_401_UNAUTHORIZED
@@ -82,12 +82,12 @@ def confirm_email_verification(
             status_code = status.HTTP_404_NOT_FOUND
         else:
             status_code = status.HTTP_400_BAD_REQUEST
-            
+
         raise HTTPException(
             status_code=status_code,
             detail=error_message
         )
-        
+
     except Exception as e:
         logger.error(f"Unexpected error during email verification: {str(e)}")
         raise HTTPException(

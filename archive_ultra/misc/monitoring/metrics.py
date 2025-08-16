@@ -83,19 +83,19 @@ class MetricsCollector:
     """
     Centralized metrics collection for the application.
     """
-    
+
     def __init__(self):
         self._start_time = time.time()
         self._custom_metrics: Dict[str, Any] = {}
         self._lock = threading.Lock()
-        
+
         # Initialize app info
         app_info.info({
             'version': '1.0.0',
             'environment': 'development',  # This would come from settings
             'start_time': datetime.utcnow().isoformat()
         })
-    
+
     def record_request(
         self,
         method: str,
@@ -109,12 +109,12 @@ class MetricsCollector:
             endpoint=endpoint,
             status_code=str(status_code)
         ).inc()
-        
+
         request_duration.labels(
             method=method,
             endpoint=endpoint
         ).observe(duration)
-    
+
     def record_notification(
         self,
         notification_type: str,
@@ -127,36 +127,36 @@ class MetricsCollector:
             channel=channel,
             status=status
         ).inc()
-    
+
     def record_webhook_delivery(self, status: str):
         """Record webhook delivery metrics."""
         webhook_delivery_count.labels(status=status).inc()
-    
+
     def record_email_delivery(self, status: str):
         """Record email delivery metrics."""
         email_delivery_count.labels(status=status).inc()
-    
+
     def update_active_users(self, count: int):
         """Update active users count."""
         active_users.set(count)
-    
+
     def update_document_count(self, count: int):
         """Update total document count."""
         document_count.set(count)
-    
+
     def update_db_connections(self, active: int, idle: int, total: int):
         """Update database connection metrics."""
         database_connection_pool.labels(status='active').set(active)
         database_connection_pool.labels(status='idle').set(idle)
         database_connection_pool.labels(status='total').set(total)
-    
+
     def record_cache_operation(self, operation: str, result: str):
         """Record cache operation metrics."""
         cache_operations.labels(
             operation=operation,
             result=result
         ).inc()
-    
+
     def set_custom_metric(self, name: str, value: Any, labels: Optional[Dict[str, str]] = None):
         """Set custom application metric."""
         with self._lock:
@@ -167,20 +167,20 @@ class MetricsCollector:
                 'labels': labels or {},
                 'timestamp': time.time()
             }
-    
+
     def get_custom_metrics(self) -> Dict[str, Any]:
         """Get all custom metrics."""
         with self._lock:
             return self._custom_metrics.copy()
-    
+
     def get_prometheus_metrics(self) -> str:
         """Get Prometheus-formatted metrics."""
         return generate_latest().decode('utf-8')
-    
+
     def get_application_stats(self) -> Dict[str, Any]:
         """Get comprehensive application statistics."""
         uptime = time.time() - self._start_time
-        
+
         return {
             'uptime_seconds': uptime,
             'uptime_human': str(timedelta(seconds=int(uptime))),
@@ -192,7 +192,7 @@ class MetricsCollector:
                 'total_documents': document_count._value._value,
             }
         }
-    
+
     def reset_metrics(self):
         """Reset all metrics (for testing)."""
         # Note: Prometheus metrics cannot be reset in production
@@ -229,16 +229,16 @@ def record_email_metric(status: str):
 # Context manager for timing operations
 class timer:
     """Context manager for timing operations."""
-    
+
     def __init__(self, metric_name: str, labels: Optional[Dict[str, str]] = None):
         self.metric_name = metric_name
         self.labels = labels or {}
         self.start_time = None
-    
+
     def __enter__(self):
         self.start_time = time.time()
         return self
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         duration = time.time() - self.start_time
         metrics.set_custom_metric(

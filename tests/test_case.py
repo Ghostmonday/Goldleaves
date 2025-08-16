@@ -127,7 +127,7 @@ def sample_case_data(test_client_entity):
 
 class TestCaseCRUD:
     """Test case CRUD operations."""
-    
+
     def test_create_case(self, auth_headers, sample_case_data):
         """Test creating a new case."""
         response = client.post(
@@ -135,7 +135,7 @@ class TestCaseCRUD:
             json=sample_case_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 201
         data = response.json()
         assert data["title"] == "Contract Dispute Case"
@@ -145,20 +145,20 @@ class TestCaseCRUD:
         assert "case_number" in data
         assert len(data["tags"]) == 3
         assert data["hourly_rate"] == 350.00
-    
+
     def test_create_case_invalid_client(self, auth_headers, sample_case_data):
         """Test creating case with invalid client fails."""
         sample_case_data["client_id"] = 999999  # Non-existent client
-        
+
         response = client.post(
             "/api/cases/",
             json=sample_case_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 400
         assert "not found" in response.json()["detail"].lower()
-    
+
     def test_get_case_by_id(self, auth_headers, sample_case_data):
         """Test getting a case by ID."""
         # Create case
@@ -168,18 +168,18 @@ class TestCaseCRUD:
             headers=auth_headers
         )
         case_id = create_response.json()["id"]
-        
+
         # Get case
         response = client.get(
             f"/api/cases/{case_id}",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["id"] == case_id
         assert data["title"] == "Contract Dispute Case"
-    
+
     def test_get_case_by_number(self, auth_headers, sample_case_data):
         """Test getting a case by case number."""
         # Create case
@@ -189,18 +189,18 @@ class TestCaseCRUD:
             headers=auth_headers
         )
         case_number = create_response.json()["case_number"]
-        
+
         # Get case by number
         response = client.get(
             f"/api/cases/number/{case_number}",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["case_number"] == case_number
         assert data["title"] == "Contract Dispute Case"
-    
+
     def test_update_case(self, auth_headers, sample_case_data):
         """Test updating a case."""
         # Create case
@@ -210,26 +210,26 @@ class TestCaseCRUD:
             headers=auth_headers
         )
         case_id = create_response.json()["id"]
-        
+
         # Update case
         update_data = {
             "title": "Updated Contract Case",
             "priority": "high",
             "budget": 20000.00
         }
-        
+
         response = client.put(
             f"/api/cases/{case_id}",
             json=update_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["title"] == "Updated Contract Case"
         assert data["priority"] == "high"
         assert data["budget"] == 20000.00
-    
+
     def test_delete_case(self, auth_headers, sample_case_data):
         """Test deleting a case."""
         # Create case
@@ -239,16 +239,16 @@ class TestCaseCRUD:
             headers=auth_headers
         )
         case_id = create_response.json()["id"]
-        
+
         # Delete case
         response = client.delete(
             f"/api/cases/{case_id}",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         assert response.json()["success"] is True
-        
+
         # Verify case is deleted (soft delete)
         get_response = client.get(
             f"/api/cases/{case_id}",
@@ -259,21 +259,21 @@ class TestCaseCRUD:
 
 class TestCaseList:
     """Test case listing and filtering."""
-    
+
     def test_list_cases(self, auth_headers):
         """Test listing cases with pagination."""
         response = client.get(
             "/api/cases/?skip=0&limit=10",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert "items" in data
         assert "total" in data
         assert "page" in data
         assert "per_page" in data
-    
+
     def test_search_cases(self, auth_headers, sample_case_data):
         """Test searching cases."""
         # Create a case
@@ -282,18 +282,18 @@ class TestCaseList:
             json=sample_case_data,
             headers=auth_headers
         )
-        
+
         # Search for case
         response = client.get(
             "/api/cases/search?q=Contract",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert len(data) >= 1
         assert any("Contract" in c["title"] for c in data)
-    
+
     def test_filter_cases_by_type(self, auth_headers, sample_case_data):
         """Test filtering cases by type."""
         # Create case
@@ -302,18 +302,18 @@ class TestCaseList:
             json=sample_case_data,
             headers=auth_headers
         )
-        
+
         # Filter by type
         response = client.get(
             "/api/cases/?case_type=contract",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         for item in data["items"]:
             assert item["case_type"] == "contract"
-    
+
     def test_filter_cases_by_client(self, auth_headers, sample_case_data, test_client_entity):
         """Test filtering cases by client."""
         # Create case
@@ -322,25 +322,25 @@ class TestCaseList:
             json=sample_case_data,
             headers=auth_headers
         )
-        
+
         # Filter by client
         response = client.get(
             f"/api/cases/?client_id={test_client_entity.id}",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         for item in data["items"]:
             assert item["client_id"] == test_client_entity.id
-    
+
     def test_case_stats(self, auth_headers):
         """Test getting case statistics."""
         response = client.get(
             "/api/cases/stats",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert "total_cases" in data
@@ -351,7 +351,7 @@ class TestCaseList:
 
 class TestCaseLifecycle:
     """Test case lifecycle operations."""
-    
+
     def test_close_case(self, auth_headers, sample_case_data):
         """Test closing a case."""
         # Create case
@@ -361,18 +361,18 @@ class TestCaseLifecycle:
             headers=auth_headers
         )
         case_id = create_response.json()["id"]
-        
+
         # Close case
         response = client.post(
             f"/api/cases/{case_id}/close?closure_reason=Case resolved successfully",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "closed"
         assert data["case_closed_date"] is not None
-    
+
     def test_reopen_case(self, auth_headers, sample_case_data):
         """Test reopening a closed case."""
         # Create and close case
@@ -382,30 +382,30 @@ class TestCaseLifecycle:
             headers=auth_headers
         )
         case_id = create_response.json()["id"]
-        
+
         client.post(
             f"/api/cases/{case_id}/close?closure_reason=Test closure",
             headers=auth_headers
         )
-        
+
         # Reopen case
         response = client.post(
             f"/api/cases/{case_id}/reopen?reason=New evidence discovered",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "active"
         assert data["case_closed_date"] is None
-    
+
     def test_case_deadlines(self, auth_headers):
         """Test getting upcoming case deadlines."""
         response = client.get(
             "/api/cases/deadlines?days_ahead=30",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert isinstance(data, list)
@@ -413,7 +413,7 @@ class TestCaseLifecycle:
 
 class TestCaseBillingTypes:
     """Test different billing types for cases."""
-    
+
     def test_hourly_billing_case(self, auth_headers, sample_case_data, test_client_entity):
         """Test case with hourly billing."""
         case_data = {
@@ -421,18 +421,18 @@ class TestCaseBillingTypes:
             "billing_type": "hourly",
             "hourly_rate": 400.00
         }
-        
+
         response = client.post(
             "/api/cases/",
             json=case_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 201
         data = response.json()
         assert data["billing_type"] == "hourly"
         assert data["hourly_rate"] == 400.00
-    
+
     def test_fixed_fee_case(self, auth_headers, sample_case_data):
         """Test case with fixed fee billing."""
         case_data = {
@@ -440,18 +440,18 @@ class TestCaseBillingTypes:
             "billing_type": "fixed_fee",
             "fixed_fee": 5000.00
         }
-        
+
         response = client.post(
             "/api/cases/",
             json=case_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 201
         data = response.json()
         assert data["billing_type"] == "fixed_fee"
         assert data["fixed_fee"] == 5000.00
-    
+
     def test_contingency_case(self, auth_headers, sample_case_data):
         """Test case with contingency billing."""
         case_data = {
@@ -459,13 +459,13 @@ class TestCaseBillingTypes:
             "billing_type": "contingency",
             "contingency_percentage": 33.33
         }
-        
+
         response = client.post(
             "/api/cases/",
             json=case_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 201
         data = response.json()
         assert data["billing_type"] == "contingency"
@@ -474,16 +474,16 @@ class TestCaseBillingTypes:
 
 class TestCaseSecurity:
     """Test case security and organization isolation."""
-    
+
     def test_unauthorized_access(self, sample_case_data):
         """Test that unauthorized requests are rejected."""
         response = client.post(
             "/api/cases/",
             json=sample_case_data
         )
-        
+
         assert response.status_code == 401
-    
+
     def test_organization_isolation(self, db_session):
         """Test that cases are isolated by organization."""
         # This would require creating multiple organizations and users
@@ -493,7 +493,7 @@ class TestCaseSecurity:
 
 class TestCaseValidation:
     """Test case data validation."""
-    
+
     def test_invalid_case_type(self, auth_headers, test_client_entity):
         """Test that invalid case type is rejected."""
         invalid_data = {
@@ -501,30 +501,30 @@ class TestCaseValidation:
             "case_type": "invalid_type",
             "client_id": test_client_entity.id
         }
-        
+
         response = client.post(
             "/api/cases/",
             json=invalid_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 422
-    
+
     def test_negative_budget(self, auth_headers, sample_case_data):
         """Test that negative budget is rejected."""
         invalid_data = {
             **sample_case_data,
             "budget": -1000.00
         }
-        
+
         response = client.post(
             "/api/cases/",
             json=invalid_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 422
-    
+
     def test_invalid_hourly_rate(self, auth_headers, sample_case_data):
         """Test that invalid hourly rate is rejected."""
         invalid_data = {
@@ -532,11 +532,11 @@ class TestCaseValidation:
             "billing_type": "hourly",
             "hourly_rate": -50.00
         }
-        
+
         response = client.post(
             "/api/cases/",
             json=invalid_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 422

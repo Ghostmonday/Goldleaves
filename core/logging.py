@@ -13,7 +13,7 @@ from app.config import settings
 
 class ColoredFormatter(logging.Formatter):
     """Colored formatter for console output."""
-    
+
     # Color codes
     COLORS = {
         'DEBUG': '\033[36m',    # Cyan
@@ -23,35 +23,35 @@ class ColoredFormatter(logging.Formatter):
         'CRITICAL': '\033[35m', # Magenta
     }
     RESET = '\033[0m'
-    
+
     def format(self, record):
         """Format log record with colors."""
         if not hasattr(record, 'color'):
             record.color = self.COLORS.get(record.levelname, '')
         if not hasattr(record, 'reset'):
             record.reset = self.RESET
-        
+
         return super().format(record)
 
 
 def setup_logging() -> logging.Logger:
     """Set up application logging configuration."""
-    
+
     # Create logs directory if it doesn't exist
     log_dir = Path("logs")
     log_dir.mkdir(exist_ok=True)
-    
+
     # Configure root logger
     logging.basicConfig(level=logging.WARNING)
-    
+
     # Create application logger
     logger = logging.getLogger("goldleaves")
     logger.setLevel(getattr(logging, settings.LOG_LEVEL.upper()))
     logger.propagate = False
-    
+
     # Clear existing handlers
     logger.handlers = []
-    
+
     # Console handler with colors (for development)
     if settings.is_development:
         console_handler = logging.StreamHandler(sys.stdout)
@@ -59,7 +59,7 @@ def setup_logging() -> logging.Logger:
         console_formatter = ColoredFormatter(console_format)
         console_handler.setFormatter(console_formatter)
         logger.addHandler(console_handler)
-    
+
     # File handler with rotation
     file_handler = logging.handlers.RotatingFileHandler(
         log_dir / "app.log",
@@ -69,7 +69,7 @@ def setup_logging() -> logging.Logger:
     file_formatter = logging.Formatter(settings.LOG_FORMAT)
     file_handler.setFormatter(file_formatter)
     logger.addHandler(file_handler)
-    
+
     # Error file handler
     error_handler = logging.handlers.RotatingFileHandler(
         log_dir / "error.log",
@@ -79,7 +79,7 @@ def setup_logging() -> logging.Logger:
     error_handler.setLevel(logging.ERROR)
     error_handler.setFormatter(file_formatter)
     logger.addHandler(error_handler)
-    
+
     # JSON handler for structured logging (production)
     if settings.is_production:
         json_handler = logging.handlers.RotatingFileHandler(
@@ -90,24 +90,24 @@ def setup_logging() -> logging.Logger:
         json_formatter = JSONFormatter()
         json_handler.setFormatter(json_formatter)
         logger.addHandler(json_handler)
-    
+
     # Set up third-party loggers
     logging.getLogger("uvicorn").setLevel(logging.INFO)
     logging.getLogger("sqlalchemy.engine").setLevel(
         logging.INFO if settings.DATABASE_ECHO else logging.WARNING
     )
-    
+
     return logger
 
 
 class JSONFormatter(logging.Formatter):
     """JSON formatter for structured logging."""
-    
+
     def format(self, record: logging.LogRecord) -> str:
         """Format log record as JSON."""
         import json
         from datetime import datetime
-        
+
         log_entry = {
             "timestamp": datetime.utcnow().isoformat(),
             "level": record.levelname,
@@ -117,11 +117,11 @@ class JSONFormatter(logging.Formatter):
             "function": record.funcName,
             "line": record.lineno,
         }
-        
+
         # Add exception info if present
         if record.exc_info:
             log_entry["exception"] = self.formatException(record.exc_info)
-        
+
         # Add extra fields
         for key, value in record.__dict__.items():
             if key not in {
@@ -131,13 +131,13 @@ class JSONFormatter(logging.Formatter):
                 'processName', 'process', 'exc_info', 'exc_text', 'stack_info'
             }:
                 log_entry[key] = value
-        
+
         return json.dumps(log_entry, default=str)
 
 
 class RequestIDFilter(logging.Filter):
     """Filter to add request ID to log records."""
-    
+
     def filter(self, record: logging.LogRecord) -> bool:
         """Add request ID to record if available."""
         # This would be set by middleware in a real application

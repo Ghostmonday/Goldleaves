@@ -112,7 +112,7 @@ def sample_client_data():
 
 class TestClientCRUD:
     """Test client CRUD operations."""
-    
+
     def test_create_client(self, auth_headers, sample_client_data):
         """Test creating a new client."""
         response = client.post(
@@ -120,7 +120,7 @@ class TestClientCRUD:
             json=sample_client_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 201
         data = response.json()
         assert data["first_name"] == "John"
@@ -130,7 +130,7 @@ class TestClientCRUD:
         assert data["status"] == "active"
         assert "slug" in data
         assert len(data["tags"]) == 2
-    
+
     def test_create_client_duplicate_email(self, auth_headers, sample_client_data):
         """Test creating client with duplicate email fails."""
         # Create first client
@@ -139,17 +139,17 @@ class TestClientCRUD:
             json=sample_client_data,
             headers=auth_headers
         )
-        
+
         # Try to create second client with same email
         response = client.post(
             "/api/clients/",
             json=sample_client_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 400
         assert "already exists" in response.json()["detail"]
-    
+
     def test_get_client_by_id(self, auth_headers, sample_client_data):
         """Test getting a client by ID."""
         # Create client
@@ -159,18 +159,18 @@ class TestClientCRUD:
             headers=auth_headers
         )
         client_id = create_response.json()["id"]
-        
+
         # Get client
         response = client.get(
             f"/api/clients/{client_id}",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["id"] == client_id
         assert data["first_name"] == "John"
-    
+
     def test_get_client_by_slug(self, auth_headers, sample_client_data):
         """Test getting a client by slug."""
         # Create client
@@ -180,18 +180,18 @@ class TestClientCRUD:
             headers=auth_headers
         )
         slug = create_response.json()["slug"]
-        
+
         # Get client by slug
         response = client.get(
             f"/api/clients/slug/{slug}",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["slug"] == slug
         assert data["first_name"] == "John"
-    
+
     def test_update_client(self, auth_headers, sample_client_data):
         """Test updating a client."""
         # Create client
@@ -201,26 +201,26 @@ class TestClientCRUD:
             headers=auth_headers
         )
         client_id = create_response.json()["id"]
-        
+
         # Update client
         update_data = {
             "first_name": "Jane",
             "priority": "high",
             "notes": "Updated notes"
         }
-        
+
         response = client.put(
             f"/api/clients/{client_id}",
             json=update_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["first_name"] == "Jane"
         assert data["priority"] == "high"
         assert data["notes"] == "Updated notes"
-    
+
     def test_delete_client(self, auth_headers, sample_client_data):
         """Test deleting a client."""
         # Create client
@@ -230,16 +230,16 @@ class TestClientCRUD:
             headers=auth_headers
         )
         client_id = create_response.json()["id"]
-        
+
         # Delete client
         response = client.delete(
             f"/api/clients/{client_id}",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         assert response.json()["success"] is True
-        
+
         # Verify client is deleted (soft delete)
         get_response = client.get(
             f"/api/clients/{client_id}",
@@ -250,21 +250,21 @@ class TestClientCRUD:
 
 class TestClientList:
     """Test client listing and filtering."""
-    
+
     def test_list_clients(self, auth_headers):
         """Test listing clients with pagination."""
         response = client.get(
             "/api/clients/?skip=0&limit=10",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert "items" in data
         assert "total" in data
         assert "page" in data
         assert "per_page" in data
-    
+
     def test_search_clients(self, auth_headers, sample_client_data):
         """Test searching clients."""
         # Create a client
@@ -273,18 +273,18 @@ class TestClientList:
             json=sample_client_data,
             headers=auth_headers
         )
-        
+
         # Search for client
         response = client.get(
             "/api/clients/search?q=John",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert len(data) >= 1
         assert any(c["first_name"] == "John" for c in data)
-    
+
     def test_filter_clients_by_type(self, auth_headers, sample_client_data):
         """Test filtering clients by type."""
         # Create client
@@ -293,25 +293,25 @@ class TestClientList:
             json=sample_client_data,
             headers=auth_headers
         )
-        
+
         # Filter by type
         response = client.get(
             "/api/clients/?client_type=individual",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         for item in data["items"]:
             assert item["client_type"] == "individual"
-    
+
     def test_client_stats(self, auth_headers):
         """Test getting client statistics."""
         response = client.get(
             "/api/clients/stats",
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert "total_clients" in data
@@ -322,7 +322,7 @@ class TestClientList:
 
 class TestClientBulkOperations:
     """Test client bulk operations."""
-    
+
     def test_bulk_update_status(self, auth_headers):
         """Test bulk updating client status."""
         # Create multiple clients
@@ -341,20 +341,20 @@ class TestClientBulkOperations:
                 headers=auth_headers
             )
             client_ids.append(response.json()["id"])
-        
+
         # Bulk update status
         bulk_data = {
             "client_ids": client_ids,
             "action": "update_status",
             "parameters": {"status": "active"}
         }
-        
+
         response = client.post(
             "/api/clients/bulk",
             json=bulk_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["success_count"] == 3
@@ -364,16 +364,16 @@ class TestClientBulkOperations:
 
 class TestClientSecurity:
     """Test client security and organization isolation."""
-    
+
     def test_unauthorized_access(self, sample_client_data):
         """Test that unauthorized requests are rejected."""
         response = client.post(
             "/api/clients/",
             json=sample_client_data
         )
-        
+
         assert response.status_code == 401
-    
+
     def test_organization_isolation(self, db_session):
         """Test that clients are isolated by organization."""
         # This would require creating multiple organizations and users
@@ -383,7 +383,7 @@ class TestClientSecurity:
 
 class TestClientValidation:
     """Test client data validation."""
-    
+
     def test_invalid_email_format(self, auth_headers):
         """Test that invalid email format is rejected."""
         invalid_data = {
@@ -392,15 +392,15 @@ class TestClientValidation:
             "email": "invalid-email",
             "client_type": "individual"
         }
-        
+
         response = client.post(
             "/api/clients/",
             json=invalid_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 422
-    
+
     def test_invalid_client_type(self, auth_headers):
         """Test that invalid client type is rejected."""
         invalid_data = {
@@ -408,11 +408,11 @@ class TestClientValidation:
             "last_name": "User",
             "client_type": "invalid_type"
         }
-        
+
         response = client.post(
             "/api/clients/",
             json=invalid_data,
             headers=auth_headers
         )
-        
+
         assert response.status_code == 422

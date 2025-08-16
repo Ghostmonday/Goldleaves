@@ -11,7 +11,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # -- Import project settings and models --
 from core.config import settings
-from apps.backend.models import Base  # Adjust if needed
+from core.db.session import Base  # unified Base for migrations
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -43,7 +43,7 @@ def run_migrations_online():
     '''Run migrations in 'online' mode.'''
     configuration = config.get_section(config.config_ini_section)
     configuration["sqlalchemy.url"] = settings.database_url.get_secret_value()
-    
+
     connectable = engine_from_config(
         configuration,
         prefix="sqlalchemy.",

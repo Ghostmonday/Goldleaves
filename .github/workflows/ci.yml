@@ -18,9 +18,9 @@ jobs:
           script: |
             const pr = context.payload.pull_request;
             const changedLines = pr.additions + pr.deletions;
-            
+
             console.log(`PR #${pr.number}: +${pr.additions} -${pr.deletions} (${changedLines} total changes)`);
-            
+
             if (changedLines > 300) {
               core.setFailed(`PR has ${changedLines} changed lines, which exceeds the 300 line limit. Please split this PR into smaller changes.`);
             } else {
@@ -32,20 +32,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install ruff
-          
+
       - name: Run ruff check
         run: ruff check .
-        
+
       - name: Run ruff format check
         run: ruff format --check .
 
@@ -54,18 +54,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install mypy
           pip install -r requirements.txt
-          
+
       - name: Run mypy
         run: mypy . --ignore-missing-imports
 
@@ -74,21 +74,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pytest pytest-cov httpx
           pip install -r requirements.txt
-          
+
       - name: Run tests
         run: pytest -q --tb=short
-        
+
   summary:
     name: CI Summary
     runs-on: ubuntu-latest
@@ -101,33 +101,33 @@ jobs:
           script: |
             const pr = context.payload.pull_request;
             const changedLines = pr.additions + pr.deletions;
-            
+
             const jobs = {
               'PR Size Check': '${{ needs.pr-size-check.result }}',
               'Lint (Ruff)': '${{ needs.lint.result }}',
               'Type Check (MyPy)': '${{ needs.type-check.result }}',
               'Tests (PyTest)': '${{ needs.test.result }}'
             };
-            
+
             let summary = `## CI Quality Gates Summary\n\n`;
             summary += `**PR #${pr.number}**: ${changedLines} lines changed (+${pr.additions} -${pr.deletions})\n\n`;
-            
+
             summary += `| Check | Status |\n`;
             summary += `|-------|--------|\n`;
-            
+
             for (const [job, result] of Object.entries(jobs)) {
               const icon = result === 'success' ? '✅' : result === 'failure' ? '❌' : result === 'skipped' ? '⏭️' : '⚠️';
               summary += `| ${job} | ${icon} ${result} |\n`;
             }
-            
+
             const allPassed = Object.values(jobs).every(result => result === 'success' || result === 'skipped');
-            
+
             if (allPassed) {
               summary += `\n🎉 All quality gates passed!`;
             } else {
               summary += `\n⚠️ Some quality gates failed. Please review and fix the issues above.`;
             }
-            
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,

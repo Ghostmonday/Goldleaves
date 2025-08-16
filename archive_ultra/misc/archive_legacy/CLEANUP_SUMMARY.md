@@ -97,7 +97,7 @@
 
 ## 📊 **Cleanup Results:**
 - **Total files removed**: ~55+ individual files
-- **Directories cleaned**: ~10+ directories 
+- **Directories cleaned**: ~10+ directories
 - **Cache files removed**: Hundreds of `.pyc` and `__pycache__` entries
 - **Files organized**: 6 files moved to appropriate documentation folders
 - **Project size reduced**: Significantly smaller footprint
@@ -107,7 +107,7 @@
 ```
 📁 Goldleaves_Final/
 ├── 📄 .env                    # Environment variables
-├── 📄 .env.example           # Environment template  
+├── 📄 .env.example           # Environment template
 ├── 📄 .gitignore             # Git ignore rules
 ├── 📄 alembic.ini            # Database migrations config
 ├── 📄 CLEANUP_SUMMARY.md     # This cleanup summary

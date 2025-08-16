@@ -73,7 +73,7 @@ def list_cases(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """List cases with filtering and pagination."""
-    
+
     # Build filters
     filters = CaseFilter(
         search=search,
@@ -87,7 +87,7 @@ def list_cases(
         opened_after=opened_after,
         opened_before=opened_before
     )
-    
+
     cases, total = CaseService.list_cases(
         db=db,
         organization_id=organization_id,
@@ -97,7 +97,7 @@ def list_cases(
         order_by=order_by,
         order_direction=order_direction
     )
-    
+
     return PaginatedResponse(
         items=[CaseResponse.from_orm(case) for case in cases],
         total=total,
@@ -116,14 +116,14 @@ def search_cases(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Quick search for cases (for autocomplete/typeahead)."""
-    
+
     cases = CaseService.search_cases(
         db=db,
         organization_id=organization_id,
         search_term=q,
         limit=limit
     )
-    
+
     return [CaseResponse.from_orm(case) for case in cases]
 
 
@@ -134,7 +134,7 @@ def get_case_stats(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Get case statistics for the organization."""
-    
+
     return CaseService.get_case_stats(db=db, organization_id=organization_id)
 
 
@@ -146,13 +146,13 @@ def get_upcoming_deadlines(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Get upcoming case deadlines and court dates."""
-    
+
     deadlines = CaseService.get_upcoming_deadlines(
         db=db,
         organization_id=organization_id,
         days_ahead=days_ahead
     )
-    
+
     return deadlines
 
 
@@ -164,11 +164,11 @@ def get_case(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Get a specific case by ID."""
-    
+
     case = CaseService.get_case(db=db, case_id=case_id, organization_id=organization_id)
     if not case:
         raise HTTPException(status_code=404, detail="Case not found")
-    
+
     return CaseResponse.from_orm(case)
 
 
@@ -180,15 +180,15 @@ def get_case_by_number(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Get a specific case by case number."""
-    
+
     case = CaseService.get_case_by_number(
-        db=db, 
-        case_number=case_number, 
+        db=db,
+        case_number=case_number,
         organization_id=organization_id
     )
     if not case:
         raise HTTPException(status_code=404, detail="Case not found")
-    
+
     return CaseResponse.from_orm(case)
 
 
@@ -201,7 +201,7 @@ def update_case(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Update a specific case."""
-    
+
     try:
         case = CaseService.update_case(
             db=db,
@@ -227,7 +227,7 @@ def delete_case(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Delete a specific case (soft delete)."""
-    
+
     try:
         success = CaseService.delete_case(
             db=db,
@@ -257,7 +257,7 @@ def close_case(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Close a case."""
-    
+
     try:
         case = CaseService.close_case(
             db=db,
@@ -285,7 +285,7 @@ def reopen_case(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Reopen a closed case."""
-    
+
     try:
         case = CaseService.reopen_case(
             db=db,
@@ -311,11 +311,11 @@ def bulk_update_cases(
     organization_id: int = Depends(get_current_organization_id)
 ):
     """Perform bulk operations on cases."""
-    
+
     try:
         # Import here to avoid circular imports
         from services.case import CaseService
-        
+
         result = CaseService.bulk_update_cases(
             db=db,
             bulk_action=bulk_action,
